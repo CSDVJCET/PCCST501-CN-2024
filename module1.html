@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1: Application Layer &amp; P2P | PCCST501 Computer Networks | VJCET</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+    <!-- Top Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <span class="brand-badge"><i class="bi bi-diagram-3-fill"></i> PCCST501</span>
+                <span>Computer Networks</span>
+            </a>
+            <div class="d-flex align-items-center gap-2 order-lg-last">
+                <button class="btn btn-sm btn-outline-secondary rounded-circle p-2" id="theme-toggle-btn" title="Toggle Theme">
+                    <i class="bi bi-moon-stars-fill text-primary" id="theme-toggle-icon"></i>
+                </button>
+                <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="modules.html">Lecture Modules</a></li>
+                    <li class="nav-item"><a class="nav-link" href="networklab.html">Network Lab</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tutorials.html">Interactive Tools</a></li>
+                    <li class="nav-item"><a class="nav-link" href="questionbank.html">Question Bank</a></li>
+                    <li class="nav-item"><a class="nav-link" href="assignments.html">Assignments</a></li>
+                    <li class="nav-item"><a class="nav-link" href="resources.html">Downloads</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <section class="py-5 bg-surface border-bottom">
+        <div class="container">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <a href="modules.html" class="text-decoration-none small text-muted"><i class="bi bi-arrow-left"></i> All Modules</a>
+                <span class="text-muted small">&bull;</span>
+                <span class="badge bg-primary">Module 1</span>
+                <span class="badge-co">CO1 (Understand)</span>
+                <span class="badge-kl">Level K2</span>
+            </div>
+            <h1 class="fw-bold">Application Layer &amp; Peer-to-Peer Paradigms</h1>
+            <p class="text-muted mb-0">
+                Prescribed References: Behrouz A. Forouzan, <em>Computer Networks: A Top-Down Approach</em> (Chapters 1 &amp; 2) &bull; 6 Contact Hours
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-5">
+                <!-- Left Content Body -->
+                <div class="col-lg-8">
+
+                    <!-- Topic 1 -->
+                    <div class="card-custom mb-4">
+                        <h3 class="fw-bold text-primary mb-3">1. Overview of the Internet &amp; Protocol Layering</h3>
+                        <p>
+                            The Internet architecture is fundamentally partitioned into the <strong>Network Edge</strong> (end-systems, hosts, servers) and the <strong>Network Core</strong> (interconnected routers, switches, and packet switches).
+                        </p>
+                        <h5 class="fw-bold mt-4 mb-2">TCP/IP 5-Layer Protocol Stack vs. OSI 7-Layer Model</h5>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped small">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Layer</th>
+                                        <th>PDU</th>
+                                        <th>Core Responsibility</th>
+                                        <th>Standard Protocols</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>5. Application</strong></td>
+                                        <td>Message</td>
+                                        <td>User interaction &amp; high-level network application services</td>
+                                        <td>HTTP, HTTPS, DNS, SMTP, FTP, BitTorrent</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>4. Transport</strong></td>
+                                        <td>Segment / Datagram</td>
+                                        <td>Process-to-process delivery, port multiplexing, reliability</td>
+                                        <td>TCP (RFC 793), UDP (RFC 768)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>3. Network</strong></td>
+                                        <td>Datagram / Packet</td>
+                                        <td>Host-to-host logical addressing &amp; unicast/multicast routing</td>
+                                        <td>IPv4, IPv6, ICMP, OSPF, RIP, BGP</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>2. Data Link</strong></td>
+                                        <td>Frame</td>
+                                        <td>Node-to-node hop delivery, MAC addressing, framing &amp; error control</td>
+                                        <td>IEEE 802.3 Ethernet, IEEE 802.11 Wi-Fi, PPP</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>1. Physical</strong></td>
+                                        <td>Bits</td>
+                                        <td>Physical transmission of raw bits over guided/unguided media</td>
+                                        <td>UTP Cat 6, Optical Fiber, Radio Waves</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Topic 2 -->
+                    <div class="card-custom mb-4">
+                        <h3 class="fw-bold text-primary mb-3">2. Application-Layer Paradigms</h3>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded-3 border h-100">
+                                    <h5 class="fw-bold text-dark"><i class="bi bi-hdd-network"></i> Client-Server Architecture</h5>
+                                    <ul class="small text-muted mb-0">
+                                        <li>Centralized, always-on server with fixed, well-known IP address.</li>
+                                        <li>Clients initiate communication and do not talk directly to other clients.</li>
+                                        <li>Examples: Web (HTTP/HTTPS), Email (SMTP/IMAP), File Transfer (FTP).</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded-3 border h-100">
+                                    <h5 class="fw-bold text-dark"><i class="bi bi-diagram-2"></i> Peer-to-Peer (P2P) Architecture</h5>
+                                    <ul class="small text-muted mb-0">
+                                        <li>Arbitrary end-systems (peers) communicate directly without central servers.</li>
+                                        <li><strong>Self-scalability:</strong> Each peer brings upload capacity as it downloads.</li>
+                                        <li>Examples: BitTorrent file swarming, Blockchain, VoIP (Skype P2P).</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic 3 -->
+                    <div class="card-custom mb-4">
+                        <h3 class="fw-bold text-primary mb-3">3. World Wide Web &amp; HTTP</h3>
+                        <p>
+                            HTTP (Hypertext Transfer Protocol) operates over <strong>TCP Port 80</strong> (or Port 443 with TLS). It is inherently <strong>stateless</strong> (no client state maintained between requests; session state managed via Cookies/Tokens).
+                        </p>
+                        <h6 class="fw-bold">Persistent vs. Non-Persistent HTTP</h6>
+                        <ul class="text-muted small">
+                            <li><strong>Non-Persistent HTTP (HTTP/1.0):</strong> Each referenced object requires a separate TCP connection ($2 \times RTT + \text{Transmission Time}$ per object).</li>
+                            <li><strong>Persistent HTTP (HTTP/1.1):</strong> Reuses a single established TCP connection for multiple objects with pipelining.</li>
+                            <li><strong>HTTP/2:</strong> Multiplexes concurrent requests in binary frames over a single TCP stream.</li>
+                        </ul>
+
+                        <!-- Code Example -->
+                        <h6 class="fw-bold mt-4">Hands-On Code: Simple Python HTTP Server</h6>
+                        <div class="code-window">
+                            <div class="code-header">
+                                <div class="code-dots">
+                                    <span class="code-dot dot-red"></span>
+                                    <span class="code-dot dot-yellow"></span>
+                                    <span class="code-dot dot-green"></span>
+                                </div>
+                                <span class="code-filename">assets/handson_code/module1/http_web_server.py</span>
+                                <button class="code-copy-btn"><i class="bi bi-clipboard"></i> Copy</button>
+                            </div>
+                            <pre class="code-body"><code>import socket, threading
+
+def handle_client(client_sock):
+    request = client_sock.recv(1024).decode('utf-8')
+    response_body = "&lt;html&gt;&lt;body&gt;&lt;h1&gt;VJCET PCCST501 HTTP Server&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;"
+    response = f"HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: {len(response_body)}\r\n\r\n{response_body}"
+    client_sock.sendall(response.encode('utf-8'))
+    client_sock.close()
+
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind(('127.0.0.1', 8080))
+server.listen(5)
+print("[*] HTTP Server running on http://127.0.0.1:8080")</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Topic 4 -->
+                    <div class="card-custom mb-4">
+                        <h3 class="fw-bold text-primary mb-3">4. Domain Name System (DNS) &amp; BitTorrent</h3>
+                        <p>
+                            DNS maps human-readable hostnames to IP addresses using <strong>UDP Port 53</strong>. It employs a decentralized hierarchical tree: <em>Root Servers &rarr; Top-Level Domain (TLD) Servers &rarr; Authoritative DNS Servers</em>.
+                        </p>
+                        <p>
+                            <strong>BitTorrent Protocol:</strong> Uses a <code>.torrent</code> file and central Tracker to organize peers into a swarm. Employs <strong>Rarest-First</strong> piece selection and <strong>Tit-for-Tat</strong> choking with periodic <strong>Optimistic Unchoking</strong>.
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Right Sidebar -->
+                <div class="col-lg-4">
+                    <div class="card-custom mb-4">
+                        <h5 class="fw-bold mb-3"><i class="bi bi-download text-primary"></i> Module 1 Downloads</h5>
+                        <div class="d-flex flex-column gap-2">
+                            <a href="assets/ppts/Module_1_Application_Layer.pptx" class="btn btn-outline-primary w-100 text-start py-2" download>
+                                <i class="bi bi-file-earmark-ppt-fill text-warning"></i> Lecture Slides (PPTX)
+                            </a>
+                            <a href="assets/notes_pdf/Module_1_Exam_Revision_Notes.pdf" class="btn btn-outline-secondary w-100 text-start py-2" download>
+                                <i class="bi bi-file-earmark-pdf-fill text-danger"></i> Exam Revision Notes (PDF)
+                            </a>
+                            <a href="assets/handson_code/module1/dns_resolver.py" class="btn btn-outline-dark w-100 text-start py-2" download>
+                                <i class="bi bi-filetype-py text-success"></i> DNS Resolver Tool (Python)
+                            </a>
+                            <a href="assets/handson_code/module1/bittorrent_p2p_sim.py" class="btn btn-outline-dark w-100 text-start py-2" download>
+                                <i class="bi bi-filetype-py text-success"></i> BitTorrent Swarm Sim (Python)
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card-custom mb-4">
+                        <h5 class="fw-bold mb-3"><i class="bi bi-patch-question text-warning"></i> Module 1 Exam Questions</h5>
+                        <ul class="list-unstyled small mb-0">
+                            <li class="mb-2"><a href="questionbank.html#mod1" class="text-decoration-none">&bull; Persistent vs Non-Persistent HTTP (3M)</a></li>
+                            <li class="mb-2"><a href="questionbank.html#mod1" class="text-decoration-none">&bull; Iterative vs Recursive DNS Resolution (3M)</a></li>
+                            <li class="mb-2"><a href="questionbank.html#mod1" class="text-decoration-none">&bull; BitTorrent Swarming &amp; Tit-for-Tat (9M)</a></li>
+                            <li class="mb-0"><a href="questionbank.html#mod1" class="text-decoration-none">&bull; SMTP &amp; MIME Architecture (9M)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="container text-center text-muted small">
+            <p>&copy; 2026-27 Viswajyothi College of Engineering and Technology (VJCET) &bull; Prof. Anju Markose, Dept. of CSE</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

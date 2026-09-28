@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 4: SNMP &amp; Physical Layer | PCCST501 Computer Networks | VJCET</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+    <!-- Top Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <span class="brand-badge"><i class="bi bi-diagram-3-fill"></i> PCCST501</span>
+                <span>Computer Networks</span>
+            </a>
+            <div class="d-flex align-items-center gap-2 order-lg-last">
+                <button class="btn btn-sm btn-outline-secondary rounded-circle p-2" id="theme-toggle-btn" title="Toggle Theme">
+                    <i class="bi bi-moon-stars-fill text-primary" id="theme-toggle-icon"></i>
+                </button>
+                <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="modules.html">Lecture Modules</a></li>
+                    <li class="nav-item"><a class="nav-link" href="networklab.html">Network Lab</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tutorials.html">Interactive Tools</a></li>
+                    <li class="nav-item"><a class="nav-link" href="questionbank.html">Question Bank</a></li>
+                    <li class="nav-item"><a class="nav-link" href="assignments.html">Assignments</a></li>
+                    <li class="nav-item"><a class="nav-link" href="resources.html">Downloads</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <section class="py-5 bg-surface border-bottom">
+        <div class="container">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <a href="modules.html" class="text-decoration-none small text-muted"><i class="bi bi-arrow-left"></i> All Modules</a>
+                <span class="text-muted small">&bull;</span>
+                <span class="badge bg-info text-dark">Module 4</span>
+                <span class="badge-co">CO5 (Describe)</span>
+                <span class="badge-kl">Level K2</span>
+            </div>
+            <h1 class="fw-bold">Network Management (SNMP) &amp; Physical Layer</h1>
+            <p class="text-muted mb-0">
+                Prescribed References: Forouzan (Ch 7 &amp; Ch 9) &bull; 9 Contact Hours
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-5">
+                <!-- Left Content Body -->
+                <div class="col-lg-8">
+
+                    <!-- Topic 1 -->
+                    <div class="card-custom mb-4">
+                        <h3 class="fw-bold text-info mb-3">1. Network Management Framework: SNMP &amp; ASN.1</h3>
+                        <p>
+                            Network management is based on the tripartite framework: <strong>SMI (Structure)</strong>, <strong>MIB (Data Hierarchy)</strong>, and <strong>SNMP (Protocol Operations)</strong>.
+                        </p>
+                        
+                        <h5 class="fw-bold">SNMP Operations &amp; PDUs (UDP Ports 161 &amp; 162)</h5>
+                        <ul class="text-muted small">
+                            <li><code>GetRequest</code> &amp; <code>GetNextRequest</code>: Manager retrieves variable values or walks OID trees.</li>
+                            <li><code>SetRequest</code>: Manager alters configuration settings on managed agent.</li>
+                            <li><code>Trap</code>: Agent initiates asynchronous alert to Manager (Port 162) on critical events.</li>
+                        </ul>
+
+                        <h5 class="fw-bold mt-4">ASN.1 and BER (Basic Encoding Rules)</h5>
+                        <p class="text-muted small">
+                            BER encodes data in <strong>[Tag - Length - Value (TLV)]</strong> format ensuring cross-platform architecture independence.
+                        </p>
+                    </div>
+
+                    <!-- Topic 2 -->
+                    <div class="card-custom mb-4">
+                        <h3 class="fw-bold text-info mb-3">2. Physical Layer: Data, Signals &amp; Capacity Theorems</h3>
+                        <h5 class="fw-bold">Theoretical Channel Rate Limits</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded-3 border h-100">
+                                    <h6 class="fw-bold text-primary">Nyquist Bit Rate (Noiseless Channel)</h6>
+                                    <p class="small text-muted mb-1">$$\text{Bit Rate} = 2 \times B \times \log_2(L) \quad \text{[bps]}$$</p>
+                                    <span class="small text-muted">$B = \text{Bandwidth (Hz)}$, $L = \text{Discrete voltage levels}$.</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded-3 border h-100">
+                                    <h6 class="fw-bold text-success">Shannon Capacity (Noisy Channel)</h6>
+                                    <p class="small text-muted mb-1">$$C = B \times \log_2(1 + \text{SNR}) \quad \text{[bps]}$$</p>
+                                    <span class="small text-muted">$\text{SNR}_{dB} = 10 \log_{10}(\text{SNR}_{linear})$.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Topic 3 -->
+                    <div class="card-custom mb-4">
+                        <h3 class="fw-bold text-info mb-3">3. Digital Line Coding &amp; Multiplexing</h3>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped small">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Scheme</th>
+                                        <th>Voltage Rule</th>
+                                        <th>Key Features</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>NRZ-L</strong></td>
+                                        <td>$0 = +V$, $1 = -V$</td>
+                                        <td>Simple; DC component and sync loss on long 0s/1s.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Manchester</strong></td>
+                                        <td>$0 = +V \to -V$, $1 = -V \to +V$</td>
+                                        <td>Self-synchronizing; requires double bandwidth.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>AMI (Bipolar)</strong></td>
+                                        <td>$0 = 0V$, $1 = \text{Alternating } +V/-V$</td>
+                                        <td>Zero DC bias; loss of clock sync on long 0s.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h5 class="fw-bold mt-4">Multiplexing Techniques</h5>
+                        <ul class="text-muted small">
+                            <li><strong>FDM:</strong> Analog frequency division with guard bands (Radio/CATV).</li>
+                            <li><strong>WDM:</strong> Optical wavelength multiplexing in single-mode glass fiber.</li>
+                            <li><strong>TDM:</strong> Digital time-slot interleaving (Synchronous vs Statistical TDM).</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <!-- Right Sidebar -->
+                <div class="col-lg-4">
+                    <div class="card-custom mb-4">
+                        <h5 class="fw-bold mb-3"><i class="bi bi-download text-info"></i> Module 4 Downloads</h5>
+                        <div class="d-flex flex-column gap-2">
+                            <a href="assets/ppts/Module_4_Network_Management_and_Physical_Layer.pptx" class="btn btn-outline-info text-dark w-100 text-start py-2" download>
+                                <i class="bi bi-file-earmark-ppt-fill text-warning"></i> Lecture Slides (PPTX)
+                            </a>
+                            <a href="assets/notes_pdf/Module_4_Exam_Revision_Notes.pdf" class="btn btn-outline-secondary w-100 text-start py-2" download>
+                                <i class="bi bi-file-earmark-pdf-fill text-danger"></i> Exam Revision Notes (PDF)
+                            </a>
+                            <a href="assets/handson_code/module4/line_coding_visualizer.py" class="btn btn-outline-dark w-100 text-start py-2" download>
+                                <i class="bi bi-filetype-py text-success"></i> Line Coding Script (Python)
+                            </a>
+                            <a href="assets/handson_code/module4/channel_capacity_shannon_nyquist.py" class="btn btn-outline-dark w-100 text-start py-2" download>
+                                <i class="bi bi-filetype-py text-success"></i> Capacity Calculator (Python)
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card-custom mb-4">
+                        <h5 class="fw-bold mb-3"><i class="bi bi-tools text-info"></i> Interactive Tools</h5>
+                        <p class="text-muted small">Generate digital signal waveforms directly on canvas:</p>
+                        <a href="tutorials.html" class="btn-primary-custom w-100 justify-content-center text-decoration-none">
+                            <i class="bi bi-soundwave"></i> Render Waveforms
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="container text-center text-muted small">
+            <p>&copy; 2026-27 Viswajyothi College of Engineering and Technology (VJCET) &bull; Prof. Anju Markose, Dept. of CSE</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCCST501 Computer Networks | VJCET CSE | Prof. Anju Markose</title>
+    <meta name="description" content="Official Course Portal for PCCST501 Computer Networks by Prof. Anju Markose, Assistant Professor, Dept. of CSE, Viswajyothi College of Engineering and Technology (VJCET). Complete lecture slides, revision notes, interactive network tools, lab manual, and question bank.">
+    <meta name="keywords" content="PCCST501, Computer Networks, KTU S5 CSE, VJCET, Anju Markose, Network Notes, Socket Programming, Wireshark, Cisco Packet Tracer, Question Bank">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+    <!-- ==================== TOP NAVIGATION BAR ==================== -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <span class="brand-badge"><i class="bi bi-diagram-3-fill"></i> PCCST501</span>
+                <span>Computer Networks</span>
+            </a>
+            
+            <div class="d-flex align-items-center gap-2 order-lg-last">
+                <button class="btn btn-sm btn-outline-secondary rounded-circle p-2" id="theme-toggle-btn" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
+                    <i class="bi bi-moon-stars-fill text-primary" id="theme-toggle-icon"></i>
+                </button>
+                <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="modules.html">Lecture Modules</a></li>
+                    <li class="nav-item"><a class="nav-link" href="networklab.html">Network Lab</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tutorials.html">Interactive Tools</a></li>
+                    <li class="nav-item"><a class="nav-link" href="questionbank.html">Question Bank</a></li>
+                    <li class="nav-item"><a class="nav-link" href="assignments.html">Assignments</a></li>
+                    <li class="nav-item"><a class="nav-link" href="resources.html">Downloads</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="hero-section">
+        <div class="container position-relative">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <div class="hero-badge">
+                        <i class="bi bi-stars"></i> KTU S5 B.Tech CSE Course Portal &bull; 2026-27
+                    </div>
+                    <h1 class="hero-title">
+                        Master Computer Networks &amp; Socket Systems
+                    </h1>
+                    <p class="hero-subtitle">
+                        Comprehensive curriculum resources for <strong>PCCST501 Computer Networks</strong> at Viswajyothi College of Engineering and Technology (VJCET). Access modern slide decks, deep-dive revision notes, interactive network protocol simulators, and university exam preparation packs.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="modules.html" class="btn-primary-custom text-decoration-none">
+                            <i class="bi bi-journal-bookmark-fill"></i> Explore Course Modules
+                        </a>
+                        <a href="tutorials.html" class="btn-secondary-custom text-decoration-none">
+                            <i class="bi bi-cpu-fill"></i> Launch Interactive Tools
+                        </a>
+                        <a href="assets/ppts/PCCST501_Complete_Course_Deck.pptx" class="btn btn-outline-light px-4 py-2 rounded-3 text-decoration-none" download>
+                            <i class="bi bi-file-earmark-ppt-fill text-warning"></i> Download Master Deck
+                        </a>
+                    </div>
+
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">4</div>
+                            <div class="stat-label">Core Modules</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">44+</div>
+                            <div class="stat-label">Lecture Hours</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">100%</div>
+                            <div class="stat-label">KTU Syllabus Mapped</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">4.0</div>
+                            <div class="stat-label">Credits</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mt-5 mt-lg-0">
+                    <div class="card-custom bg-glass border-0 shadow-lg text-light">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="rounded-circle bg-primary bg-opacity-25 p-3 text-primary-light fs-3">
+                                <i class="bi bi-person-badge-fill text-info"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0 fw-bold">Prof. Anju Markose</h5>
+                                <span class="text-secondary small">Assistant Professor</span>
+                            </div>
+                        </div>
+                        <p class="small text-muted mb-3">
+                            Department of Computer Science &amp; Engineering<br>
+                            Viswajyothi College of Engineering and Technology (VJCET), Vazhakulam
+                        </p>
+                        <hr class="border-secondary my-3">
+                        <div class="d-flex flex-column gap-2 small">
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Course Code:</span>
+                                <span class="badge bg-primary">PCCST501</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">CIE / ESE Marks:</span>
+                                <span class="fw-bold">40 / 60 Marks</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Exam Duration:</span>
+                                <span>2.5 Hours</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== COURSE MODULES CARDS ==================== -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <span class="badge bg-primary bg-opacity-10 text-primary fw-bold px-3 py-2 rounded-pill">Syllabus Breakdown</span>
+                <h2 class="mt-2 fw-bold">Course Modules Overview</h2>
+                <p class="text-muted">Detailed curriculum topics aligned with prescribed Forouzan &amp; Stevens textbooks</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Module 1 -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-custom h-100 d-flex flex-column">
+                        <div class="card-gradient-top"></div>
+                        <div class="card-icon">
+                            <i class="bi bi-globe2"></i>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-primary">Module 1</span>
+                            <span class="text-muted small">6 Hours</span>
+                        </div>
+                        <h4 class="fw-bold fs-5 mb-2">Application Layer &amp; P2P</h4>
+                        <p class="text-muted small flex-grow-1">
+                            Internet architecture, protocol layering, HTTP/1.1 &amp; HTTP/2, FTP dual-channel, SMTP/MIME, DNS hierarchy, and BitTorrent P2P swarming.
+                        </p>
+                        <div class="pt-3 border-top d-flex gap-2">
+                            <a href="module1.html" class="btn btn-sm btn-outline-primary w-100">Study Module 1</a>
+                            <a href="assets/ppts/Module_1_Application_Layer.pptx" class="btn btn-sm btn-light" title="Download PPT" download><i class="bi bi-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module 2 -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-custom h-100 d-flex flex-column">
+                        <div class="card-gradient-top"></div>
+                        <div class="card-icon amber">
+                            <i class="bi bi-arrow-left-right"></i>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-warning text-dark">Module 2</span>
+                            <span class="text-muted small">18 Hours</span>
+                        </div>
+                        <h4 class="fw-bold fs-5 mb-2">Transport &amp; Network Layer</h4>
+                        <p class="text-muted small flex-grow-1">
+                            TCP/UDP, Sockets API (Stevens UNP), `select()`/`poll()`, IPv4/IPv6, CIDR Subnetting, Routing: OSPF &amp; RIP, QoS, Linux Kernel routing table.
+                        </p>
+                        <div class="pt-3 border-top d-flex gap-2">
+                            <a href="module2.html" class="btn btn-sm btn-outline-warning text-dark w-100">Study Module 2</a>
+                            <a href="assets/ppts/Module_2_Transport_and_Network_Layer.pptx" class="btn btn-sm btn-light" title="Download PPT" download><i class="bi bi-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module 3 -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-custom h-100 d-flex flex-column">
+                        <div class="card-gradient-top"></div>
+                        <div class="card-icon emerald">
+                            <i class="bi bi-ethernet"></i>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-success">Module 3</span>
+                            <span class="text-muted small">11 Hours</span>
+                        </div>
+                        <h4 class="fw-bold fs-5 mb-2">Data Link Layer &amp; WLAN</h4>
+                        <p class="text-muted small flex-grow-1">
+                            Framing, CRC &amp; Hamming codes, MAC protocols, CSMA/CD, IEEE 802.3 Ethernet, IEEE 802.11 Wi-Fi, Mobile IP, and Linux `PF_PACKET` raw sockets.
+                        </p>
+                        <div class="pt-3 border-top d-flex gap-2">
+                            <a href="module3.html" class="btn btn-sm btn-outline-success w-100">Study Module 3</a>
+                            <a href="assets/ppts/Module_3_DataLink_Layer_and_WLAN.pptx" class="btn btn-sm btn-light" title="Download PPT" download><i class="bi bi-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module 4 -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-custom h-100 d-flex flex-column">
+                        <div class="card-gradient-top"></div>
+                        <div class="card-icon cyan">
+                            <i class="bi bi-activity"></i>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-info text-dark">Module 4</span>
+                            <span class="text-muted small">9 Hours</span>
+                        </div>
+                        <h4 class="fw-bold fs-5 mb-2">Network Mgmt &amp; Physical Layer</h4>
+                        <p class="text-muted small flex-grow-1">
+                            SNMP, ASN.1/BER, MIB-II, Signals, Nyquist &amp; Shannon capacity limits, Line Coding (Manchester/AMI), FDM/TDM, and Transmission Media.
+                        </p>
+                        <div class="pt-3 border-top d-flex gap-2">
+                            <a href="module4.html" class="btn btn-sm btn-outline-info text-dark w-100">Study Module 4</a>
+                            <a href="assets/ppts/Module_4_Network_Management_and_Physical_Layer.pptx" class="btn btn-sm btn-light" title="Download PPT" download><i class="bi bi-download"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== INTERACTIVE TOOLS TEASER ==================== -->
+    <section class="py-5 bg-surface border-top border-bottom">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <span class="badge bg-info bg-opacity-10 text-info fw-bold px-3 py-2 rounded-pill">Interactive Lab Simulator</span>
+                    <h2 class="mt-2 fw-bold">Live Network Protocol Calculators &amp; Visualizers</h2>
+                    <p class="text-muted">
+                        Test your understanding in real-time without leaving your browser. Calculate subnets, compute Modulo-2 CRC codewords, visualize digital line coding signals, and analyze channel capacity.
+                    </p>
+
+                    <div class="d-flex flex-column gap-3 mt-4">
+                        <div class="d-flex gap-3">
+                            <div class="card-icon amber p-2 m-0" style="width: 42px; height: 42px; font-size: 1.1rem;">
+                                <i class="bi bi-calculator-fill"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-1">IPv4 CIDR Subnet Calculator</h6>
+                                <p class="text-muted small mb-0">Computes network ID, broadcast address, subnet mask, and usable host count instantly.</p>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-3">
+                            <div class="card-icon emerald p-2 m-0" style="width: 42px; height: 42px; font-size: 1.1rem;">
+                                <i class="bi bi-shield-check"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-1">CRC Generator &amp; Error Injector</h6>
+                                <p class="text-muted small mb-0">Performs step-by-step binary modulo-2 division and verifies received codewords.</p>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-3">
+                            <div class="card-icon cyan p-2 m-0" style="width: 42px; height: 42px; font-size: 1.1rem;">
+                                <i class="bi bi-soundwave"></i>
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-1">Line Coding Waveform Generator</h6>
+                                <p class="text-muted small mb-0">Renders NRZ-L, NRZ-I, Manchester, Differential Manchester, and AMI signals on HTML5 canvas.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <a href="tutorials.html" class="btn-primary-custom text-decoration-none">
+                            <i class="bi bi-play-circle-fill"></i> Open Interactive Workbench
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="tool-box shadow-lg">
+                        <h5 class="fw-bold mb-3"><i class="bi bi-calculator text-primary"></i> Quick Subnet Calculator</h5>
+                        <div class="row g-2 mb-3">
+                            <div class="col-7">
+                                <label class="form-label-custom">IPv4 Address</label>
+                                <input type="text" class="form-control-custom" id="input-subnet-ip" value="192.168.10.45" placeholder="e.g., 192.168.1.1">
+                            </div>
+                            <div class="col-5">
+                                <label class="form-label-custom">Prefix (CIDR)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">/</span>
+                                    <input type="number" class="form-control-custom" id="input-subnet-prefix" value="26" min="0" max="32">
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-primary-custom w-100 justify-content-center mb-3" id="btn-calc-subnet">
+                            <i class="bi bi-gear-wide-connected"></i> Calculate Subnet Details
+                        </button>
+                        <div id="subnet-result-box" class="d-none"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer-custom">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-5">
+                    <h5 class="text-white fw-bold mb-3"><i class="bi bi-diagram-3-fill text-primary-light"></i> PCCST501 Computer Networks</h5>
+                    <p class="small text-muted">
+                        Official course resource repository curated for 5th Semester B.Tech Computer Science &amp; Engineering students at Viswajyothi College of Engineering and Technology (VJCET), Vazhakulam.
+                    </p>
+                    <p class="small text-muted">
+                        Faculty In-Charge: <strong>Prof. Anju Markose</strong>, Assistant Professor, Dept. of CSE.
+                    </p>
+                </div>
+
+                <div class="col-6 col-lg-3">
+                    <h6 class="footer-heading">Quick Navigation</h6>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home Dashboard</a></li>
+                        <li><a href="modules.html">Lecture Modules</a></li>
+                        <li><a href="networklab.html">Network Lab Manual</a></li>
+                        <li><a href="tutorials.html">Interactive Tools</a></li>
+                        <li><a href="questionbank.html">University Question Bank</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-6 col-lg-4">
+                    <h6 class="footer-heading">Download Center</h6>
+                    <ul class="footer-links">
+                        <li><a href="assets/ppts/PCCST501_Complete_Course_Deck.pptx" download><i class="bi bi-file-earmark-ppt"></i> Complete Lecture Deck (PPTX)</a></li>
+                        <li><a href="assets/notes_pdf/PCCST501_Complete_CN_Exam_Notes.pdf" download><i class="bi bi-file-earmark-pdf"></i> Complete Exam Revision Notes (PDF)</a></li>
+                        <li><a href="assets/notes_pdf/PCCST501_Comprehensive_Question_Bank.pdf" download><i class="bi bi-file-earmark-pdf"></i> Solved Question Bank (PDF)</a></li>
+                        <li><a href="assets/notes_pdf/PCCSL507_HandsOn_Lab_Manual.pdf" download><i class="bi bi-file-earmark-pdf"></i> Hands-on Lab Manual (PDF)</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-top border-secondary border-opacity-25 mt-4 pt-3 text-center small text-muted">
+                &copy; 2026-27 Viswajyothi College of Engineering and Technology (VJCET). All rights reserved. &bull; PCCST501 Computer Networks
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

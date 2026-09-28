@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 2: Transport &amp; Network Layer | PCCST501 Computer Networks | VJCET</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+    <!-- Top Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <span class="brand-badge"><i class="bi bi-diagram-3-fill"></i> PCCST501</span>
+                <span>Computer Networks</span>
+            </a>
+            <div class="d-flex align-items-center gap-2 order-lg-last">
+                <button class="btn btn-sm btn-outline-secondary rounded-circle p-2" id="theme-toggle-btn" title="Toggle Theme">
+                    <i class="bi bi-moon-stars-fill text-primary" id="theme-toggle-icon"></i>
+                </button>
+                <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="modules.html">Lecture Modules</a></li>
+                    <li class="nav-item"><a class="nav-link" href="networklab.html">Network Lab</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tutorials.html">Interactive Tools</a></li>
+                    <li class="nav-item"><a class="nav-link" href="questionbank.html">Question Bank</a></li>
+                    <li class="nav-item"><a class="nav-link" href="assignments.html">Assignments</a></li>
+                    <li class="nav-item"><a class="nav-link" href="resources.html">Downloads</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <section class="py-5 bg-surface border-bottom">
+        <div class="container">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <a href="modules.html" class="text-decoration-none small text-muted"><i class="bi bi-arrow-left"></i> All Modules</a>
+                <span class="text-muted small">&bull;</span>
+                <span class="badge bg-warning text-dark">Module 2</span>
+                <span class="badge-co">CO2 &amp; CO3</span>
+                <span class="badge-kl">Level K3 (Apply)</span>
+            </div>
+            <h1 class="fw-bold">Transport Layer, UNIX Sockets &amp; Network Layer</h1>
+            <p class="text-muted mb-0">
+                Prescribed References: Forouzan (Ch 3, 4, 8), Stevens UNP Vol 1 (Ch 3-6, 8, 14), Seth &amp; Venkatesulu (Ch 14) &bull; 18 Contact Hours
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-5">
+                <!-- Left Content Body -->
+                <div class="col-lg-8">
+
+                    <!-- Topic 1 -->
+                    <div class="card-custom mb-4">
+                        <h3 class="fw-bold text-primary mb-3">1. Transport Layer Protocols: TCP vs. UDP</h3>
+                        <p>
+                            The transport layer provides logical, process-to-process communication between application processes running on different hosts using 16-bit <strong>Port Numbers</strong>.
+                        </p>
+                        
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded-3 border h-100">
+                                    <h5 class="fw-bold text-dark"><i class="bi bi-lightning-charge"></i> UDP (User Datagram Protocol)</h5>
+                                    <ul class="small text-muted mb-0">
+                                        <li>Connectionless, minimal 8-byte header overhead.</li>
+                                        <li>No handshake, no congestion/flow control, preserves message boundaries.</li>
+                                        <li>Used in DNS, DHCP, VoIP, streaming video.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 bg-light rounded-3 border h-100">
+                                    <h5 class="fw-bold text-dark"><i class="bi bi-shield-check"></i> TCP (Transmission Control Protocol)</h5>
+                                    <ul class="small text-muted mb-0">
+                                        <li>Connection-oriented, reliable byte-stream delivery.</li>
+                                        <li>3-Way Handshake, Flow Control (Receive Window <code>rwnd</code>), and Congestion Control (<code>cwnd</code>).</li>
+                                        <li>Used in HTTP/HTTPS, SSH, SMTP, FTP.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h5 class="fw-bold">TCP Congestion Control Algorithms (AIMD &amp; Reno)</h5>
+                        <ul class="text-muted small">
+                            <li><strong>Slow Start:</strong> <code>cwnd</code> starts at 1 MSS and doubles every RTT (exponential growth) until reaching <code>ssthresh</code>.</li>
+                            <li><strong>Congestion Avoidance:</strong> Linear increase (Additive Increase: $+1\text{ MSS}$ per RTT).</li>
+                            <li><strong>Fast Retransmit &amp; Recovery:</strong> Upon receiving 3 duplicate ACKs, TCP immediately retransmits the missing segment, sets $\text{ssthresh} = \text{cwnd} / 2$, and enters Fast Recovery without resetting to 1 MSS.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Topic 2 -->
+                    <div class="card-custom mb-4">
+                        <h3 class="fw-bold text-primary mb-3">2. UNIX Sockets API &amp; I/O Multiplexing (Stevens UNP)</h3>
+                        <p>
+                            Berkeley Sockets API provides the standard interface between user-space network applications and the operating system kernel's TCP/IP stack.
+                        </p>
+                        
+                        <h6 class="fw-bold">I/O Multiplexing: `select()` vs. `poll()`</h6>
+                        <p class="text-muted small">
+                            Allows a single process thread to monitor multiple file descriptors (listening sockets, connected client sockets, stdin) simultaneously and block until any descriptor becomes ready for reading/writing.
+                        </p>
+
+                        <!-- Code Example -->
+                        <div class="code-window">
+                            <div class="code-header">
+                                <div class="code-dots">
+                                    <span class="code-dot dot-red"></span>
+                                    <span class="code-dot dot-yellow"></span>
+                                    <span class="code-dot dot-green"></span>
+                                </div>
+                                <span class="code-filename">assets/handson_code/module2/io_multiplexing_select.c</span>
+                                <button class="code-copy-btn"><i class="bi bi-clipboard"></i> Copy</button>
+                            </div>
+                            <pre class="code-body"><code>#include &lt;sys/select.h&gt;
+#include &lt;sys/socket.h&gt;
+
+fd_set readfds;
+FD_ZERO(&amp;readfds);
+FD_SET(server_fd, &amp;readfds);
+
+int activity = select(max_fd + 1, &amp;readfds, NULL, NULL, NULL);
+if (FD_ISSET(server_fd, &amp;readfds)) {
+    // Accept new incoming client connection
+    int client_fd = accept(server_fd, (struct sockaddr*)&amp;addr, &amp;len);
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Topic 3 -->
+                    <div class="card-custom mb-4">
+                        <h3 class="fw-bold text-primary mb-3">3. Network Layer: Addressing, Subnetting &amp; Routing</h3>
+                        <h6 class="fw-bold">IPv4 Addressing &amp; CIDR (RFC 4632)</h6>
+                        <p class="text-muted small">
+                            Subnetting divides a large network into smaller sub-networks using prefix length notation (`/n`). Total usable hosts = $2^{32 - n} - 2$.
+                        </p>
+                        
+                        <h6 class="fw-bold mt-3">Unicast Routing Protocols</h6>
+                        <ul class="text-muted small">
+                            <li><strong>Distance Vector (Bellman-Ford / RIP):</strong> Exchanges routing tables with direct neighbors every 30s. Metric: Hop count (Max 15 hops).</li>
+                            <li><strong>Link-State (Dijkstra SPF / OSPF):</strong> Floods LSAs to entire Autonomous System. Every router builds a complete topology tree. Fast convergence.</li>
+                            <li><strong>Path Vector (BGP-4):</strong> Inter-domain routing protocol carrying AS-PATH attributes to eliminate loops and enforce policy routing.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Topic 4 -->
+                    <div class="card-custom mb-4">
+                        <h3 class="fw-bold text-primary mb-3">4. Linux Kernel Routing Architecture (Seth &amp; Venkatesulu)</h3>
+                        <p>
+                            The Linux network subsystem utilizes the <strong>Forwarding Information Base (FIB - `fib_table`)</strong> organized as a radix trie for longest-prefix matching, complemented by the <strong>Routing Cache (`rtable`)</strong> for rapid route lookups.
+                        </p>
+                        <div class="code-window">
+                            <div class="code-header"><span class="code-filename">Linux Route Configuration CLI</span></div>
+                            <pre class="code-body"><code># Inspect kernel routing table
+ip route show
+
+# Add static route to subnet 10.10.0.0/16 via gateway 192.168.1.1
+sudo ip route add 10.10.0.0/16 via 192.168.1.1 dev eth0</code></pre>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Sidebar -->
+                <div class="col-lg-4">
+                    <div class="card-custom mb-4">
+                        <h5 class="fw-bold mb-3"><i class="bi bi-download text-warning"></i> Module 2 Downloads</h5>
+                        <div class="d-flex flex-column gap-2">
+                            <a href="assets/ppts/Module_2_Transport_and_Network_Layer.pptx" class="btn btn-outline-warning text-dark w-100 text-start py-2" download>
+                                <i class="bi bi-file-earmark-ppt-fill text-warning"></i> Lecture Slides (PPTX)
+                            </a>
+                            <a href="assets/notes_pdf/Module_2_Exam_Revision_Notes.pdf" class="btn btn-outline-secondary w-100 text-start py-2" download>
+                                <i class="bi bi-file-earmark-pdf-fill text-danger"></i> Exam Revision Notes (PDF)
+                            </a>
+                            <a href="assets/handson_code/module2/tcp_echo_server.c" class="btn btn-outline-dark w-100 text-start py-2" download>
+                                <i class="bi bi-filetype-c text-primary"></i> TCP Server in C
+                            </a>
+                            <a href="assets/handson_code/module2/io_multiplexing_select.c" class="btn btn-outline-dark w-100 text-start py-2" download>
+                                <i class="bi bi-filetype-c text-primary"></i> `select()` Server in C
+                            </a>
+                            <a href="assets/handson_code/module2/ip_subnet_calculator.py" class="btn btn-outline-dark w-100 text-start py-2" download>
+                                <i class="bi bi-filetype-py text-success"></i> Subnet Calculator (Python)
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card-custom mb-4">
+                        <h5 class="fw-bold mb-3"><i class="bi bi-tools text-primary"></i> Interactive Tools</h5>
+                        <p class="text-muted small">Test your subnet calculations live in our browser tool:</p>
+                        <a href="tutorials.html" class="btn-primary-custom w-100 justify-content-center text-decoration-none">
+                            <i class="bi bi-calculator"></i> Launch Subnet Calculator
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="container text-center text-muted small">
+            <p>&copy; 2026-27 Viswajyothi College of Engineering and Technology (VJCET) &bull; Prof. Anju Markose, Dept. of CSE</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

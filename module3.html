@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 3: Data Link Layer &amp; WLAN | PCCST501 Computer Networks | VJCET</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+    <!-- Top Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <span class="brand-badge"><i class="bi bi-diagram-3-fill"></i> PCCST501</span>
+                <span>Computer Networks</span>
+            </a>
+            <div class="d-flex align-items-center gap-2 order-lg-last">
+                <button class="btn btn-sm btn-outline-secondary rounded-circle p-2" id="theme-toggle-btn" title="Toggle Theme">
+                    <i class="bi bi-moon-stars-fill text-primary" id="theme-toggle-icon"></i>
+                </button>
+                <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="modules.html">Lecture Modules</a></li>
+                    <li class="nav-item"><a class="nav-link" href="networklab.html">Network Lab</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tutorials.html">Interactive Tools</a></li>
+                    <li class="nav-item"><a class="nav-link" href="questionbank.html">Question Bank</a></li>
+                    <li class="nav-item"><a class="nav-link" href="assignments.html">Assignments</a></li>
+                    <li class="nav-item"><a class="nav-link" href="resources.html">Downloads</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <section class="py-5 bg-surface border-bottom">
+        <div class="container">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <a href="modules.html" class="text-decoration-none small text-muted"><i class="bi bi-arrow-left"></i> All Modules</a>
+                <span class="text-muted small">&bull;</span>
+                <span class="badge bg-success">Module 3</span>
+                <span class="badge-co">CO4 (Demonstrate)</span>
+                <span class="badge-kl">Level K3 (Apply)</span>
+            </div>
+            <h1 class="fw-bold">Data Link Layer, Ethernet &amp; Wireless LANs</h1>
+            <p class="text-muted mb-0">
+                Prescribed References: Forouzan (Ch 5 &amp; 6), Stevens UNP Vol 1 (Ch 29) &bull; 11 Contact Hours
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-5">
+                <!-- Left Content Body -->
+                <div class="col-lg-8">
+
+                    <!-- Topic 1 -->
+                    <div class="card-custom mb-4">
+                        <h3 class="fw-bold text-success mb-3">1. Data Link Control (DLC) &amp; Error Control</h3>
+                        <p>
+                            The Data Link Layer is responsible for node-to-node frame transfer across a single physical link.
+                        </p>
+                        
+                        <h5 class="fw-bold">Framing Techniques</h5>
+                        <ul class="text-muted small">
+                            <li><strong>Character-Oriented (Byte Stuffing):</strong> Inserts <code>ESC</code> before data bytes matching <code>FLAG</code> or <code>ESC</code>.</li>
+                            <li><strong>Bit-Oriented (Bit Stuffing):</strong> Flags are <code>01111110</code>. Sender inserts a <code>0</code> after any sequence of 5 consecutive <code>1</code>s in payload.</li>
+                        </ul>
+
+                        <h5 class="fw-bold mt-4">Cyclic Redundancy Check (CRC)</h5>
+                        <p class="text-muted small">
+                            Given Data $D$ and Generator Polynomial $G$ of degree $r$: Appends $r$ zeros to $D$, performs binary modulo-2 division (XOR) by $G$. The resulting remainder $R$ is appended as the FCS checksum.
+                        </p>
+                    </div>
+
+                    <!-- Topic 2 -->
+                    <div class="card-custom mb-4">
+                        <h3 class="fw-bold text-success mb-3">2. Multiple Access Protocols (MAC) &amp; CSMA/CD</h3>
+                        <h5 class="fw-bold">CSMA/CD (Carrier Sense Multiple Access with Collision Detection)</h5>
+                        <p class="text-muted small">
+                            "Listen while talk". If collision is detected during frame transmission, node aborts, sends 32-bit Jamming signal, and executes <strong>Binary Exponential Backoff</strong> (waiting $R \times 512$ bit times, $R \in [0, 2^k - 1]$).
+                        </p>
+                        <div class="p-3 bg-light rounded-3 border">
+                            <h6 class="fw-bold text-dark mb-1">Standard Ethernet Minimum Frame Size Condition:</h6>
+                            <p class="mb-0 small text-muted">
+                                $T_{trans} \ge 2 \times T_{prop} \implies \frac{L_{min}}{\text{Bandwidth}} \ge 2 \times \frac{\text{Distance}}{v} \implies L_{min} = 64 \text{ Bytes (512 bits)}$
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Topic 3 -->
+                    <div class="card-custom mb-4">
+                        <h3 class="fw-bold text-success mb-3">3. IEEE 802.3 Ethernet Frame &amp; Connecting Devices</h3>
+                        <div class="table-responsive">
+                            <table class="table table-bordered text-center small">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Preamble</th>
+                                        <th>SFD</th>
+                                        <th>Dest MAC</th>
+                                        <th>Source MAC</th>
+                                        <th>EtherType</th>
+                                        <th>Payload (Data)</th>
+                                        <th>FCS (CRC-32)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>7 Bytes</td>
+                                        <td>1 Byte</td>
+                                        <td>6 Bytes</td>
+                                        <td>6 Bytes</td>
+                                        <td>2 Bytes</td>
+                                        <td>46 – 1500 Bytes</td>
+                                        <td>4 Bytes</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="text-muted small">
+                            <strong>Layer-2 Switches:</strong> Maintain CAM (Content Addressable Memory) MAC address table to forward frames selectively to destination ports, eliminating collisions. Uses <strong>Spanning Tree Protocol (IEEE 802.1D)</strong> to avoid bridging loops.
+                        </p>
+                    </div>
+
+                    <!-- Topic 4 -->
+                    <div class="card-custom mb-4">
+                        <h3 class="fw-bold text-success mb-3">4. Wireless LANs (802.11), Mobile IP &amp; Raw Sockets</h3>
+                        <p>
+                            <strong>CSMA/CA &amp; Hidden Station Problem:</strong> In wireless networks, physical collision detection is impossible due to signal fading. IEEE 802.11 uses <strong>RTS/CTS (Request to Send / Clear to Send)</strong> virtual carrier sensing with NAV (Network Allocation Vector).
+                        </p>
+                        <p>
+                            <strong>Mobile IP:</strong> Uses Home Agent (HA), Foreign Agent (FA), and Care-of Address (CoA) with IP-in-IP encapsulation to route packets to roaming mobile hosts.
+                        </p>
+
+                        <!-- Code Example -->
+                        <h6 class="fw-bold mt-4">Hands-On: Linux PF_PACKET Raw Socket Sniffer</h6>
+                        <div class="code-window">
+                            <div class="code-header">
+                                <span class="code-filename">assets/handson_code/module3/raw_socket_packet_sniffer.c</span>
+                                <button class="code-copy-btn"><i class="bi bi-clipboard"></i> Copy</button>
+                            </div>
+                            <pre class="code-body"><code>#include &lt;sys/socket.h&gt;
+#include &lt;net/ethernet.h&gt;
+
+// Intercepts raw Layer-2 Ethernet frames (requires root/sudo)
+int raw_sock = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
+recvfrom(raw_sock, buffer, 65536, 0, NULL, NULL);</code></pre>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Sidebar -->
+                <div class="col-lg-4">
+                    <div class="card-custom mb-4">
+                        <h5 class="fw-bold mb-3"><i class="bi bi-download text-success"></i> Module 3 Downloads</h5>
+                        <div class="d-flex flex-column gap-2">
+                            <a href="assets/ppts/Module_3_DataLink_Layer_and_WLAN.pptx" class="btn btn-outline-success w-100 text-start py-2" download>
+                                <i class="bi bi-file-earmark-ppt-fill text-warning"></i> Lecture Slides (PPTX)
+                            </a>
+                            <a href="assets/notes_pdf/Module_3_Exam_Revision_Notes.pdf" class="btn btn-outline-secondary w-100 text-start py-2" download>
+                                <i class="bi bi-file-earmark-pdf-fill text-danger"></i> Exam Revision Notes (PDF)
+                            </a>
+                            <a href="assets/handson_code/module3/crc_error_detector.py" class="btn btn-outline-dark w-100 text-start py-2" download>
+                                <i class="bi bi-filetype-py text-success"></i> CRC Error Detector (Python)
+                            </a>
+                            <a href="assets/handson_code/module3/hamming_code_7_4.py" class="btn btn-outline-dark w-100 text-start py-2" download>
+                                <i class="bi bi-filetype-py text-success"></i> Hamming (7,4) Code (Python)
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="card-custom mb-4">
+                        <h5 class="fw-bold mb-3"><i class="bi bi-tools text-success"></i> Interactive Tools</h5>
+                        <p class="text-muted small">Verify CRC modulo-2 binary division in our interactive tool:</p>
+                        <a href="tutorials.html" class="btn-primary-custom w-100 justify-content-center text-decoration-none">
+                            <i class="bi bi-shield-check"></i> Launch CRC Workbench
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="container text-center text-muted small">
+            <p>&copy; 2026-27 Viswajyothi College of Engineering and Technology (VJCET) &bull; Prof. Anju Markose, Dept. of CSE</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

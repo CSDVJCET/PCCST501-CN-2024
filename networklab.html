@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Lab Manual &amp; Experiments | PCCSL507 | VJCET</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+    <!-- Top Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <span class="brand-badge"><i class="bi bi-diagram-3-fill"></i> PCCST501</span>
+                <span>Computer Networks</span>
+            </a>
+            <div class="d-flex align-items-center gap-2 order-lg-last">
+                <button class="btn btn-sm btn-outline-secondary rounded-circle p-2" id="theme-toggle-btn" title="Toggle Theme">
+                    <i class="bi bi-moon-stars-fill text-primary" id="theme-toggle-icon"></i>
+                </button>
+                <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="modules.html">Lecture Modules</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="networklab.html">Network Lab</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tutorials.html">Interactive Tools</a></li>
+                    <li class="nav-item"><a class="nav-link" href="questionbank.html">Question Bank</a></li>
+                    <li class="nav-item"><a class="nav-link" href="assignments.html">Assignments</a></li>
+                    <li class="nav-item"><a class="nav-link" href="resources.html">Downloads</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <section class="py-5 bg-surface border-bottom">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <span class="badge bg-success bg-opacity-10 text-success fw-bold px-3 py-2 rounded-pill">PCCSL507 Network Lab Hub</span>
+                    <h1 class="fw-bold mt-2">Hands-On Network Lab Manual</h1>
+                    <p class="text-muted mb-0">
+                        Complete experimental procedures, C and Python socket implementations, Linux networking command guides, Wireshark packet capture steps, and Cisco Packet Tracer configurations.
+                    </p>
+                </div>
+                <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+                    <a href="assets/notes_pdf/PCCSL507_HandsOn_Lab_Manual.pdf" class="btn-primary-custom text-decoration-none" download>
+                        <i class="bi bi-file-earmark-pdf-fill"></i> Download PDF Lab Manual
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experiments List -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- Exp 1 -->
+                <div class="col-lg-12">
+                    <div class="card-custom">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-primary">Experiment 01</span>
+                            <span class="text-muted small">Linux Networking</span>
+                        </div>
+                        <h4 class="fw-bold mb-2">Linux Network Administration Commands &amp; Interface Configuration</h4>
+                        <p class="text-muted small mb-3">
+                            Practice essential Linux CLI tools: <code>ip addr</code>, <code>ip route</code>, <code>ss</code>, <code>netstat</code>, <code>ping</code>, <code>traceroute</code>, and <code>tcpdump</code>.
+                        </p>
+                        <div class="code-window mb-0">
+                            <div class="code-header">
+                                <span class="code-filename">Terminal Commands</span>
+                                <button class="code-copy-btn"><i class="bi bi-clipboard"></i> Copy</button>
+                            </div>
+                            <pre class="code-body"><code># Inspect IP and MAC addresses on all interfaces
+ip addr show
+
+# View active TCP/UDP listening ports and processes
+ss -tulnp
+
+# Trace routing hops to destination
+traceroute -n 8.8.8.8</code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exp 2 -->
+                <div class="col-lg-12">
+                    <div class="card-custom">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-warning text-dark">Experiment 02</span>
+                            <span class="text-muted small">Berkeley Sockets API</span>
+                        </div>
+                        <h4 class="fw-bold mb-2">Elementary TCP &amp; UDP Client-Server Socket Programming</h4>
+                        <p class="text-muted small mb-3">
+                            Implementation of two-way reliable communication using UNIX socket API (Stevens UNP Chapters 3 to 6).
+                        </p>
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="assets/handson_code/module2/tcp_echo_server.c" class="btn btn-sm btn-outline-primary" download><i class="bi bi-filetype-c"></i> tcp_echo_server.c</a>
+                            <a href="assets/handson_code/module2/tcp_echo_client.c" class="btn btn-sm btn-outline-primary" download><i class="bi bi-filetype-c"></i> tcp_echo_client.c</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Exp 3 -->
+                <div class="col-lg-12">
+                    <div class="card-custom">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-success">Experiment 03</span>
+                            <span class="text-muted small">I/O Multiplexing</span>
+                        </div>
+                        <h4 class="fw-bold mb-2">Concurrent Server Implementation using `select()` and `poll()`</h4>
+                        <p class="text-muted small mb-3">
+                            Single-threaded non-blocking server servicing multiple client connections simultaneously using descriptor set multiplexing.
+                        </p>
+                        <a href="assets/handson_code/module2/io_multiplexing_select.c" class="btn btn-sm btn-outline-success" download><i class="bi bi-filetype-c"></i> io_multiplexing_select.c</a>
+                    </div>
+                </div>
+
+                <!-- Exp 4 -->
+                <div class="col-lg-12">
+                    <div class="card-custom">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge bg-info text-dark">Experiment 04</span>
+                            <span class="text-muted small">Protocol Analysis</span>
+                        </div>
+                        <h4 class="fw-bold mb-2">Wireshark Live Packet Capture &amp; Protocol Dissection</h4>
+                        <p class="text-muted small mb-0">
+                            Capture live HTTP requests, DNS queries, TCP 3-Way Handshake (SYN, SYN-ACK, ACK), TCP Teardown (FIN/ACK), and ARP address resolutions.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-custom">
+        <div class="container text-center text-muted small">
+            <p>&copy; 2026-27 Viswajyothi College of Engineering and Technology (VJCET) &bull; Prof. Anju Markose, Dept. of CSE</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
