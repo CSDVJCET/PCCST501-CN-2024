@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 17 | IPv6 Routing using RIPng | PCCSL507</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth}
+body{font-family:Poppins,sans-serif;background:#f5f7fb;color:#263238}
+.navbar{background:#0b3c7a}
+.hero{background:linear-gradient(135deg,#082f6b,#1565c0);padding:82px 0;color:#fff}
+.hero h1{font-size:46px;font-weight:700}
+.section-title{border-left:6px solid #26a69a;padding-left:12px;margin:55px 0 22px;font-weight:700}
+.card{border:0;border-radius:18px;box-shadow:0 8px 24px rgba(0,0,0,.09)}
+.command{background:#111827;color:#7CFC00;border-radius:10px;padding:16px 18px;font-family:Consolas,monospace;overflow:auto;white-space:pre-wrap}
+.router{border:3px solid #1565c0;border-radius:14px;padding:18px;text-align:center;background:#eaf2ff;font-weight:700;min-width:150px}
+.host{border:3px solid #26a69a;border-radius:14px;padding:16px;text-align:center;background:#edfff8;font-weight:600;min-width:160px}
+.link{height:4px;background:#64748b;min-width:45px}
+.ipbox{background:#fff;border:1px solid #dbe3ef;border-radius:12px;padding:14px}
+.flow{background:#111827;color:#fff;border-radius:16px;padding:28px}
+.step{border-left:5px solid #1565c0}
+footer{background:#082f6b;color:#fff;padding:25px;margin-top:60px}
+.accordion-button:not(.collapsed){background:#e8f1ff;color:#0d47a1}
+.badge-ip{font-family:Consolas,monospace}
+</style>
+</head>
+<body id="top">
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+<div class="container">
+<a class="navbar-brand fw-bold" href="module.html"><i class="fas fa-network-wired"></i> PCCSL507</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+<span class="navbar-toggler-icon"></span></button>
+<div class="collapse navbar-collapse" id="menu">
+<ul class="navbar-nav ms-auto">
+<li class="nav-item"><a class="nav-link" href="module.html">Network Lab</a></li>
+<li class="nav-item"><a class="nav-link" href="lab16.html">Lab 16</a></li>
+<li class="nav-item"><a class="nav-link active" href="#">Lab 17</a></li>
+</ul></div></div></nav>
+
+<section class="hero text-center">
+<div class="container">
+<span class="badge bg-warning text-dark px-3 py-2 mb-3">Cisco Packet Tracer • IPv6 • RIPng</span>
+<h1>🌐 Lab 17<br>IPv6 Routing using RIPng</h1>
+<p class="lead mt-3">Configure IPv6 addressing on routers and hosts, enable <strong>RIPng</strong>, verify IPv6 routing tables, and test connectivity between different IPv6 subnets.</p>
+<a href="#experiment" class="btn btn-light btn-lg me-2"><i class="fas fa-play"></i> Start Experiment</a>
+<a href="#commands" class="btn btn-outline-light btn-lg"><i class="fas fa-terminal"></i> Router Commands</a>
+</div></section>
+
+<section class="container py-5">
+<div class="row g-4">
+<div class="col-md-3"><div class="card h-100 text-center p-4"><i class="fas fa-sitemap fa-3x text-primary mb-3"></i><h4>5 Subnets</h4><p>IPv6 /64 networks</p></div></div>
+<div class="col-md-3"><div class="card h-100 text-center p-4"><i class="fas fa-route fa-3x text-success mb-3"></i><h4>RIPng</h4><p>Dynamic IPv6 routing</p></div></div>
+<div class="col-md-3"><div class="card h-100 text-center p-4"><i class="fas fa-router fa-3x text-warning mb-3"></i><h4>3 Routers</h4><p>R1 • R2 • R3</p></div></div>
+<div class="col-md-3"><div class="card h-100 text-center p-4"><i class="fas fa-check-circle fa-3x text-danger mb-3"></i><h4>Verify</h4><p>Routes + Ping</p></div></div>
+</div></section>
+
+<section id="experiment" class="container py-4">
+<h2 class="section-title">🎯 Aim</h2>
+<div class="card"><div class="card-body p-4">
+<p class="lead mb-0">To interconnect the different IPv6-based subnets shown in Figure 3 using <strong>RIPng</strong>.</p>
+</div></div>
+</section>
+
+<section class="container py-4">
+<h2 class="section-title">📖 Experiment Overview</h2>
+<div class="card"><div class="card-body p-4">
+<p>The experiment uses an IPv6 network containing five /64 subnets. Routers R1, R2 and R3 are configured with IPv6 addresses on their participating interfaces. RIPng is enabled on those interfaces so that IPv6 routing information can be exchanged dynamically. The source manual identifies the five subnets and the router/host addressing used below. fileciteturn37file0</p>
+<div class="alert alert-info mb-0"><strong>Core idea:</strong> IPv6 provides the addressing, while RIPng provides dynamic routing information between the IPv6 subnets.</div>
+</div></div>
+</section>
+
+<section class="container py-4">
+<h2 class="section-title">🗺️ Network Topology</h2>
+<div class="card p-4">
+<div class="d-flex flex-wrap justify-content-center align-items-center gap-3">
+<div class="host"><i class="fas fa-desktop fa-2x"></i><br>PC-A<br><small>Subnet 1</small></div>
+<div class="link"></div>
+<div class="router"><i class="fas fa-router fa-2x"></i><br>R1</div>
+<div class="link"></div>
+<div class="router"><i class="fas fa-router fa-2x"></i><br>R2</div>
+<div class="link"></div>
+<div class="host"><i class="fas fa-desktop fa-2x"></i><br>PC-B<br><small>Subnet 2</small></div>
+</div>
+<div class="d-flex flex-wrap justify-content-center align-items-center gap-3 mt-4">
+<div class="router"><i class="fas fa-router fa-2x"></i><br>R1</div>
+<div class="link"></div>
+<div class="router"><i class="fas fa-router fa-2x"></i><br>R3</div>
+<div class="link"></div>
+<div class="host"><i class="fas fa-desktop fa-2x"></i><br>PC-C<br><small>Subnet 5</small></div>
+</div>
+<div class="alert alert-secondary mt-4 mb-0">
+<strong>Note:</strong> The topology above is a simplified web representation of Figure 3. Use the addressing/interface table from the manual when constructing the Cisco Packet Tracer topology. fileciteturn37file1
+</div>
+</div></section>
+
+<section class="container py-4">
+<h2 class="section-title">📋 IPv6 Addressing Scheme</h2>
+<div class="table-responsive">
+<table class="table table-bordered table-hover bg-white align-middle">
+<thead class="table-primary"><tr><th>Device</th><th>Interface</th><th>IPv6 Address</th></tr></thead>
+<tbody>
+<tr><td>PC-A</td><td>NIC</td><td><code>2001:DB8:1111:1::11/64</code></td></tr>
+<tr><td>R1</td><td>G0/0</td><td><code>2001:DB8:1111:1::1/64</code></td></tr>
+<tr><td>R1</td><td>S0/0/0</td><td><code>2001:DB8:1111:4::1/64</code></td></tr>
+<tr><td>R2</td><td>S0/0/1</td><td><code>2001:DB8:1111:4::2/64</code></td></tr>
+<tr><td>R2</td><td>G0/0</td><td><code>2001:DB8:1111:2::2/64</code></td></tr>
+<tr><td>R1</td><td>G0/1/0</td><td><code>2001:DB8:1111:3::1/64</code></td></tr>
+<tr><td>R3</td><td>G0/0/0</td><td><code>2001:DB8:1111:3::3/64</code></td></tr>
+<tr><td>R3</td><td>G0/0</td><td><code>2001:DB8:1111:5::3/64</code></td></tr>
+</tbody>
+</table></div>
+<p class="text-muted">Addressing reproduced from the Experiment 17 addressing scheme. fileciteturn37file0</p>
+</section>
+
+<section class="container py-4">
+<h2 class="section-title">🌐 IPv6 Subnets</h2>
+<div class="row g-3">
+<div class="col-md-4"><div class="ipbox"><strong>Subnet 1</strong><br><code>2001:DB8:1111:1::/64</code></div></div>
+<div class="col-md-4"><div class="ipbox"><strong>Subnet 2</strong><br><code>2001:DB8:1111:2::/64</code></div></div>
+<div class="col-md-4"><div class="ipbox"><strong>Subnet 3</strong><br><code>2001:DB8:1111:3::/64</code></div></div>
+<div class="col-md-4"><div class="ipbox"><strong>Subnet 4</strong><br><code>2001:DB8:1111:4::/64</code></div></div>
+<div class="col-md-4"><div class="ipbox"><strong>Subnet 5</strong><br><code>2001:DB8:1111:5::/64</code></div></div>
+</div>
+<p class="mt-3 text-muted">The manual defines these five /64 IPv6 subnets. fileciteturn37file0</p>
+</section>
+
+<section class="container py-4">
+<h2 class="section-title">🧠 What is RIPng?</h2>
+<div class="card"><div class="card-body p-4">
+<p><strong>RIPng</strong> is the IPv6 version of the Routing Information Protocol used for dynamic exchange of routing information between IPv6 routers.</p>
+<div class="row g-3">
+<div class="col-md-4"><div class="alert alert-primary h-100"><strong>R</strong><br>Router learns remote IPv6 networks.</div></div>
+<div class="col-md-4"><div class="alert alert-success h-100"><strong>I</strong><br>Routing information is exchanged dynamically.</div></div>
+<div class="col-md-4"><div class="alert alert-warning h-100"><strong>P</strong><br>Routes become available in the IPv6 routing table.</div></div>
+</div>
+<p class="mb-0">In this experiment, RIPng is enabled directly on the participating IPv6 interfaces using <code>ipv6 rip RIPNG enable</code>. fileciteturn37file7</p>
+</div></div>
+</section>
+
+<section class="container py-4" id="commands">
+<h2 class="section-title">⌨️ Router Configuration</h2>
+<div class="accordion" id="routerCommands">
+
+<div class="accordion-item">
+<h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#r1">1️⃣ R1 Configuration</button></h2>
+<div id="r1" class="accordion-collapse collapse show" data-bs-parent="#routerCommands"><div class="accordion-body">
+<pre class="command">enable
+configure terminal
+ipv6 unicast-routing
+
+interface g0/0
+ipv6 address 2001:DB8:1111:1::1/64
+ipv6 rip RIPNG enable
+no shutdown
+
+interface s0/0/0
+ipv6 address 2001:DB8:1111:4::1/64
+ipv6 rip RIPNG enable
+no shutdown
+
+interface g0/1/0
+ipv6 address 2001:DB8:1111:3::1/64
+ipv6 rip RIPNG enable
+no shutdown
+
+end</pre>
+<p class="mb-0">These R1 commands are given in the Experiment 17 manual. fileciteturn37file7</p>
+</div></div></div>
+
+<div class="accordion-item">
+<h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#r2">2️⃣ R2 Configuration</button></h2>
+<div id="r2" class="accordion-collapse collapse" data-bs-parent="#routerCommands"><div class="accordion-body">
+<pre class="command">enable
+configure terminal
+ipv6 unicast-routing
+
+interface s0/0/1
+ipv6 address 2001:DB8:1111:4::2/64
+ipv6 rip RIPNG enable
+no shutdown
+
+interface g0/0
+ipv6 address 2001:DB8:1111:2::2/64
+ipv6 rip RIPNG enable
+no shutdown
+
+end</pre>
+<p class="mb-0">These R2 commands are given in the Experiment 17 manual. fileciteturn37file7</p>
+</div></div></div>
+
+<div class="accordion-item">
+<h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#r3">3️⃣ R3 Configuration</button></h2>
+<div id="r3" class="accordion-collapse collapse" data-bs-parent="#routerCommands"><div class="accordion-body">
+<pre class="command">enable
+configure terminal
+ipv6 unicast-routing
+
+interface g0/0/0
+ipv6 address 2001:DB8:1111:3::3/64
+ipv6 rip RIPNG enable
+no shutdown
+
+interface g0/0
+ipv6 address 2001:DB8:1111:5::3/64
+ipv6 rip RIPNG enable
+no shutdown
+
+end</pre>
+<p class="mb-0">The manual specifies these R3 IPv6 interfaces and RIPng configuration. fileciteturn37file4</p>
+</div></div></div>
+</div></section>
+
+<section class="container py-4">
+<h2 class="section-title">💻 PC Configuration</h2>
+<div class="row g-4">
+<div class="col-md-4"><div class="card p-4 h-100"><h4>PC-A</h4><div class="command">IPv6 Address:
+2001:DB8:1111:1::11/64
+
+Default Gateway:
+2001:DB8:1111:1::1</div></div></div>
+<div class="col-md-4"><div class="card p-4 h-100"><h4>PC-B</h4><div class="command">IPv6 Address:
+2001:DB8:1111:2::10/64
+
+Default Gateway:
+2001:DB8:1111:2::2</div></div></div>
+<div class="col-md-4"><div class="card p-4 h-100"><h4>PC-C</h4><div class="command">IPv6 Address:
+2001:DB8:1111:5::10/64
+
+Default Gateway:
+2001:DB8:1111:5::3</div></div></div>
+</div>
+<p class="mt-3 text-muted">The PC addresses and gateways are taken from the manual's Experiment 17 configuration. fileciteturn37file4</p>
+</section>
+
+<section class="container py-4">
+<h2 class="section-title">🔍 Verify RIPng</h2>
+<div class="card p-4">
+<h5>Display RIPng information</h5>
+<pre class="command">show ipv6 protocols</pre>
+<p>The manual's sample output shows RIP process <code>RIPNG</code> and the participating interfaces. fileciteturn37file4</p>
+<h5 class="mt-4">Display the IPv6 routing table</h5>
+<pre class="command">show ipv6 route</pre>
+<p class="mb-0">Look for connected routes marked <strong>C</strong> and RIPng-learned routes marked <strong>R</strong>. The manual provides sample routing-table output for R1 and R2. fileciteturn37file4 fileciteturn37file8</p>
+</div></section>
+
+<section class="container py-4">
+<h2 class="section-title">🧭 How the Routing Works</h2>
+<div class="flow">
+<div class="text-center">
+<p class="mb-4">PC-A → R1 → RIPng → R2 / R3 → Remote IPv6 subnet</p>
+<div class="row g-3">
+<div class="col-md-4"><div class="bg-primary rounded p-3"><strong>1. Connected networks</strong><br>Routers know their directly connected /64 networks.</div></div>
+<div class="col-md-4"><div class="bg-success rounded p-3"><strong>2. RIPng exchange</strong><br>Routers exchange IPv6 routing information.</div></div>
+<div class="col-md-4"><div class="bg-warning text-dark rounded p-3"><strong>3. Routing table</strong><br>Remote routes become available.</div></div>
+</div>
+</div></div>
+</section>
+
+<section class="container py-4">
+<h2 class="section-title">🧪 Connectivity Test</h2>
+<div class="row g-4">
+<div class="col-md-6"><div class="card p-4 h-100">
+<h4><i class="fas fa-arrow-right text-primary"></i> PC-A → PC-B</h4>
+<pre class="command">ping 2001:DB8:1111:2::10</pre>
+<div class="alert alert-success mb-0">Expected: Reply from 2001:DB8:1111:2::10<br><strong>Success rate = 100%</strong></div>
+</div></div>
+<div class="col-md-6"><div class="card p-4 h-100">
+<h4><i class="fas fa-arrow-right text-primary"></i> PC-A → PC-C</h4>
+<pre class="command">ping 2001:DB8:1111:5::10</pre>
+<div class="alert alert-success mb-0">Expected: Reply from 2001:DB8:1111:5::10<br><strong>Success rate = 100%</strong></div>
+</div></div>
+</div>
+<p class="mt-3 text-muted">These connectivity tests and expected results are provided in the Experiment 17 manual. fileciteturn37file8</p>
+</section>
+
+<section class="container py-4">
+<h2 class="section-title">📝 Procedure</h2>
+<div class="card"><div class="card-body p-4">
+<div class="step p-3 mb-3"><h5>Step 1</h5><p class="mb-0">Create the IPv6 topology in Cisco Packet Tracer according to Figure 3.</p></div>
+<div class="step p-3 mb-3"><h5>Step 2</h5><p class="mb-0">Configure the IPv6 addresses on R1, R2 and R3 interfaces.</p></div>
+<div class="step p-3 mb-3"><h5>Step 3</h5><p class="mb-0">Enable IPv6 unicast routing on each participating router.</p></div>
+<div class="step p-3 mb-3"><h5>Step 4</h5><p class="mb-0">Enable RIPng using <code>ipv6 rip RIPNG enable</code> on the required interfaces.</p></div>
+<div class="step p-3 mb-3"><h5>Step 5</h5><p class="mb-0">Bring the configured interfaces up using <code>no shutdown</code>.</p></div>
+<div class="step p-3 mb-3"><h5>Step 6</h5><p class="mb-0">Configure PC-A, PC-B and PC-C with their IPv6 addresses and default gateways.</p></div>
+<div class="step p-3 mb-3"><h5>Step 7</h5><p class="mb-0">Use <code>show ipv6 protocols</code> to verify RIPng.</p></div>
+<div class="step p-3 mb-3"><h5>Step 8</h5><p class="mb-0">Use <code>show ipv6 route</code> to verify learned IPv6 routes.</p></div>
+<div class="step p-3"><h5>Step 9</h5><p class="mb-0">Ping PC-B and PC-C from PC-A and verify connectivity.</p></div>
+</div></div>
+</section>
+
+<section class="container py-4">
+<h2 class="section-title">🐞 Troubleshooting</h2>
+<div class="table-responsive"><table class="table table-bordered bg-white">
+<thead class="table-danger"><tr><th>Problem</th><th>What to check</th></tr></thead>
+<tbody>
+<tr><td>Interface is down</td><td>Check the IPv6 address and use <code>no shutdown</code>.</td></tr>
+<tr><td>No RIPng routes</td><td>Check <code>ipv6 unicast-routing</code> and <code>ipv6 rip RIPNG enable</code>.</td></tr>
+<tr><td>PC cannot reach gateway</td><td>Verify the PC IPv6 address and default gateway.</td></tr>
+<tr><td>Remote subnet unreachable</td><td>Use <code>show ipv6 route</code> and check whether the required RIPng route is present.</td></tr>
+<tr><td>Ping fails after configuration</td><td>Check interface addressing, link status, RIPng configuration and PC addressing.</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="container py-4">
+<h2 class="section-title">🎤 Viva Questions</h2>
+<div class="accordion" id="viva">
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#v1">1. What is RIPng?</button></h2><div id="v1" class="accordion-collapse collapse show" data-bs-parent="#viva"><div class="accordion-body">RIPng is the IPv6 routing version of RIP used for dynamic exchange of IPv6 routing information.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v2">2. Why is ipv6 unicast-routing enabled?</button></h2><div id="v2" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body">It enables IPv6 packet forwarding/routing on the router.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v3">3. What prefix length is used for the subnets?</button></h2><div id="v3" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body">Each listed IPv6 subnet uses <strong>/64</strong>.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v4">4. What command enables RIPng on an interface?</button></h2><div id="v4" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body"><code>ipv6 rip RIPNG enable</code>.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v5">5. How do you view the IPv6 routing table?</button></h2><div id="v5" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body"><code>show ipv6 route</code>.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v6">6. How do you display RIPng information?</button></h2><div id="v6" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body"><code>show ipv6 protocols</code>.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v7">7. What does a C entry represent in the IPv6 routing table?</button></h2><div id="v7" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body">It represents a directly connected IPv6 network.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v8">8. What does an R entry represent?</button></h2><div id="v8" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body">It represents a route learned through RIPng in the routing table shown in this experiment.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v9">9. What is the IPv6 address of PC-A?</button></h2><div id="v9" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body"><code>2001:DB8:1111:1::11/64</code>.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v10">10. How is connectivity verified?</button></h2><div id="v10" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body">By using IPv6 ping tests from PC-A to PC-B and PC-C and checking for successful replies.</div></div></div>
+</div></section>
+
+<section class="container py-4">
+<h2 class="section-title">✅ Verification Checklist</h2>
+<div class="card"><div class="card-body">
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">All five IPv6 /64 subnets are identified.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">R1 IPv6 interfaces are configured.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">R2 IPv6 interfaces are configured.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">R3 IPv6 interfaces are configured.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">IPv6 unicast routing is enabled.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">RIPng is enabled on the participating interfaces.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label"><code>show ipv6 protocols</code> displays RIPNG.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label"><code>show ipv6 route</code> shows remote RIPng routes.</label></div>
+<div class="form-check"><input class="form-check-input" type="checkbox"><label class="form-check-label">PC-A successfully pings PC-B and PC-C.</label></div>
+</div></div>
+</section>
+
+<section class="container py-4">
+<div class="alert alert-success">
+<h3>✅ Result</h3>
+<p class="mb-0">IPv6 addresses were configured on the routers and hosts, RIPng was enabled on the participating interfaces, routing tables were updated, and connectivity between the IPv6 subnets was verified using ping. This matches the stated result of Experiment 17. fileciteturn37file8</p>
+</div>
+</section>
+
+<footer class="text-center">© 2026 PCCSL507 Computer Networks Laboratory | Ms. Prof. Anju Markose J K</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

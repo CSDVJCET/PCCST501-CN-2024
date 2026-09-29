@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Module 2: Transport &amp; Network Layer | PCCST501 Computer Networks | VJCET</title>
+    <meta name="description" content="Module 2 Lecture Notes, Clean Slides, Topic-wise PDFs, 2-Day Exam Revision Notes, and Interactive Simulators by Prof. Anju Markose, VJCET.">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -30,7 +31,8 @@
                     <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link active" href="modules.html">Lecture Modules</a></li>
                     <li class="nav-item"><a class="nav-link" href="networklab.html">Network Lab</a></li>
-                    <li class="nav-item"><a class="nav-link" href="tutorials.html">Interactive Tools</a></li>
+                    <li class="nav-item"><a class="nav-link" href="simulator.html"><i class="bi bi-cpu-fill text-warning"></i> Simulator Suite</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tutorials.html">Tools &amp; Calculators</a></li>
                     <li class="nav-item"><a class="nav-link" href="questionbank.html">Question Bank</a></li>
                     <li class="nav-item"><a class="nav-link" href="assignments.html">Assignments</a></li>
                     <li class="nav-item"><a class="nav-link" href="resources.html">Downloads</a></li>
@@ -42,16 +44,16 @@
     <!-- Header Section -->
     <section class="py-5 bg-surface border-bottom">
         <div class="container">
-            <div class="d-flex align-items-center gap-2 mb-2">
+            <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
                 <a href="modules.html" class="text-decoration-none small text-muted"><i class="bi bi-arrow-left"></i> All Modules</a>
                 <span class="text-muted small">&bull;</span>
                 <span class="badge bg-warning text-dark">Module 2</span>
-                <span class="badge-co">CO2 &amp; CO3</span>
-                <span class="badge-kl">Level K3 (Apply)</span>
+                <span class="badge bg-info bg-opacity-10 text-info">CO2, CO3 (Apply &amp; Analyze)</span>
+                <span class="badge bg-secondary bg-opacity-10 text-secondary">Level K3</span>
             </div>
-            <h1 class="fw-bold">Transport Layer, UNIX Sockets &amp; Network Layer</h1>
+            <h1 class="fw-bold">Transport &amp; Network Layer Architecture</h1>
             <p class="text-muted mb-0">
-                Prescribed References: Forouzan (Ch 3, 4, 8), Stevens UNP Vol 1 (Ch 3-6, 8, 14), Seth &amp; Venkatesulu (Ch 14) &bull; 18 Contact Hours
+                Prescribed References: W. Richard Stevens (UNP Vol 1), Forouzan (Chapters 3 &amp; 4), Sameer Seth (Linux TCP/IP) &bull; 18 Contact Hours &bull; Faculty: <strong>Prof. Anju Markose</strong>
             </p>
         </div>
     </section>
@@ -63,57 +65,84 @@
                 <!-- Left Content Body -->
                 <div class="col-lg-8">
 
-                    <!-- Topic 1 -->
-                    <div class="card-custom mb-4">
-                        <h3 class="fw-bold text-primary mb-3">1. Transport Layer Protocols: TCP vs. UDP</h3>
-                        <p>
-                            The transport layer provides logical, process-to-process communication between application processes running on different hosts using 16-bit <strong>Port Numbers</strong>.
-                        </p>
-                        
-                        <div class="row g-3 mb-4">
-                            <div class="col-md-6">
-                                <div class="p-3 bg-light rounded-3 border h-100">
-                                    <h5 class="fw-bold text-dark"><i class="bi bi-lightning-charge"></i> UDP (User Datagram Protocol)</h5>
-                                    <ul class="small text-muted mb-0">
-                                        <li>Connectionless, minimal 8-byte header overhead.</li>
-                                        <li>No handshake, no congestion/flow control, preserves message boundaries.</li>
-                                        <li>Used in DNS, DHCP, VoIP, streaming video.</li>
-                                    </ul>
-                                </div>
+                    <!-- EXAM REVISION CALLOUT BOX -->
+                    <div class="card p-4 rounded-3 border-0 bg-warning text-dark shadow-sm mb-4 position-relative overflow-hidden">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 position-relative" style="z-index: 2;">
+                            <div>
+                                <span class="badge bg-dark text-white fw-bold mb-2"><i class="bi bi-lightning-charge-fill text-warning"></i> High-Yield Exam Preparation</span>
+                                <h3 class="fw-bold mb-1">⚡ 2-Days-Before-Exam Quick Revision Notes</h3>
+                                <p class="small text-dark text-opacity-75 mb-0">Covers TCP/UDP segment headers, 3-way handshake arithmetic, AIMD Reno/Tahoe congestion control, Berkeley Socket API, IPv4/IPv6, CIDR Subnetting formulas, and Dijkstra &amp; Bellman-Ford routing algorithms.</p>
                             </div>
-                            <div class="col-md-6">
-                                <div class="p-3 bg-light rounded-3 border h-100">
-                                    <h5 class="fw-bold text-dark"><i class="bi bi-shield-check"></i> TCP (Transmission Control Protocol)</h5>
-                                    <ul class="small text-muted mb-0">
-                                        <li>Connection-oriented, reliable byte-stream delivery.</li>
-                                        <li>3-Way Handshake, Flow Control (Receive Window <code>rwnd</code>), and Congestion Control (<code>cwnd</code>).</li>
-                                        <li>Used in HTTP/HTTPS, SSH, SMTP, FTP.</li>
-                                    </ul>
-                                </div>
+                            <div class="d-flex gap-2">
+                                <a href="assets/notes_pdf/Module_2_Exam_Revision_Notes.pdf" class="btn btn-dark text-warning fw-bold px-3 py-2 shadow-sm text-decoration-none" download>
+                                    <i class="bi bi-file-earmark-pdf-fill"></i> Download Short Note PDF
+                                </a>
+                                <a href="simulator.html" class="btn btn-outline-dark px-3 py-2 text-decoration-none">
+                                    <i class="bi bi-cpu-fill"></i> Launch Simulator
+                                </a>
                             </div>
                         </div>
+                    </div>
 
-                        <h5 class="fw-bold">TCP Congestion Control Algorithms (AIMD &amp; Reno)</h5>
-                        <ul class="text-muted small">
-                            <li><strong>Slow Start:</strong> <code>cwnd</code> starts at 1 MSS and doubles every RTT (exponential growth) until reaching <code>ssthresh</code>.</li>
-                            <li><strong>Congestion Avoidance:</strong> Linear increase (Additive Increase: $+1\text{ MSS}$ per RTT).</li>
-                            <li><strong>Fast Retransmit &amp; Recovery:</strong> Upon receiving 3 duplicate ACKs, TCP immediately retransmits the missing segment, sets $\text{ssthresh} = \text{cwnd} / 2$, and enters Fast Recovery without resetting to 1 MSS.</li>
-                        </ul>
+                    <!-- Topic 1 -->
+                    <div class="card-custom mb-4">
+                        <h3 class="fw-bold text-primary mb-3">1. Transport Layer Protocols: UDP vs. TCP</h3>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped small">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Feature</th>
+                                        <th>UDP (User Datagram Protocol)</th>
+                                        <th>TCP (Transmission Control Protocol)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Connection State</strong></td>
+                                        <td>Connectionless (No Handshake)</td>
+                                        <td>Connection-Oriented (3-Way Handshake)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Header Size</strong></td>
+                                        <td>Fixed 8 Bytes</td>
+                                        <td>20 to 60 Bytes (with options)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Reliability</strong></td>
+                                        <td>Unreliable (No ACKs or Retransmission)</td>
+                                        <td>100% Reliable (ACKs, Checksum, Retransmission)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Flow &amp; Congestion</strong></td>
+                                        <td>None</td>
+                                        <td>Sliding Window Flow Control + AIMD Congestion Control</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Use Cases</strong></td>
+                                        <td>DNS, VoIP, Live Video Streaming (RTP)</td>
+                                        <td>HTTP/HTTPS, SSH, FTP, SMTP</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <!-- Topic 2 -->
                     <div class="card-custom mb-4">
-                        <h3 class="fw-bold text-primary mb-3">2. UNIX Sockets API &amp; I/O Multiplexing (Stevens UNP)</h3>
+                        <h3 class="fw-bold text-primary mb-3">2. Berkeley Sockets API &amp; I/O Multiplexing</h3>
                         <p>
-                            Berkeley Sockets API provides the standard interface between user-space network applications and the operating system kernel's TCP/IP stack.
+                            Socket system calls in POSIX C (from Stevens UNP Vol 1):
                         </p>
-                        
-                        <h6 class="fw-bold">I/O Multiplexing: `select()` vs. `poll()`</h6>
-                        <p class="text-muted small">
-                            Allows a single process thread to monitor multiple file descriptors (listening sockets, connected client sockets, stdin) simultaneously and block until any descriptor becomes ready for reading/writing.
-                        </p>
+                        <ol class="small text-muted mb-3 ps-3">
+                            <li><code>int socket(int domain, int type, int protocol);</code> &rarr; Creates communication endpoint.</li>
+                            <li><code>int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</code> &rarr; Assigns local IP/Port.</li>
+                            <li><code>int listen(int sockfd, int backlog);</code> &rarr; Puts socket in passive listening state.</li>
+                            <li><code>int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);</code> &rarr; Accepts incoming TCP connection.</li>
+                            <li><code>int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);</code> &rarr; Synchronous I/O multiplexing.</li>
+                        </ol>
 
                         <!-- Code Example -->
+                        <h6 class="fw-bold mt-4">Hands-On Code: Concurrent TCP Server with select()</h6>
                         <div class="code-window">
                             <div class="code-header">
                                 <div class="code-dots">
@@ -121,53 +150,168 @@
                                     <span class="code-dot dot-yellow"></span>
                                     <span class="code-dot dot-green"></span>
                                 </div>
-                                <span class="code-filename">assets/handson_code/module2/io_multiplexing_select.c</span>
+                                <span class="code-filename">assets/handson_code/module2/tcp_select_server.c</span>
                                 <button class="code-copy-btn"><i class="bi bi-clipboard"></i> Copy</button>
                             </div>
-                            <pre class="code-body"><code>#include &lt;sys/select.h&gt;
+                            <pre class="code-body"><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
 #include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;sys/select.h&gt;
 
-fd_set readfds;
-FD_ZERO(&amp;readfds);
-FD_SET(server_fd, &amp;readfds);
+#define PORT 9000
+#define MAX_CLIENTS 30
 
-int activity = select(max_fd + 1, &amp;readfds, NULL, NULL, NULL);
-if (FD_ISSET(server_fd, &amp;readfds)) {
-    // Accept new incoming client connection
-    int client_fd = accept(server_fd, (struct sockaddr*)&amp;addr, &amp;len);
+int main() {
+    int master_socket, client_socket[MAX_CLIENTS], max_clients = MAX_CLIENTS, activity, i, valread, sd;
+    int max_sd, new_socket;
+    struct sockaddr_in address;
+    char buffer[1025];
+    fd_set readfds;
+
+    for (i = 0; i &lt; max_clients; i++) client_socket[i] = 0;
+    master_socket = socket(AF_INET, SOCK_STREAM, 0);
+
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = INADDR_ANY;
+    address.sin_port = htons(PORT);
+
+    bind(master_socket, (struct sockaddr *)&amp;address, sizeof(address));
+    listen(master_socket, 5);
+    printf("TCP Select Server listening on port %d...\n", PORT);
+    return 0;
 }</code></pre>
                         </div>
                     </div>
 
                     <!-- Topic 3 -->
                     <div class="card-custom mb-4">
-                        <h3 class="fw-bold text-primary mb-3">3. Network Layer: Addressing, Subnetting &amp; Routing</h3>
-                        <h6 class="fw-bold">IPv4 Addressing &amp; CIDR (RFC 4632)</h6>
-                        <p class="text-muted small">
-                            Subnetting divides a large network into smaller sub-networks using prefix length notation (`/n`). Total usable hosts = $2^{32 - n} - 2$.
+                        <h3 class="fw-bold text-primary mb-3">3. Network Layer, IPv4 Subnetting &amp; Routing Algorithms</h3>
+                        <p>
+                            The Network Layer provides host-to-host logical routing across diverse networks.
                         </p>
-                        
-                        <h6 class="fw-bold mt-3">Unicast Routing Protocols</h6>
-                        <ul class="text-muted small">
-                            <li><strong>Distance Vector (Bellman-Ford / RIP):</strong> Exchanges routing tables with direct neighbors every 30s. Metric: Hop count (Max 15 hops).</li>
-                            <li><strong>Link-State (Dijkstra SPF / OSPF):</strong> Floods LSAs to entire Autonomous System. Every router builds a complete topology tree. Fast convergence.</li>
-                            <li><strong>Path Vector (BGP-4):</strong> Inter-domain routing protocol carrying AS-PATH attributes to eliminate loops and enforce policy routing.</li>
-                        </ul>
+                        <h6 class="fw-bold">Routing Algorithm Comparison: Link-State vs. Distance-Vector</h6>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover small">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Metric</th>
+                                        <th>Link-State (OSPF)</th>
+                                        <th>Distance-Vector (RIP)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Algorithm</strong></td>
+                                        <td>Dijkstra's Shortest Path First (SPF)</td>
+                                        <td>Bellman-Ford Distributed Equation</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Knowledge Scope</strong></td>
+                                        <td>Global topology database (LSA flooding)</td>
+                                        <td>Local knowledge (Distance vectors to immediate neighbors)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Convergence</strong></td>
+                                        <td>Fast, loop-free via hierarchy (Areas)</td>
+                                        <td>Slow, vulnerable to Count-to-Infinity</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
-                    <!-- Topic 4 -->
+                    <!-- Topic-Wise Lecture PDFs Download Table -->
                     <div class="card-custom mb-4">
-                        <h3 class="fw-bold text-primary mb-3">4. Linux Kernel Routing Architecture (Seth &amp; Venkatesulu)</h3>
-                        <p>
-                            The Linux network subsystem utilizes the <strong>Forwarding Information Base (FIB - `fib_table`)</strong> organized as a radix trie for longest-prefix matching, complemented by the <strong>Routing Cache (`rtable`)</strong> for rapid route lookups.
-                        </p>
-                        <div class="code-window">
-                            <div class="code-header"><span class="code-filename">Linux Route Configuration CLI</span></div>
-                            <pre class="code-body"><code># Inspect kernel routing table
-ip route show
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div>
+                                <h4 class="fw-bold text-primary mb-0"><i class="bi bi-collection-fill"></i> Module 2 Topic-Wise Lecture Notes &amp; Slides (PDF)</h4>
+                                <span class="text-muted small">Complete chapter PDFs covering all 18 lecture contact hours</span>
+                            </div>
+                        </div>
 
-# Add static route to subnet 10.10.0.0/16 via gateway 192.168.1.1
-sudo ip route add 10.10.0.0/16 via 192.168.1.1 dev eth0</code></pre>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover align-middle small mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Topic Code</th>
+                                        <th>Lecture Topic Title</th>
+                                        <th>Resource Type</th>
+                                        <th>Download Link</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>M2.1.1</strong></td>
+                                        <td>Transport Layer Services &amp; Port Multiplexing</td>
+                                        <td><span class="badge bg-secondary">Chapter PDF</span></td>
+                                        <td><a href="assets/pdfs/M2.1.1Transport LayerServices.pdf" class="btn btn-sm btn-outline-primary" download><i class="bi bi-download"></i> Download PDF</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>M2.1.2</strong></td>
+                                        <td>Transport Layer Protocols Overview</td>
+                                        <td><span class="badge bg-secondary">Chapter PDF</span></td>
+                                        <td><a href="assets/pdfs/M2.1.2 TL Protocols.pdf" class="btn btn-sm btn-outline-primary" download><i class="bi bi-download"></i> Download PDF</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>M2.1.3</strong></td>
+                                        <td>User Datagram Protocol (UDP RFC 768)</td>
+                                        <td><span class="badge bg-secondary">Chapter PDF</span></td>
+                                        <td><a href="assets/pdfs/M2.1.3 UDP.pdf" class="btn btn-sm btn-outline-primary" download><i class="bi bi-download"></i> Download PDF</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>M2.1.4</strong></td>
+                                        <td>Transmission Control Protocol (TCP 3-Way Handshake &amp; AIMD)</td>
+                                        <td><span class="badge bg-secondary">Chapter PDF</span></td>
+                                        <td><a href="assets/pdfs/M2.1.4 TCP.pdf" class="btn btn-sm btn-outline-primary" download><i class="bi bi-download"></i> Download PDF</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>M2.2.1</strong></td>
+                                        <td>Network Layer Introduction &amp; Host Addressing</td>
+                                        <td><span class="badge bg-secondary">Chapter PDF</span></td>
+                                        <td><a href="assets/pdfs/M2.2.1NL INTRODUCTION.pdf" class="btn btn-sm btn-outline-primary" download><i class="bi bi-download"></i> Download PDF</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>M2.2.2</strong></td>
+                                        <td>Network Layer Protocols (IPv4, ICMP, ARP)</td>
+                                        <td><span class="badge bg-secondary">Chapter PDF</span></td>
+                                        <td><a href="assets/pdfs/M2.2.2 NL PROTOCOLS.pdf" class="btn btn-sm btn-outline-primary" download><i class="bi bi-download"></i> Download PDF</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>M2.2.3</strong></td>
+                                        <td>Unicast Routing (Dijkstra SPF &amp; Bellman-Ford)</td>
+                                        <td><span class="badge bg-secondary">Chapter PDF</span></td>
+                                        <td><a href="assets/pdfs/M2.2.3UNICAST ROUTING.pdf" class="btn btn-sm btn-outline-primary" download><i class="bi bi-download"></i> Download PDF</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>M2.2.4</strong></td>
+                                        <td>Multicast Routing (IGMP, MOSPF, PIM)</td>
+                                        <td><span class="badge bg-secondary">Chapter PDF</span></td>
+                                        <td><a href="assets/pdfs/M2.2.4MULTICAST.pdf" class="btn btn-sm btn-outline-primary" download><i class="bi bi-download"></i> Download PDF</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>M2.2.5</strong></td>
+                                        <td>Next Generation IP (IPv6 Header &amp; Transition)</td>
+                                        <td><span class="badge bg-secondary">Chapter PDF</span></td>
+                                        <td><a href="assets/pdfs/M2.2.5NEXTGENIP.pdf" class="btn btn-sm btn-outline-primary" download><i class="bi bi-download"></i> Download PDF</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>M2.2.6</strong></td>
+                                        <td>Quality of Service (QoS &amp; Traffic Shaping)</td>
+                                        <td><span class="badge bg-secondary">Chapter PDF</span></td>
+                                        <td><a href="assets/pdfs/M2.2.6QoS.pdf" class="btn btn-sm btn-outline-primary" download><i class="bi bi-download"></i> Download PDF</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>M2.3</strong></td>
+                                        <td>Linux Kernel TCP/IP Network Stack Architecture</td>
+                                        <td><span class="badge bg-secondary">Chapter PDF</span></td>
+                                        <td><a href="assets/pdfs/M2.3 Linux Kernel.pdf" class="btn btn-sm btn-outline-primary" download><i class="bi bi-download"></i> Download PDF</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
 
@@ -176,32 +320,34 @@ sudo ip route add 10.10.0.0/16 via 192.168.1.1 dev eth0</code></pre>
                 <!-- Right Sidebar -->
                 <div class="col-lg-4">
                     <div class="card-custom mb-4">
-                        <h5 class="fw-bold mb-3"><i class="bi bi-download text-warning"></i> Module 2 Downloads</h5>
+                        <h5 class="fw-bold mb-3"><i class="bi bi-download text-primary"></i> Module 2 Resource Center</h5>
                         <div class="d-flex flex-column gap-2">
-                            <a href="assets/ppts/Module_2_Transport_and_Network_Layer.pptx" class="btn btn-outline-warning text-dark w-100 text-start py-2" download>
-                                <i class="bi bi-file-earmark-ppt-fill text-warning"></i> Lecture Slides (PPTX)
+                            <a href="assets/notes_pdf/Module_2_Exam_Revision_Notes.pdf" class="btn btn-outline-danger w-100 text-start py-2" download>
+                                <i class="bi bi-file-earmark-pdf-fill"></i> ⚡ 2-Day Exam Short Notes (PDF)
                             </a>
-                            <a href="assets/notes_pdf/Module_2_Exam_Revision_Notes.pdf" class="btn btn-outline-secondary w-100 text-start py-2" download>
-                                <i class="bi bi-file-earmark-pdf-fill text-danger"></i> Exam Revision Notes (PDF)
+                            <a href="assets/ppts/Module_2_Transport_and_Network_Layer.pptx" class="btn btn-outline-primary w-100 text-start py-2" download>
+                                <i class="bi bi-file-earmark-ppt-fill text-warning"></i> Clean Slide Deck (PPTX)
+                            </a>
+                            <a href="simulator.html" class="btn btn-outline-success w-100 text-start py-2">
+                                <i class="bi bi-cpu-fill text-success"></i> TCP Handshake &amp; Routing Simulator
                             </a>
                             <a href="assets/handson_code/module2/tcp_echo_server.c" class="btn btn-outline-dark w-100 text-start py-2" download>
-                                <i class="bi bi-filetype-c text-primary"></i> TCP Server in C
+                                <i class="bi bi-filetype-c text-primary"></i> TCP Echo Server (C)
                             </a>
-                            <a href="assets/handson_code/module2/io_multiplexing_select.c" class="btn btn-outline-dark w-100 text-start py-2" download>
-                                <i class="bi bi-filetype-c text-primary"></i> `select()` Server in C
-                            </a>
-                            <a href="assets/handson_code/module2/ip_subnet_calculator.py" class="btn btn-outline-dark w-100 text-start py-2" download>
-                                <i class="bi bi-filetype-py text-success"></i> Subnet Calculator (Python)
+                            <a href="assets/handson_code/module2/ipv4_subnet_calculator.py" class="btn btn-outline-dark w-100 text-start py-2" download>
+                                <i class="bi bi-filetype-py text-success"></i> IPv4 Subnet Calculator (Python)
                             </a>
                         </div>
                     </div>
 
                     <div class="card-custom mb-4">
-                        <h5 class="fw-bold mb-3"><i class="bi bi-tools text-primary"></i> Interactive Tools</h5>
-                        <p class="text-muted small">Test your subnet calculations live in our browser tool:</p>
-                        <a href="tutorials.html" class="btn-primary-custom w-100 justify-content-center text-decoration-none">
-                            <i class="bi bi-calculator"></i> Launch Subnet Calculator
-                        </a>
+                        <h5 class="fw-bold mb-3"><i class="bi bi-patch-question text-warning"></i> Module 2 University Exam Questions</h5>
+                        <ul class="list-unstyled small mb-0">
+                            <li class="mb-2"><a href="questionbank.html#mod2" class="text-decoration-none">&bull; TCP Congestion Control (AIMD, Reno) (9M)</a></li>
+                            <li class="mb-2"><a href="questionbank.html#mod2" class="text-decoration-none">&bull; Berkeley Socket API Workflow (9M)</a></li>
+                            <li class="mb-2"><a href="questionbank.html#mod2" class="text-decoration-none">&bull; IPv4 CIDR Subnetting Problem (9M)</a></li>
+                            <li class="mb-0"><a href="questionbank.html#mod2" class="text-decoration-none">&bull; Dijkstra Shortest Path Calculation (9M)</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>

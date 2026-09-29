@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Tools &amp; Simulators | PCCST501 Computer Networks | VJCET</title>
+    <meta name="description" content="Interactive Network Protocol Calculators, Waveform Generators, and Bandwidth Analyzers by Prof. Anju Markose, VJCET.">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -32,6 +33,7 @@
                     <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="modules.html">Lecture Modules</a></li>
                     <li class="nav-item"><a class="nav-link" href="networklab.html">Network Lab</a></li>
+                    <li class="nav-item"><a class="nav-link" href="simulator.html"><i class="bi bi-cpu-fill text-warning"></i> Simulator Suite</a></li>
                     <li class="nav-item"><a class="nav-link active" href="tutorials.html">Interactive Tools</a></li>
                     <li class="nav-item"><a class="nav-link" href="questionbank.html">Question Bank</a></li>
                     <li class="nav-item"><a class="nav-link" href="assignments.html">Assignments</a></li>
@@ -44,11 +46,18 @@
     <!-- Header Section -->
     <section class="py-5 bg-surface border-bottom">
         <div class="container">
-            <span class="badge bg-info bg-opacity-10 text-info fw-bold px-3 py-2 rounded-pill">Interactive Laboratory Workbench</span>
-            <h1 class="fw-bold mt-2">Network Protocol Calculators &amp; Visualizers</h1>
-            <p class="text-muted mb-0">
-                Interactive real-time simulators designed for KTU B.Tech CSE students to verify network calculations, test CRC error codes, render physical waveforms, and analyze bandwidth capacity.
-            </p>
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div>
+                    <span class="badge bg-info bg-opacity-10 text-info fw-bold px-3 py-2 rounded-pill">Interactive Laboratory Workbench</span>
+                    <h1 class="fw-bold mt-2">Network Protocol Calculators &amp; Visualizers</h1>
+                    <p class="text-muted mb-0">
+                        Interactive real-time simulators designed for KTU B.Tech CSE students to verify network calculations, test CRC error codes, render physical waveforms, and analyze bandwidth capacity &bull; Faculty: <strong>Prof. Anju Markose</strong>.
+                    </p>
+                </div>
+                <a href="simulator.html" class="btn btn-warning text-dark fw-bold px-3 py-2 shadow-sm">
+                    <i class="bi bi-cpu-fill"></i> Launch Full 15+ Simulator Suite
+                </a>
+            </div>
         </div>
     </section>
 
@@ -99,96 +108,94 @@
                         <div class="card-gradient-top"></div>
                         <div class="d-flex align-items-center gap-3 mb-4">
                             <div class="card-icon emerald m-0">
-                                <i class="bi bi-shield-check"></i>
+                                <i class="bi bi-shield-lock-fill"></i>
                             </div>
                             <div>
-                                <h3 class="fw-bold mb-0">2. Cyclic Redundancy Check (CRC) Generator &amp; Verifier</h3>
-                                <span class="text-muted small">Module 3 Data Link Layer &bull; Modulo-2 Polynomial Binary Division</span>
+                                <h3 class="fw-bold mb-0">2. Cyclic Redundancy Check (CRC) Generator &amp; Error Verifier</h3>
+                                <span class="text-muted small">Module 3 Data Link Layer &bull; Modulo-2 Polynomial XOR Division</span>
                             </div>
                         </div>
 
                         <div class="row g-3 mb-3">
                             <div class="col-md-7">
-                                <label class="form-label-custom">Data Word Bits (D)</label>
-                                <input type="text" class="form-control-custom font-mono" id="input-crc-data" value="11010011101100" placeholder="e.g., 1101001">
+                                <label class="form-label-custom">Data Word Bit Stream</label>
+                                <input type="text" class="form-control-custom font-mono" id="input-crc-data" value="11010011101100">
                             </div>
                             <div class="col-md-5">
-                                <label class="form-label-custom">Generator Polynomial (G)</label>
-                                <input type="text" class="form-control-custom font-mono" id="input-crc-poly" value="1011" placeholder="e.g., 1011 (x^3 + x + 1)">
+                                <label class="form-label-custom">Generator Polynomial Divisor</label>
+                                <input type="text" class="form-control-custom font-mono" id="input-crc-poly" value="10011">
                             </div>
                         </div>
 
-                        <button class="btn-primary-custom mb-3" id="btn-run-crc">
-                            <i class="bi bi-cpu-fill"></i> Compute CRC Checksum &amp; Codeword
+                        <button class="btn-primary-custom mb-3" id="btn-calc-crc">
+                            <i class="bi bi-play-fill"></i> Generate CRC Codeword
                         </button>
 
                         <div id="crc-result-box" class="mt-3"></div>
                     </div>
                 </div>
 
-                <!-- TOOL 3: Line Coding Visualizer Canvas -->
+                <!-- TOOL 3: Line Coding Visualizer -->
                 <div class="col-lg-12">
                     <div class="card-custom">
                         <div class="card-gradient-top"></div>
                         <div class="d-flex align-items-center gap-3 mb-4">
                             <div class="card-icon cyan m-0">
-                                <i class="bi bi-soundwave"></i>
+                                <i class="bi bi-activity"></i>
                             </div>
                             <div>
                                 <h3 class="fw-bold mb-0">3. Digital Line Coding Waveform Generator</h3>
-                                <span class="text-muted small">Module 4 Physical Layer &bull; NRZ-L, NRZ-I, Manchester, Differential Manchester, AMI</span>
+                                <span class="text-muted small">Module 4 Physical Layer &bull; NRZ-L, NRZ-I, Manchester, AMI</span>
                             </div>
                         </div>
 
                         <div class="row g-3 mb-3">
                             <div class="col-md-8">
-                                <label class="form-label-custom">Input Binary Stream (0s and 1s)</label>
-                                <input type="text" class="form-control-custom font-mono" id="input-line-bits" value="01001110" placeholder="e.g., 01001110">
+                                <label class="form-label-custom">Input Binary Sequence (e.g. 10110001)</label>
+                                <input type="text" class="form-control-custom font-mono" id="input-linecode-bits" value="10110001">
                             </div>
                             <div class="col-md-4 d-flex align-items-end">
-                                <button class="btn-primary-custom w-100 justify-content-center" id="btn-draw-waveforms">
-                                    <i class="bi bi-brush-fill"></i> Render Waveforms
+                                <button class="btn-primary-custom w-100" id="btn-render-waveforms">
+                                    <i class="bi bi-pencil-fill"></i> Render Waveforms
                                 </button>
                             </div>
                         </div>
 
-                        <div class="canvas-container mt-3">
-                            <canvas id="waveformCanvas" width="900" height="380"></canvas>
-                        </div>
+                        <canvas id="line-code-canvas" class="sim-canvas mb-3"></canvas>
                     </div>
                 </div>
 
-                <!-- TOOL 4: Shannon & Nyquist Capacity Calculator -->
+                <!-- TOOL 4: Shannon & Nyquist Analyzer -->
                 <div class="col-lg-12">
                     <div class="card-custom">
                         <div class="card-gradient-top"></div>
                         <div class="d-flex align-items-center gap-3 mb-4">
                             <div class="card-icon purple m-0">
-                                <i class="bi bi-speedometer2"></i>
+                                <i class="bi bi-reception-4"></i>
                             </div>
                             <div>
-                                <h3 class="fw-bold mb-0">4. Shannon &amp; Nyquist Theoretical Channel Capacity Calculator</h3>
-                                <span class="text-muted small">Module 4 Physical Layer &bull; Noiseless vs Noisy Bandlimited Channels</span>
+                                <h3 class="fw-bold mb-0">4. Channel Capacity Analyzer (Nyquist vs. Shannon)</h3>
+                                <span class="text-muted small">Module 4 Physical Layer &bull; Noiseless &amp; Noisy Theoretical Limits</span>
                             </div>
                         </div>
 
                         <div class="row g-3 mb-3">
                             <div class="col-md-4">
-                                <label class="form-label-custom">Channel Bandwidth (B in Hz)</label>
-                                <input type="number" class="form-control-custom" id="input-cap-bw" value="3000" placeholder="e.g., 3000 (3 kHz)">
+                                <label class="form-label-custom">Bandwidth (B in kHz)</label>
+                                <input type="number" class="form-control-custom" id="input-cap-bw" value="4">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label-custom">Signal Levels (L for Nyquist)</label>
+                                <input type="number" class="form-control-custom" id="input-cap-levels" value="8">
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label-custom">Signal-to-Noise Ratio (SNR in dB)</label>
-                                <input type="number" class="form-control-custom" id="input-cap-snr" value="30" placeholder="e.g., 30 dB">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label-custom">Signal Levels (L - Nyquist)</label>
-                                <input type="number" class="form-control-custom" id="input-cap-levels" value="16" min="2" step="2">
+                                <input type="number" class="form-control-custom" id="input-cap-snr" value="30">
                             </div>
                         </div>
 
                         <button class="btn-primary-custom mb-3" id="btn-calc-capacity">
-                            <i class="bi bi-graph-up-arrow"></i> Calculate Theoretical Maximum Limits
+                            <i class="bi bi-calculator"></i> Calculate Data Rate Limits
                         </button>
 
                         <div id="capacity-result-box" class="mt-3"></div>

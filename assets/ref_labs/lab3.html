@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab 3 | SMTP Mail Detective | PCCSL507</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body{background:#f4f7fb;font-family:Arial,sans-serif;color:#1f2937}
+.hero{background:linear-gradient(135deg,#4c1d95,#7c3aed);color:#fff;padding:70px 0}
+.hero .lead{max-width:900px;margin:auto}
+.card{border:0;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.08)}
+.section-title{border-left:5px solid #7c3aed;padding-left:12px;margin:40px 0 20px}
+.cmd{background:#111827;color:#86efac;padding:14px;border-radius:10px;font-family:Consolas,"Courier New",monospace;white-space:pre-wrap;overflow-x:auto}
+.note{border-left:5px solid #0d6efd;background:#eef6ff}
+.warning{border-left:5px solid #f59e0b;background:#fff8e7}
+.special{border-left:5px solid #7c3aed}
+.step{height:100%;transition:.3s;border-top:5px solid #7c3aed}
+.step:hover{transform:translateY(-6px)}
+.clue{display:inline-block;background:#f0e9ff;color:#5b21b6;border:1px solid #ddd0ff;border-radius:999px;padding:7px 12px;margin:4px;font-family:Consolas,monospace;font-weight:700}
+footer{background:#3b0764;color:#fff;padding:22px;margin-top:50px}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+<div class="container">
+<a class="navbar-brand fw-bold" href="../networklab.html">PCCSL507</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="mainNavbar">
+<div class="navbar-nav ms-auto">
+<a class="nav-link" href="../networklab.html">Home</a>
+<a class="nav-link" href="module.html">Experiments</a>
+<a class="nav-link active" href="lab3.html">Lab 3</a>
+</div>
+</div>
+</div>
+</nav>
+
+<section class="hero text-center">
+<div class="container">
+<p class="text-uppercase fw-bold mb-2">Wireshark Protocol Investigation</p>
+<h1>📧 Lab 3: SMTP Mail Detective</h1>
+<p class="lead mt-3">Follow one e-mail from client to mail server and reconstruct the SMTP conversation using packet evidence.</p>
+</div>
+</section>
+
+<main class="container py-5">
+
+<div class="row g-3">
+<div class="col-md-3"><div class="card p-3 text-center"><b>Experiment</b><span class="d-block">03</span></div></div>
+<div class="col-md-3"><div class="card p-3 text-center"><b>Protocol</b><span class="d-block">SMTP</span></div></div>
+<div class="col-md-3"><div class="card p-3 text-center"><b>Tool</b><span class="d-block">Wireshark</span></div></div>
+<div class="col-md-3"><div class="card p-3 text-center"><b>Evidence</b><span class="d-block">Mail Case File</span></div></div>
+</div>
+
+<h2 class="section-title">🎯 Aim</h2>
+<div class="card p-4">
+<p class="mb-0">To capture and analyse SMTP traffic, identify client and server endpoints and ports, interpret SMTP commands and response codes, and inspect the Internet Message Format (IMF) content carried during mail transfer when visible.</p>
+</div>
+
+<h2 class="section-title">⚠️ Important Lab Reality</h2>
+<div class="card warning p-4">
+<p><strong>Modern e-mail services usually encrypt SMTP traffic using TLS.</strong> With Gmail, Outlook and many other services, the filter <code>smtp</code> may show no readable commands or message content.</p>
+<p class="mb-0">Perform this experiment only with the instructor-approved lab mail setup or a controlled SMTP environment where the required educational traffic is intentionally observable. Do not disable security on a personal e-mail account, and do not capture other users' traffic.</p>
+</div>
+
+<h2 class="section-title">🗺️ Your Mail Investigation</h2>
+<div class="row g-4">
+<div class="col-md-6 col-lg-4"><div class="card step p-4"><h3>✍️ 1. Prepare</h3><p>Compose a simple test e-mail addressed to yourself, but do not send it yet.</p><div><span class="clue">From</span><span class="clue">To</span><span class="clue">Subject</span></div></div></div>
+<div class="col-md-6 col-lg-4"><div class="card step p-4"><h3>🎬 2. Capture</h3><p>Open Wireshark, choose the active interface and start packet capture.</p><div><span class="clue">Wireshark</span><span class="clue">Interface</span></div></div></div>
+<div class="col-md-6 col-lg-4"><div class="card step p-4"><h3>📨 3. Send</h3><p>Return to the approved e-mail client and send the prepared message once.</p><div><span class="clue">SMTP client</span><span class="clue">SMTP server</span></div></div></div>
+<div class="col-md-6 col-lg-4"><div class="card step p-4"><h3>🔎 4. Filter</h3><p>Apply the Wireshark display filter:</p><div class="cmd">smtp</div></div></div>
+<div class="col-md-6 col-lg-4"><div class="card step p-4"><h3>⏹️ 5. Stop</h3><p>After enough relevant packets are captured, stop the capture.</p><div><span class="clue">Capture → Stop</span></div></div></div>
+<div class="col-md-6 col-lg-4"><div class="card step p-4"><h3>💾 6. Preserve</h3><p>Save the capture file as evidence for your report.</p><div class="cmd">smtp-lab.pcapng</div></div></div>
+</div>
+
+<h2 class="section-title">🕵️ Investigation Tasks</h2>
+<div class="card p-4">
+
+<h5>(a) Identify the Two Hosts</h5>
+<p>Inspect the source and destination IP addresses appearing in the SMTP packets.</p>
+<ul>
+<li>Which IP address belongs to your computer?</li>
+<li>What host or mail server does the other IP address represent?</li>
+</ul>
+<hr>
+
+<h5>(b) Find the SMTP Client Port</h5>
+<p>Record the two port numbers. Identify the temporary port used by the SMTP client process and state the range/category to which it belongs.</p>
+<div class="cmd">Client port = __________________
+Port range/category = __________________</div>
+<hr>
+
+<h5>(c) Find the SMTP Server Port</h5>
+<p>Record the destination/server port used in your approved lab setup.</p>
+<div class="cmd">SMTP server port = __________________</div>
+<hr>
+
+<h5>(d) Decode the SMTP Conversation</h5>
+<p>Examine every visible SMTP command and server response code. Record each one and explain its meaning.</p>
+<p>Possible examples may include:</p>
+<div>
+<span class="clue">EHLO / HELO</span><span class="clue">MAIL FROM</span><span class="clue">RCPT TO</span>
+<span class="clue">DATA</span><span class="clue">QUIT</span><span class="clue">220</span>
+<span class="clue">250</span><span class="clue">354</span><span class="clue">221</span>
+</div>
+<p class="mt-3 mb-0"><strong>Record only what actually appears in your capture.</strong></p>
+<hr>
+
+<h5>(e) Inspect the IMF Message</h5>
+<p>Locate the Internet Message Format content encapsulated in the SMTP data transfer, if visible. Identify the message headers and body.</p>
+<div class="cmd">From:
+To:
+Subject:
+Date:
+Message body:</div>
+<p class="mt-3 mb-0">If encryption prevents inspection, record <strong>Not visible because the SMTP session is encrypted</strong>.</p>
+
+</div>
+
+<h2 class="section-title">📋 SMTP Mail Case File</h2>
+<div class="table-responsive">
+<table class="table table-bordered align-middle">
+<thead class="table-primary"><tr><th>Required Evidence</th><th>Your Observation</th></tr></thead>
+<tbody>
+<tr><td>(a) IP address of your computer</td><td></td></tr>
+<tr><td>(a) Other IP address</td><td></td></tr>
+<tr><td>(a) Host represented by the other IP</td><td></td></tr>
+<tr><td>(b) SMTP client port number</td><td></td></tr>
+<tr><td>(b) Client port range/category</td><td></td></tr>
+<tr><td>(c) SMTP server port number</td><td></td></tr>
+<tr><td>(d) First SMTP command/response and meaning</td><td></td></tr>
+<tr><td>(d) Second SMTP command/response and meaning</td><td></td></tr>
+<tr><td>(d) Additional commands/responses</td><td></td></tr>
+<tr><td>(e) IMF From field</td><td></td></tr>
+<tr><td>(e) IMF To field</td><td></td></tr>
+<tr><td>(e) IMF Subject field</td><td></td></tr>
+<tr><td>(e) IMF message body/content</td><td></td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 class="section-title">🏁 Final Challenge</h2>
+<div class="card special p-4">
+<h5>Reconstruct the Mail Journey</h5>
+<p>Write a short sequence showing how the message travelled:</p>
+<div class="cmd">My computer (IP : client port)
+        ↓
+SMTP command / response exchange
+        ↓
+Mail server (IP : server port)
+        ↓
+IMF message content</div>
+<p class="mt-3 mb-0">Support the sequence with packet numbers from your own capture.</p>
+</div>
+
+<h2 class="section-title">❓ Viva Questions</h2>
+<div class="card p-4">
+<ol class="mb-0">
+<li>What is the role of SMTP?</li>
+<li>How do you identify the client and server from IP addresses and ports?</li>
+<li>Why does a client usually use a temporary port?</li>
+<li>What is the purpose of <code>EHLO</code> or <code>HELO</code>?</li>
+<li>What do <code>MAIL FROM</code> and <code>RCPT TO</code> represent?</li>
+<li>What happens after the <code>DATA</code> command?</li>
+<li>What is an SMTP response code?</li>
+<li>What is IMF?</li>
+<li>How is IMF related to SMTP?</li>
+<li>Why may modern SMTP content be unreadable in Wireshark?</li>
+</ol>
+</div>
+
+<h2 class="section-title">📤 Submission</h2>
+<div class="card p-4">
+<ul>
+<li>Completed SMTP Mail Case File</li>
+<li>Screenshot showing SMTP endpoints and ports</li>
+<li>Table of observed SMTP commands/response codes and meanings</li>
+<li>IMF observation, if visible</li>
+<li>Mail Journey reconstruction with packet numbers</li>
+<li>Saved capture file</li>
+</ul>
+<div class="cmd">NetworkLab/Experiment03/README.md
+NetworkLab/Experiment03/screenshots/
+NetworkLab/Experiment03/smtp-lab.pcapng</div>
+</div>
+
+<div class="d-flex justify-content-between mt-5">
+<a class="btn btn-outline-primary" href="lab2.html">← Previous Experiment</a>
+<a class="btn btn-primary" href="lab4.html">Next Experiment →</a>
+</div>
+
+</main>
+
+<footer class="text-center">© 2026 PCCSL507 Networks Lab | Ms. Prof. Anju Markose J K</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

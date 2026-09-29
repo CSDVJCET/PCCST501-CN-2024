@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 14 | OSPF Routing | PCCSL507</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth}body{font-family:Poppins,sans-serif;background:#f5f7fb;color:#263238}
+.navbar{background:#0b3c7a}.hero{background:linear-gradient(135deg,#082f6b,#1565c0);padding:82px 0;color:#fff}
+.hero h1{font-size:46px;font-weight:700}.section-title{border-left:6px solid #26a69a;padding-left:12px;margin:55px 0 22px;font-weight:700}
+.card{border:0;border-radius:18px;box-shadow:0 8px 24px rgba(0,0,0,.09)}.command{background:#111827;color:#7CFC00;border-radius:10px;padding:15px 18px;font-family:Consolas,monospace;overflow:auto}
+.topology{background:#fff;border-radius:18px;padding:30px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.router{width:125px;height:78px;border-radius:14px;background:#e8f1ff;border:3px solid #1565c0;display:flex;flex-direction:column;justify-content:center;align-items:center;font-weight:700;color:#0b3c7a}
+.link{height:5px;background:#26a69a;min-width:55px}.net{background:#fff4d6;border:2px dashed #f59e0b;border-radius:12px;padding:10px 16px;font-weight:600}
+.step{border-left:5px solid #1565c0}.flow{background:#111827;color:#fff;border-radius:15px;padding:25px}
+footer{background:#082f6b;color:#fff;padding:25px;margin-top:60px}.accordion-button:not(.collapsed){background:#e8f1ff;color:#0d47a1}
+</style>
+</head>
+<body id="top">
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+<div class="container">
+<a class="navbar-brand fw-bold" href="module.html"><i class="fas fa-network-wired"></i> PCCSL507</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"><span class="navbar-toggler-icon"></span></button>
+<div class="collapse navbar-collapse" id="menu"><ul class="navbar-nav ms-auto">
+<li class="nav-item"><a class="nav-link" href="module.html">Network Lab</a></li>
+<li class="nav-item"><a class="nav-link" href="lab13.html">Lab 13</a></li>
+<li class="nav-item"><a class="nav-link active" href="#">Lab 14</a></li>
+</ul></div></div></nav>
+
+<section class="hero text-center">
+<div class="container">
+<span class="badge bg-warning text-dark px-3 py-2 mb-3">Cisco Packet Tracer • PCCSL507</span>
+<h1>🌐 Lab 14<br>OSPF Routing</h1>
+<p class="lead mt-3">Implement <strong>OSPF routing</strong> for the network shown in Figure 1, display the routing table, and verify connectivity using <strong>ping</strong>.</p>
+<a href="#experiment" class="btn btn-light btn-lg me-2"><i class="fas fa-play"></i> Start Experiment</a>
+<a href="#commands" class="btn btn-outline-light btn-lg"><i class="fas fa-terminal"></i> Commands</a>
+</div></section>
+
+<section class="container py-5"><div class="row g-4">
+<div class="col-md-3"><div class="card h-100 text-center p-4"><i class="fas fa-project-diagram fa-3x text-primary mb-3"></i><h4>OSPF</h4><p>Link-state routing protocol</p></div></div>
+<div class="col-md-3"><div class="card h-100 text-center p-4"><i class="fas fa-network-wired fa-3x text-success mb-3"></i><h4>Area 0</h4><p>Single OSPF area used in the experiment</p></div></div>
+<div class="col-md-3"><div class="card h-100 text-center p-4"><i class="fas fa-table fa-3x text-warning mb-3"></i><h4>Routing Table</h4><p>Identify OSPF-learned routes</p></div></div>
+<div class="col-md-3"><div class="card h-100 text-center p-4"><i class="fas fa-signal fa-3x text-danger mb-3"></i><h4>Ping</h4><p>Verify end-to-end connectivity</p></div></div>
+</div></section>
+
+<section id="experiment" class="container py-4">
+<h2 class="section-title">🎯 Aim</h2>
+<div class="card"><div class="card-body p-4">
+<p class="lead mb-0">To configure <strong>OSPF (Open Shortest Path First)</strong> routing on the routers in the given network topology and verify connectivity using the routing table and <strong>ping</strong> commands.</p>
+</div></div>
+</section>
+
+<section class="container py-4">
+<h2 class="section-title">📚 About OSPF</h2>
+<div class="card"><div class="card-body p-4">
+<p>OSPF is a link-state routing protocol. In this experiment, the routers participate in <strong>Area 0</strong> and advertise their connected networks using OSPF.</p>
+<div class="row g-3 mt-2">
+<div class="col-md-4"><div class="alert alert-primary h-100"><strong>Process ID</strong><br>The experiment uses <code>router ospf 1</code>.</div></div>
+<div class="col-md-4"><div class="alert alert-success h-100"><strong>Area</strong><br>All specified networks are advertised in <strong>area 0</strong>.</div></div>
+<div class="col-md-4"><div class="alert alert-warning h-100"><strong>Verification</strong><br>Use <code>show ip ospf neighbor</code>, <code>show ip route</code>, and <code>ping</code>.</div></div>
+</div>
+</div></div>
+</section>
+
+<section class="container py-4">
+<h2 class="section-title">🗺️ Figure 1 – Network Topology</h2>
+<div class="topology">
+<p class="text-center text-muted">The lab manual uses the following network ranges in the OSPF configuration.</p>
+<div class="d-flex flex-wrap justify-content-center align-items-center gap-2 my-4">
+<div class="router"><i class="fas fa-router"></i><span>2621</span><small>172.16.10.0/24</small></div>
+<div class="link"></div>
+<div class="router"><i class="fas fa-router"></i><span>2501A</span><small>10 • 20</small></div>
+<div class="link"></div>
+<div class="router"><i class="fas fa-router"></i><span>2501B</span><small>20 • 30 • 40</small></div>
+<div class="link"></div>
+<div class="router"><i class="fas fa-router"></i><span>2501C</span><small>40</small></div>
+</div>
+<div class="row g-3 text-center">
+<div class="col-md-3"><span class="net d-block">172.16.10.0/24</span></div>
+<div class="col-md-3"><span class="net d-block">172.16.20.0/24</span></div>
+<div class="col-md-3"><span class="net d-block">172.16.30.0/24</span></div>
+<div class="col-md-3"><span class="net d-block">172.16.40.0/24</span></div>
+</div>
+<div class="alert alert-info mt-4 mb-0"><strong>Source-based addressing:</strong> The uploaded lab manual explicitly uses the four networks 172.16.10.0/24, 172.16.20.0/24, 172.16.30.0/24 and 172.16.40.0/24 in the OSPF configuration and verification examples. fileciteturn30file1</div>
+</div></section>
+
+<section class="container py-4">
+<h2 class="section-title">🧰 Requirements</h2>
+<div class="card"><div class="card-body p-4">
+<ul class="mb-0">
+<li>Cisco Packet Tracer</li>
+<li>Routers corresponding to the prescribed topology</li>
+<li>Appropriate router interfaces and connections</li>
+<li>IPv4 addresses as specified in the network topology</li>
+<li>/24 addressing for the listed networks</li>
+</ul>
+</div></div>
+</section>
+
+<section class="container py-4">
+<h2 class="section-title">📝 Procedure</h2>
+<div class="card"><div class="card-body p-4">
+<div class="step p-3 mb-3"><h5>Step 1 – Build the topology</h5><p class="mb-0">Recreate the network shown in Figure 1 in Cisco Packet Tracer.</p></div>
+<div class="step p-3 mb-3"><h5>Step 2 – Configure IP addresses</h5><p class="mb-0">Configure the router interfaces using the addresses assigned to the networks in the topology.</p></div>
+<div class="step p-3 mb-3"><h5>Step 3 – Enable interfaces</h5><p class="mb-0">Use <code>no shutdown</code> and verify that the required interfaces are operational.</p></div>
+<div class="step p-3 mb-3"><h5>Step 4 – Configure OSPF</h5><p class="mb-0">Enter OSPF process 1 and advertise each participating network in area 0.</p></div>
+<div class="step p-3 mb-3"><h5>Step 5 – Verify neighbor relationships</h5><p class="mb-0">Use <code>show ip ospf neighbor</code> and check that OSPF adjacency has been established.</p></div>
+<div class="step p-3 mb-3"><h5>Step 6 – Display the routing table</h5><p class="mb-0">Use <code>show ip route</code> and identify routes marked <strong>O</strong>.</p></div>
+<div class="step p-3"><h5>Step 7 – Verify connectivity</h5><p class="mb-0">Use <code>ping</code> between the specified routers/networks.</p></div>
+</div></div>
+</section>
+
+<section id="commands" class="container py-4">
+<h2 class="section-title">⌨️ OSPF Configuration</h2>
+<div class="accordion" id="commandsAccordion">
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c1">1️⃣ Router 2621</button></h2>
+<div id="c1" class="accordion-collapse collapse show" data-bs-parent="#commandsAccordion"><div class="accordion-body">
+<pre class="command">Router&gt; enable
+Router# configure terminal
+Router(config)# router ospf 1
+Router(config-router)# network 172.16.10.0 0.0.0.255 area 0</pre>
+<p>The lab manual gives this OSPF network statement for Router 2621. fileciteturn30file2</p>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2">2️⃣ Router 2501A</button></h2>
+<div id="c2" class="accordion-collapse collapse" data-bs-parent="#commandsAccordion"><div class="accordion-body">
+<pre class="command">Router&gt; enable
+Router# configure terminal
+Router(config)# router ospf 1
+Router(config-router)# network 172.16.10.0 0.0.0.255 area 0
+Router(config-router)# network 172.16.20.0 0.0.0.255 area 0</pre>
+<p>The lab manual specifies these two networks for Router 2501A. fileciteturn30file1</p>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c3">3️⃣ Router 2501B</button></h2>
+<div id="c3" class="accordion-collapse collapse" data-bs-parent="#commandsAccordion"><div class="accordion-body">
+<pre class="command">Router&gt; enable
+Router# configure terminal
+Router(config)# router ospf 1
+Router(config-router)# network 172.16.20.0 0.0.0.255 area 0
+Router(config-router)# network 172.16.30.0 0.0.0.255 area 0
+Router(config-router)# network 172.16.40.0 0.0.0.255 area 0</pre>
+<p>The lab manual specifies these three networks for Router 2501B. fileciteturn30file1</p>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c4">4️⃣ Router 2501C</button></h2>
+<div id="c4" class="accordion-collapse collapse" data-bs-parent="#commandsAccordion"><div class="accordion-body">
+<pre class="command">Router&gt; enable
+Router# configure terminal
+Router(config)# router ospf 1
+Router(config-router)# network 172.16.40.0 0.0.0.255 area 0</pre>
+<p>The lab manual specifies 172.16.40.0/24 for Router 2501C. fileciteturn30file1</p>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c5">5️⃣ Verify OSPF Neighbor Relationships</button></h2>
+<div id="c5" class="accordion-collapse collapse" data-bs-parent="#commandsAccordion"><div class="accordion-body">
+<pre class="command">Router# show ip ospf neighbor</pre>
+<p>The manual gives a sample neighbor state of <strong>FULL</strong>, indicating that the OSPF adjacency has been established. fileciteturn30file1</p>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c6">6️⃣ Display the OSPF Routing Table</button></h2>
+<div id="c6" class="accordion-collapse collapse" data-bs-parent="#commandsAccordion"><div class="accordion-body">
+<pre class="command">Router# show ip route</pre>
+<p>In the manual's sample Router 2621 output, OSPF-learned routes are marked <strong>O</strong>. The sample shows:</p>
+<pre class="command">C 172.16.10.0/24 is directly connected, FastEthernet0/0
+O 172.16.20.0/24 [110/65] via 172.16.10.2
+O 172.16.30.0/24 [110/129] via 172.16.10.2
+O 172.16.40.0/24 [110/193] via 172.16.10.2</pre>
+<p>Here <strong>C</strong> denotes a connected route and <strong>O</strong> an OSPF-learned route; the manual also identifies 110 as OSPF's administrative distance. fileciteturn30file1</p>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c7">7️⃣ Verify OSPF Database</button></h2>
+<div id="c7" class="accordion-collapse collapse" data-bs-parent="#commandsAccordion"><div class="accordion-body">
+<pre class="command">Router# show ip ospf database</pre>
+<p>The lab manual describes this command as displaying the LSAs exchanged among OSPF routers. fileciteturn30file0</p>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c8">8️⃣ Verify Connectivity</button></h2>
+<div id="c8" class="accordion-collapse collapse" data-bs-parent="#commandsAccordion"><div class="accordion-body">
+<pre class="command">Router# ping 172.16.30.1
+Router# ping 172.16.40.2
+Router# ping 172.16.10.1</pre>
+<p>The manual records successful connectivity tests with a 100 percent success rate (5/5). fileciteturn30file0</p>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c9">9️⃣ Save the Configuration</button></h2>
+<div id="c9" class="accordion-collapse collapse" data-bs-parent="#commandsAccordion"><div class="accordion-body">
+<pre class="command">Router# copy running-config startup-config</pre>
+</div></div></div>
+
+</div></section>
+
+<section class="container py-4">
+<h2 class="section-title">🔑 OSPF Routing Table Codes</h2>
+<div class="table-responsive"><table class="table table-bordered bg-white align-middle">
+<thead class="table-primary"><tr><th>Code</th><th>Meaning</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>C</strong></td><td>Connected route</td><td>172.16.10.0/24</td></tr>
+<tr><td><strong>O</strong></td><td>OSPF-learned route</td><td>172.16.20.0/24</td></tr>
+<tr><td><strong>110</strong></td><td>Administrative distance of OSPF</td><td>[110/65]</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="container py-4">
+<h2 class="section-title">🔄 OSPF Workflow</h2>
+<div class="flow"><div class="d-flex flex-wrap justify-content-center align-items-center gap-3">
+<span class="badge bg-light text-dark p-3">Build Topology</span><i class="fas fa-arrow-right text-warning"></i>
+<span class="badge bg-light text-dark p-3">Configure IPs</span><i class="fas fa-arrow-right text-warning"></i>
+<span class="badge bg-light text-dark p-3">no shutdown</span><i class="fas fa-arrow-right text-warning"></i>
+<span class="badge bg-light text-dark p-3">router ospf 1</span><i class="fas fa-arrow-right text-warning"></i>
+<span class="badge bg-light text-dark p-3">network + area 0</span><i class="fas fa-arrow-right text-warning"></i>
+<span class="badge bg-light text-dark p-3">show ip ospf neighbor</span><i class="fas fa-arrow-right text-warning"></i>
+<span class="badge bg-light text-dark p-3">show ip route</span><i class="fas fa-arrow-right text-warning"></i>
+<span class="badge bg-light text-dark p-3">ping</span>
+</div></div>
+</section>
+
+<section class="container py-4">
+<h2 class="section-title">🔍 Verification Checklist</h2>
+<div class="card"><div class="card-body">
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">Figure 1 topology has been recreated.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">Router interfaces have been configured and enabled.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">OSPF process 1 has been configured.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">All required networks are advertised in area 0.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label"><code>show ip ospf neighbor</code> shows the expected adjacency.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label"><code>show ip route</code> displays OSPF routes marked <strong>O</strong>.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">OSPF database can be displayed using <code>show ip ospf database</code>.</label></div>
+<div class="form-check"><input class="form-check-input" type="checkbox"><label class="form-check-label">Connectivity is verified using ping.</label></div>
+</div></div>
+</section>
+
+<section class="container py-4">
+<h2 class="section-title">🐞 Common Errors & Troubleshooting</h2>
+<div class="table-responsive"><table class="table table-bordered bg-white">
+<thead class="table-danger"><tr><th>Problem</th><th>Possible cause</th><th>Check</th></tr></thead>
+<tbody>
+<tr><td>No OSPF neighbor</td><td>Interface, addressing or OSPF network statement problem</td><td>Check interface status, IP addresses and <code>show ip ospf neighbor</code>.</td></tr>
+<tr><td>No OSPF route</td><td>Required network not advertised</td><td>Check <code>router ospf 1</code> and the network statements.</td></tr>
+<tr><td>Ping fails</td><td>Missing route or interface problem</td><td>Check <code>show ip route</code>, interface status and addressing.</td></tr>
+<tr><td>Wrong area</td><td>Routers are not configured consistently</td><td>Use <code>area 0</code> as specified in the experiment.</td></tr>
+<tr><td>OSPF database incomplete</td><td>Adjacency has not formed correctly</td><td>Verify neighbors and participating interfaces.</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="container py-4">
+<h2 class="section-title">🎤 Viva Questions</h2>
+<div class="accordion" id="viva">
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#v1">1. What is OSPF?</button></h2><div id="v1" class="accordion-collapse collapse show" data-bs-parent="#viva"><div class="accordion-body">OSPF stands for Open Shortest Path First and is the routing protocol configured in this experiment.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v2">2. Which command starts the OSPF process?</button></h2><div id="v2" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body"><code>router ospf 1</code></div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v3">3. What does area 0 represent in this experiment?</button></h2><div id="v3" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body">The OSPF area used for the advertised networks in this experiment.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v4">4. Which command displays OSPF neighbors?</button></h2><div id="v4" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body"><code>show ip ospf neighbor</code></div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v5">5. Which routing-table code identifies an OSPF route?</button></h2><div id="v5" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body"><strong>O</strong></div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v6">6. Which command displays the OSPF database?</button></h2><div id="v6" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body"><code>show ip ospf database</code></div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v7">7. Which command displays the routing table?</button></h2><div id="v7" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body"><code>show ip route</code></div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v8">8. What does a FULL OSPF neighbor state indicate?</button></h2><div id="v8" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body">It indicates that the OSPF adjacency has been established successfully, as described in the lab manual.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v9">9. What is the administrative distance shown for OSPF in the manual?</button></h2><div id="v9" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body"><strong>110</strong>.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v10">10. How is connectivity verified?</button></h2><div id="v10" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body">Using the <code>ping</code> command between the specified network devices.</div></div></div>
+</div></section>
+
+<section class="container py-4">
+<h2 class="section-title">📝 Student Tasks</h2>
+<div class="card"><div class="card-body"><ol>
+<li>Recreate the prescribed Figure 1 topology.</li>
+<li>Configure the router interfaces with the required IP addresses.</li>
+<li>Enable the required interfaces.</li>
+<li>Configure OSPF process 1 on all participating routers.</li>
+<li>Advertise the required networks in area 0.</li>
+<li>Verify OSPF neighbor relationships.</li>
+<li>Display and record the routing table of Router 2621.</li>
+<li>Identify the routes marked <strong>O</strong>.</li>
+<li>Display the OSPF database.</li>
+<li>Perform the prescribed ping tests.</li>
+<li>Save the router configurations.</li>
+</ol></div></div>
+</section>
+
+<section class="container py-4">
+<div class="alert alert-success"><h3>✅ Result</h3>
+<p class="mb-0">OSPF routing was successfully configured on the routers. The routing tables displayed OSPF-learned routes, and connectivity between the networks was verified using the ping command. This matches the result stated in the lab manual. fileciteturn30file0</p>
+</div>
+</section>
+
+<footer class="text-center">© 2026 PCCSL507 Computer Networks Laboratory | Ms. Prof. Anju Markose J K</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

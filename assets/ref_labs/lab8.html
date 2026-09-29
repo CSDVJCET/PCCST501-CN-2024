@@ -1,0 +1,4582 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+
+Lab 8 |  Concurrent Time Server application using UDP | PCCSL507
+
+</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+background:#f5f7fb;
+color:#263238;
+}
+
+.navbar{
+background:#0b3c7a;
+}
+
+.hero{
+
+background:linear-gradient(135deg,#082f6b,#26a69a);
+
+padding:90px 0;
+
+color:white;
+
+}
+
+.hero h1{
+
+font-size:48px;
+
+font-weight:bold;
+
+}
+
+.hero p{
+
+font-size:20px;
+
+}
+
+.card{
+
+border:none;
+
+border-radius:18px;
+
+box-shadow:0 8px 20px rgba(0,0,0,.12);
+
+transition:.3s;
+
+}
+
+.card:hover{
+
+transform:translateY(-5px);
+
+}
+
+.section-title{
+
+border-left:6px solid #26a69a;
+
+padding-left:12px;
+
+margin-top:60px;
+
+margin-bottom:20px;
+
+font-weight:bold;
+
+}
+
+.stats{
+
+font-size:28px;
+
+font-weight:bold;
+
+color:#26a69a;
+
+}
+
+.api-card{
+
+padding:25px;
+
+text-align:center;
+
+height:100%;
+
+}
+
+.flow{
+
+background:#111827;
+
+color:#7CFC00;
+
+padding:20px;
+
+border-radius:12px;
+
+font-family:Consolas;
+
+overflow:auto;
+
+}
+
+footer{
+
+background:#082f6b;
+
+color:white;
+
+padding:25px;
+
+margin-top:60px;
+
+}
+
+</style>
+
+</head>
+
+<body id="top">
+
+<!-- ====================================================== -->
+<!-- NAVBAR -->
+<!-- ====================================================== -->
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+
+<div class="container">
+
+<a class="navbar-brand fw-bold"
+href="module.html">
+
+<i class="fas fa-network-wired"></i>
+
+PCCSL507
+
+</a>
+
+<button class="navbar-toggler"
+
+type="button"
+
+data-bs-toggle="collapse"
+
+data-bs-target="#menu">
+
+<span class="navbar-toggler-icon">
+
+</span>
+
+</button>
+
+<div class="collapse navbar-collapse"
+id="menu">
+
+<ul class="navbar-nav ms-auto">
+
+<li class="nav-item">
+
+<a class="nav-link"
+
+href="module.html">
+
+Network Lab
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link"
+
+href="lab7.html">
+
+Lab 7
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link active"
+
+href="#">
+
+Lab 8
+
+</a>
+
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</nav>
+<!-- ====================================================== -->
+<!-- HERO SECTION -->
+<!-- ====================================================== -->
+
+<section class="hero text-center text-white py-5" id="top">
+
+<div class="container">
+
+<span class="badge bg-warning text-dark px-3 py-2 mb-3">
+
+Computer Networks Laboratory • PCCSL507
+
+</span>
+
+<h1 class="display-4 fw-bold">
+
+🕒 Lab 8
+
+<br>
+
+Concurrent Time Server using UDP Socket Programming
+
+</h1>
+
+<p class="lead mt-3">
+
+Learn how UDP enables lightweight client-server communication by
+implementing a <strong>Concurrent Time Server</strong> that responds
+to multiple client requests with the current system time.
+
+</p>
+
+<div class="mt-4">
+
+<a href="#overview" class="btn btn-primary btn-lg me-2">
+
+<i class="fas fa-book-open"></i>
+
+Start Learning
+
+</a>
+
+<a href="#experiment" class="btn btn-outline-light btn-lg">
+
+<i class="fas fa-code"></i>
+
+View Experiment
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- COURSE STATISTICS -->
+<!-- ====================================================== -->
+
+<section class="py-5">
+
+<div class="container">
+
+<div class="row g-4">
+
+<div class="col-md-3">
+
+<div class="card stat-card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-paper-plane fa-3x text-primary mb-3"></i>
+
+<h2>UDP</h2>
+
+<p>
+
+Connectionless Communication
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card stat-card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-clock fa-3x text-success mb-3"></i>
+
+<h2>Time</h2>
+
+<p>
+
+Current System Time
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card stat-card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-users fa-3x text-warning mb-3"></i>
+
+<h2>Concurrent</h2>
+
+<p>
+
+Multiple Client Requests
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card stat-card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-server fa-3x text-danger mb-3"></i>
+
+<h2>Server</h2>
+
+<p>
+
+Responds with System Time
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- LEARNING OUTCOMES -->
+<!-- ====================================================== -->
+
+<section id="overview" class="container py-5">
+
+<h2 class="section-title">
+
+🎯 Learning Outcomes
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-6">
+
+<div class="card border-primary h-100">
+
+<div class="card-header bg-primary text-white">
+
+After completing this lab, you will be able to
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Understand UDP socket programming.</li>
+
+<li>Implement a UDP Time Server.</li>
+
+<li>Create a UDP client application.</li>
+
+<li>Exchange datagrams between client and server.</li>
+
+<li>Handle multiple client requests concurrently.</li>
+
+<li>Use Linux socket APIs.</li>
+
+<li>Obtain system time using C library functions.</li>
+
+<li>Observe request-response communication.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card border-success h-100">
+
+<div class="card-header bg-success text-white">
+
+Prerequisites
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Linux Operating System</li>
+
+<li>Basic C Programming</li>
+
+<li>UDP Socket APIs</li>
+
+<li>Datagram Communication</li>
+
+<li>gcc Compiler</li>
+
+<li>Knowledge of Client-Server Model</li>
+
+<li>Computer Networks Fundamentals</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- WHAT IS A TIME SERVER -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🕒 What is a Time Server?
+
+</h2>
+
+<div class="card shadow-sm p-4">
+
+<p>
+
+A <strong>Time Server</strong> is a network application that provides
+the current date and time to requesting clients.
+When a client sends a request, the server immediately retrieves
+its current system time and sends it back to the client.
+
+</p>
+
+<div class="alert alert-primary mt-3">
+
+<b>Key Idea</b>
+
+<br><br>
+
+Unlike connection-oriented applications,
+a UDP Time Server simply waits for incoming datagrams,
+processes each request independently,
+and returns the current system time.
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- WHY UDP -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📡 Why UDP for a Time Server?
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-6">
+
+<div class="card border-success h-100">
+
+<div class="card-header bg-success text-white">
+
+Advantages
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Connectionless communication</li>
+
+<li>Very low overhead</li>
+
+<li>Fast request-response service</li>
+
+<li>No connection establishment delay</li>
+
+<li>Suitable for lightweight applications</li>
+
+<li>Simple implementation</li>
+
+<li>Efficient for time queries</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card border-danger h-100">
+
+<div class="card-header bg-danger text-white">
+
+Limitations
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>No guaranteed delivery</li>
+
+<li>Packets may be lost</li>
+
+<li>No ordering guarantee</li>
+
+<li>No retransmission mechanism</li>
+
+<li>No congestion control</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- REAL WORLD APPLICATIONS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🌍 Real-World Applications
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-globe fa-4x text-primary mb-3"></i>
+
+<h4>NTP Servers</h4>
+
+<p>
+
+Synchronize clocks across computer networks.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-satellite fa-4x text-success mb-3"></i>
+
+<h4>GPS Systems</h4>
+
+<p>
+
+Provide highly accurate universal time.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-network-wired fa-4x text-danger mb-3"></i>
+
+<h4>Network Devices</h4>
+
+<p>
+
+Routers and switches synchronize system clocks.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-server fa-4x text-warning mb-3"></i>
+
+<h4>Data Centers</h4>
+
+<p>
+
+Maintain accurate timestamps for logs.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-cloud fa-4x text-info mb-3"></i>
+
+<h4>Cloud Platforms</h4>
+
+<p>
+
+Synchronize distributed services.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-mobile-alt fa-4x text-secondary mb-3"></i>
+
+<h4>Mobile Networks</h4>
+
+<p>
+
+Provide accurate network time to devices.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- UDP SOCKET PROGRAMMING REFRESHER -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📚 UDP Socket Programming Refresher
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>Function</th>
+
+<th>Purpose</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td><code>socket()</code></td>
+
+<td>Create a UDP socket.</td>
+
+</tr>
+
+<tr>
+
+<td><code>bind()</code></td>
+
+<td>Bind the socket to a port number.</td>
+
+</tr>
+
+<tr>
+
+<td><code>sendto()</code></td>
+
+<td>Send a datagram to the server/client.</td>
+
+</tr>
+
+<tr>
+
+<td><code>recvfrom()</code></td>
+
+<td>Receive a datagram.</td>
+
+</tr>
+
+<tr>
+
+<td><code>time()</code></td>
+
+<td>Get the current system time.</td>
+
+</tr>
+
+<tr>
+
+<td><code>ctime()</code></td>
+
+<td>Convert time into a readable string.</td>
+
+</tr>
+
+<tr>
+
+<td><code>close()</code></td>
+
+<td>Close the socket.</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="alert alert-success mt-5">
+
+<h4>
+
+🚀 Next Section
+
+</h4>
+
+<p>
+
+Next, we will study the architecture of a UDP Time Server,
+understand how clients communicate using datagrams,
+and explore how a concurrent server handles multiple requests efficiently.
+
+</p>
+
+</div>
+
+</section>
+<!-- ====================================================== -->
+<!-- CLIENT SERVER ARCHITECTURE -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🏗️ UDP Time Server Architecture
+
+</h2>
+
+<div class="card shadow-lg border-0">
+
+<div class="card-body">
+
+<p>
+
+The UDP Time Server follows the classic
+<strong>Client–Server Architecture</strong>.
+Unlike TCP, UDP does not establish a connection before
+transmitting data. The client simply sends a datagram
+request, and the server immediately responds with its
+current system time.
+
+</p>
+
+<div class="text-center mt-4">
+
+<div class="flow">
+
+<div class="flow-step">
+
+<i class="fas fa-laptop fa-3x text-primary"></i>
+
+<h5 class="mt-3">
+
+Client
+
+</h5>
+
+<p>
+
+Sends Time Request
+
+</p>
+
+</div>
+
+<i class="fas fa-arrow-right fa-2x text-success"></i>
+
+<div class="flow-step">
+
+<i class="fas fa-server fa-3x text-danger"></i>
+
+<h5 class="mt-3">
+
+UDP Server
+
+</h5>
+
+<p>
+
+Processes Request
+
+</p>
+
+</div>
+
+<i class="fas fa-arrow-right fa-2x text-success"></i>
+
+<div class="flow-step">
+
+<i class="fas fa-clock fa-3x text-warning"></i>
+
+<h5 class="mt-3">
+
+Time Response
+
+</h5>
+
+<p>
+
+Current System Time
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- MESSAGE FLOW -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📨 UDP Communication Workflow
+
+</h2>
+
+<div class="card border-primary">
+
+<div class="card-body">
+
+<div class="flow flex-column align-items-center">
+
+<div class="flow-step">
+
+<i class="fas fa-desktop fa-3x text-primary"></i>
+
+<h5>Create UDP Socket</h5>
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x text-success my-3"></i>
+
+<div class="flow-step">
+
+<i class="fas fa-paper-plane fa-3x text-info"></i>
+
+<h5>Client sends Request</h5>
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x text-success my-3"></i>
+
+<div class="flow-step">
+
+<i class="fas fa-server fa-3x text-danger"></i>
+
+<h5>Server receives Datagram</h5>
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x text-success my-3"></i>
+
+<div class="flow-step">
+
+<i class="fas fa-clock fa-3x text-warning"></i>
+
+<h5>Server obtains System Time</h5>
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x text-success my-3"></i>
+
+<div class="flow-step">
+
+<i class="fas fa-reply fa-3x text-success"></i>
+
+<h5>Server sends Response</h5>
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x text-success my-3"></i>
+
+<div class="flow-step">
+
+<i class="fas fa-laptop fa-3x text-primary"></i>
+
+<h5>Client Displays Time</h5>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- CLIENT RESPONSIBILITIES -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+💻 Responsibilities of the Client
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-6">
+
+<div class="card border-primary h-100">
+
+<div class="card-header bg-primary text-white">
+
+Client Operations
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Create a UDP socket.</li>
+
+<li>Specify the server IP address.</li>
+
+<li>Specify the server port number.</li>
+
+<li>Send a request packet.</li>
+
+<li>Wait for server response.</li>
+
+<li>Receive the current time.</li>
+
+<li>Display the received time.</li>
+
+<li>Close the socket.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card border-success h-100">
+
+<div class="card-header bg-success text-white">
+
+Important APIs
+
+</div>
+
+<div class="card-body">
+
+<table class="table">
+
+<tr>
+
+<td><code>socket()</code></td>
+
+<td>Create UDP socket</td>
+
+</tr>
+
+<tr>
+
+<td><code>sendto()</code></td>
+
+<td>Send request</td>
+
+</tr>
+
+<tr>
+
+<td><code>recvfrom()</code></td>
+
+<td>Receive response</td>
+
+</tr>
+
+<tr>
+
+<td><code>close()</code></td>
+
+<td>Close socket</td>
+
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SERVER RESPONSIBILITIES -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🖥️ Responsibilities of the Server
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-6">
+
+<div class="card border-danger h-100">
+
+<div class="card-header bg-danger text-white">
+
+Server Operations
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Create UDP socket.</li>
+
+<li>Bind to a port.</li>
+
+<li>Wait for client requests.</li>
+
+<li>Receive UDP datagrams.</li>
+
+<li>Obtain current system time.</li>
+
+<li>Convert time into readable format.</li>
+
+<li>Send response back to client.</li>
+
+<li>Continue serving additional requests.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card border-warning h-100">
+
+<div class="card-header bg-warning">
+
+Time Functions Used
+
+</div>
+
+<div class="card-body">
+
+<table class="table table-hover">
+
+<thead>
+
+<tr>
+
+<th>Function</th>
+
+<th>Purpose</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td><code>time()</code></td>
+
+<td>Returns current timestamp</td>
+
+</tr>
+
+<tr>
+
+<td><code>ctime()</code></td>
+
+<td>Converts timestamp into readable string</td>
+
+</tr>
+
+<tr>
+
+<td><code>sendto()</code></td>
+
+<td>Sends response</td>
+
+</tr>
+
+<tr>
+
+<td><code>recvfrom()</code></td>
+
+<td>Receives request</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- UDP SOCKET APIs -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+⚙️ Important UDP Socket APIs
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-striped">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>Function</th>
+
+<th>Purpose</th>
+
+<th>Used In</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>socket()</td>
+
+<td>Create UDP socket</td>
+
+<td>Client & Server</td>
+
+</tr>
+
+<tr>
+
+<td>bind()</td>
+
+<td>Bind server port</td>
+
+<td>Server</td>
+
+</tr>
+
+<tr>
+
+<td>sendto()</td>
+
+<td>Send datagram</td>
+
+<td>Client & Server</td>
+
+</tr>
+
+<tr>
+
+<td>recvfrom()</td>
+
+<td>Receive datagram</td>
+
+<td>Client & Server</td>
+
+</tr>
+
+<tr>
+
+<td>close()</td>
+
+<td>Close socket</td>
+
+<td>Client & Server</td>
+
+</tr>
+
+<tr>
+
+<td>time()</td>
+
+<td>Get system time</td>
+
+<td>Server</td>
+
+</tr>
+
+<tr>
+
+<td>ctime()</td>
+
+<td>Convert time to string</td>
+
+<td>Server</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- CONCURRENT SERVER CONCEPT -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🚀 Concurrent UDP Time Server
+
+</h2>
+
+<div class="card shadow-sm">
+
+<div class="card-body">
+
+<p>
+
+A normal UDP server processes one request at a time.
+In this experiment, the server is designed as a
+<strong>Concurrent UDP Time Server</strong>.
+Whenever a client request arrives, the server creates
+a separate worker thread to process that request while
+continuing to listen for additional clients.
+
+</p>
+
+<div class="alert alert-info">
+
+<h5>
+
+Advantages
+
+</h5>
+
+<ul>
+
+<li>Supports multiple clients simultaneously.</li>
+
+<li>Reduces waiting time.</li>
+
+<li>Improves responsiveness.</li>
+
+<li>Efficient utilization of CPU resources.</li>
+
+<li>Represents real-world network server design.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- REQUEST RESPONSE TIMELINE -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📊 Request–Response Timeline
+
+</h2>
+
+<div class="card">
+
+<div class="card-body">
+
+<div class="flow flex-column align-items-center">
+
+<div class="flow-step">
+
+<h5>1️⃣ Client Creates Socket</h5>
+
+</div>
+
+<i class="fas fa-arrow-down my-3 text-primary fa-2x"></i>
+
+<div class="flow-step">
+
+<h5>2️⃣ Client Sends Time Request</h5>
+
+</div>
+
+<i class="fas fa-arrow-down my-3 text-primary fa-2x"></i>
+
+<div class="flow-step">
+
+<h5>3️⃣ Server Receives Datagram</h5>
+
+</div>
+
+<i class="fas fa-arrow-down my-3 text-primary fa-2x"></i>
+
+<div class="flow-step">
+
+<h5>4️⃣ Server Reads System Clock</h5>
+
+</div>
+
+<i class="fas fa-arrow-down my-3 text-primary fa-2x"></i>
+
+<div class="flow-step">
+
+<h5>5️⃣ Server Sends Current Time</h5>
+
+</div>
+
+<i class="fas fa-arrow-down my-3 text-primary fa-2x"></i>
+
+<div class="flow-step">
+
+<h5>6️⃣ Client Displays Time</h5>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- EXPERIMENT -->
+<!-- ====================================================== -->
+
+<section id="experiment" class="container py-5">
+
+<h2 class="section-title">
+
+🧪 Experiment
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<h4>
+
+Aim
+
+</h4>
+
+<p>
+
+To implement a <strong>Concurrent UDP Time Server</strong> in C using
+socket programming. The client sends a time request to the server,
+and the server responds with its current system time. The server
+should be capable of handling multiple client requests independently.
+
+</p>
+
+<hr>
+
+<h4>
+
+Problem Statement
+
+</h4>
+
+<p>
+
+Develop a UDP-based client-server application in Linux.
+
+The client sends a request packet to the server.
+
+Upon receiving the request, the server obtains the current system
+time using standard C library functions and transmits it back.
+
+The client receives the response and displays the current server time.
+
+</p>
+
+<div class="alert alert-primary">
+
+<strong>Expected Output</strong>
+
+<ul class="mt-2">
+
+<li>Client successfully contacts the server.</li>
+
+<li>Server receives the request.</li>
+
+<li>Server retrieves the current system time.</li>
+
+<li>Client displays the received time.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- FUNCTIONAL REQUIREMENTS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📋 Functional Requirements
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-6">
+
+<div class="card border-primary h-100">
+
+<div class="card-header bg-primary text-white">
+
+Server Requirements
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Create a UDP socket.</li>
+
+<li>Bind to a predefined port.</li>
+
+<li>Listen continuously for requests.</li>
+
+<li>Receive datagrams.</li>
+
+<li>Read the current system time.</li>
+
+<li>Convert time into readable format.</li>
+
+<li>Send time back to requesting client.</li>
+
+<li>Continue serving additional clients.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card border-success h-100">
+
+<div class="card-header bg-success text-white">
+
+Client Requirements
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Create UDP socket.</li>
+
+<li>Specify server IP address.</li>
+
+<li>Send request.</li>
+
+<li>Wait for reply.</li>
+
+<li>Receive server time.</li>
+
+<li>Display received time.</li>
+
+<li>Terminate gracefully.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SERVER ALGORITHM -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🖥️ Server Algorithm
+
+</h2>
+
+<div class="card border-danger">
+
+<div class="card-body">
+
+<ol>
+
+<li>Create UDP socket.</li>
+
+<li>Bind the socket to the specified port.</li>
+
+<li>Wait for client requests.</li>
+
+<li>Receive the client's datagram.</li>
+
+<li>Create a worker thread to process the request.</li>
+
+<li>Obtain the current system time.</li>
+
+<li>Convert the time into a readable string.</li>
+
+<li>Send the time to the requesting client.</li>
+
+<li>Terminate the worker thread.</li>
+
+<li>Return to waiting for the next request.</li>
+
+</ol>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- CLIENT ALGORITHM -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+💻 Client Algorithm
+
+</h2>
+
+<div class="card border-success">
+
+<div class="card-body">
+
+<ol>
+
+<li>Create UDP socket.</li>
+
+<li>Specify server IP address.</li>
+
+<li>Specify server port.</li>
+
+<li>Send a time request.</li>
+
+<li>Wait for server response.</li>
+
+<li>Receive current time.</li>
+
+<li>Display received time.</li>
+
+<li>Close socket.</li>
+
+</ol>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- PROGRAM LOGIC -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🧠 Program Logic
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-6">
+
+<div class="card border-primary">
+
+<div class="card-header bg-primary text-white">
+
+Server Logic
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Create socket.</li>
+
+<li>Bind port.</li>
+
+<li>Receive UDP request.</li>
+
+<li>Create worker thread.</li>
+
+<li>Read current system time.</li>
+
+<li>Send response.</li>
+
+<li>Continue listening.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card border-success">
+
+<div class="card-header bg-success text-white">
+
+Client Logic
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Create socket.</li>
+
+<li>Send request.</li>
+
+<li>Receive server response.</li>
+
+<li>Display time.</li>
+
+<li>Exit.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- COMPLETE WORKFLOW -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🔄 Complete Workflow
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body text-center">
+
+<div class="flow flex-column align-items-center">
+
+<div class="flow-step">
+
+<h5>
+
+Start Server
+
+</h5>
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+<h5>
+
+Bind UDP Socket
+
+</h5>
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+<h5>
+
+Receive Request
+
+</h5>
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+<h5>
+
+Create Worker Thread
+
+</h5>
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+<h5>
+
+Read System Time
+
+</h5>
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+<h5>
+
+Send Time to Client
+
+</h5>
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+<h5>
+
+Wait for Next Client
+
+</h5>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- DATA FLOW -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📊 Data Flow Diagram
+
+</h2>
+
+<div class="card shadow-sm">
+
+<div class="card-body text-center">
+
+<h5>
+
+Client
+
+</h5>
+
+<i class="fas fa-arrow-down fa-2x text-success my-3"></i>
+
+<p>
+
+Time Request Packet
+
+</p>
+
+<i class="fas fa-arrow-down fa-2x text-primary my-3"></i>
+
+<h5>
+
+UDP Time Server
+
+</h5>
+
+<p>
+
+Current System Time
+
+</p>
+
+<i class="fas fa-arrow-down fa-2x text-danger my-3"></i>
+
+<h5>
+
+Client Display
+
+</h5>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SEQUENCE DIAGRAM -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📡 Sequence Diagram
+
+</h2>
+
+<div class="card">
+
+<div class="card-body">
+
+<pre class="bg-light p-4">
+
+Client                  Server
+
+ |                         |
+
+ |---- Time Request ------>|
+
+ |                         |
+
+ |                         | Read System Time
+
+ |                         |
+
+ |<---- Current Time ------|
+
+ |                         |
+
+ | Display Time            |
+
+</pre>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- PRE-LAB CHECKLIST -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+✅ Pre-Lab Checklist
+
+</h2>
+
+<div class="card border-info">
+
+<div class="card-body">
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+Linux system is ready.
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+gcc compiler is installed.
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+Basic knowledge of UDP sockets.
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+Understood client-server communication.
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+Ready to implement the experiment.
+
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SERVER PROGRAM -->
+<!-- ====================================================== -->
+
+<section class="container py-5" id="server">
+
+<h2 class="section-title">
+
+🖥️ Program 1 – Concurrent UDP Time Server
+
+</h2>
+
+<div class="card shadow mb-4">
+
+<div class="card-body">
+
+<h4>
+
+Objective
+
+</h4>
+
+<p>
+
+The UDP Time Server waits for requests from clients. Whenever a request
+arrives, the server creates a worker thread that retrieves the current
+system time and sends it back to the requesting client. Meanwhile,
+the main thread immediately returns to listening for additional requests.
+
+</p>
+
+<div class="alert alert-info">
+
+<strong>Concepts Used</strong>
+
+<ul class="mt-2 mb-0">
+
+<li>UDP Socket Programming</li>
+
+<li>Datagram Communication</li>
+
+<li>POSIX Threads (pthread)</li>
+
+<li>Concurrent Request Handling</li>
+
+<li>System Time Functions</li>
+
+<li>Linux Socket APIs</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card shadow">
+
+<div class="card-header bg-dark text-white">
+
+<i class="fas fa-code"></i>
+
+server.c
+
+</div>
+
+<div class="card-body">
+
+<pre><code class="language-c">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;time.h&gt;
+
+#define PORT 8080
+#define BUFFER_SIZE 1024
+
+typedef struct
+{
+    int serverSocket;
+    struct sockaddr_in clientAddr;
+    socklen_t clientLen;
+    char request[BUFFER_SIZE];
+} ClientRequest;
+
+void *handleClient(void *arg)
+{
+    ClientRequest *client = (ClientRequest *)arg;
+
+    time_t currentTime;
+    char *timeString;
+
+    time(&currentTime);
+    timeString = ctime(&currentTime);
+
+    sendto(client->serverSocket,
+           timeString,
+           strlen(timeString),
+           0,
+           (struct sockaddr *)&client->clientAddr,
+           client->clientLen);
+
+    printf("-------------------------------------\n");
+    printf("Request received from %s:%d\n",
+           inet_ntoa(client->clientAddr.sin_addr),
+           ntohs(client->clientAddr.sin_port));
+
+    printf("Time Sent : %s", timeString);
+
+    free(client);
+
+    pthread_exit(NULL);
+}
+
+int main()
+{
+    int serverSocket;
+
+    struct sockaddr_in serverAddr;
+    struct sockaddr_in clientAddr;
+
+    socklen_t clientLen;
+
+    char buffer[BUFFER_SIZE];
+
+    pthread_t tid;
+
+    serverSocket = socket(AF_INET, SOCK_DGRAM, 0);
+
+    if(serverSocket < 0)
+    {
+        perror("Socket Creation Failed");
+        exit(EXIT_FAILURE);
+    }
+
+    memset(&serverAddr,0,sizeof(serverAddr));
+
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_addr.s_addr = INADDR_ANY;
+    serverAddr.sin_port = htons(PORT);
+
+    if(bind(serverSocket,
+            (struct sockaddr *)&serverAddr,
+            sizeof(serverAddr)) < 0)
+    {
+        perror("Bind Failed");
+        close(serverSocket);
+        exit(EXIT_FAILURE);
+    }
+
+    printf("\n=====================================\n");
+    printf(" Concurrent UDP Time Server\n");
+    printf("=====================================\n");
+    printf("Listening on Port %d...\n\n",PORT);
+
+    while(1)
+    {
+        ClientRequest *client =
+            (ClientRequest *)malloc(sizeof(ClientRequest));
+
+        client->serverSocket = serverSocket;
+
+        client->clientLen = sizeof(client->clientAddr);
+
+        int bytes = recvfrom(serverSocket,
+                             client->request,
+                             BUFFER_SIZE,
+                             0,
+                             (struct sockaddr *)&client->clientAddr,
+                             &client->clientLen);
+
+        if(bytes < 0)
+        {
+            perror("Receive Failed");
+            free(client);
+            continue;
+        }
+
+        client->request[bytes] = '\0';
+
+        pthread_create(&tid,
+                       NULL,
+                       handleClient,
+                       client);
+
+        pthread_detach(tid);
+    }
+
+    close(serverSocket);
+
+    return 0;
+}
+</code></pre>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- KEY FEATURES -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<div class="card border-success">
+
+<div class="card-header bg-success text-white">
+
+✨ Features of the Server Program
+
+</div>
+
+<div class="card-body">
+
+<div class="row">
+
+<div class="col-md-6">
+
+<ul>
+
+<li>Uses UDP sockets</li>
+
+<li>Connectionless communication</li>
+
+<li>Supports multiple client requests</li>
+
+<li>Uses POSIX threads</li>
+
+<li>Automatic thread cleanup</li>
+
+</ul>
+
+</div>
+
+<div class="col-md-6">
+
+<ul>
+
+<li>Retrieves current system time</li>
+
+<li>Formats readable date and time</li>
+
+<li>Responds to requesting client</li>
+
+<li>Runs continuously</li>
+
+<li>Simple and efficient implementation</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- PROGRAM HIGHLIGHTS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<div class="alert alert-primary">
+
+<h4>
+
+💡 Program Highlights
+
+</h4>
+
+<ul class="mb-0">
+
+<li><strong>socket()</strong> creates the UDP socket.</li>
+
+<li><strong>bind()</strong> associates the socket with port 8080.</li>
+
+<li><strong>recvfrom()</strong> receives client requests.</li>
+
+<li><strong>pthread_create()</strong> creates a worker thread for every request.</li>
+
+<li><strong>time()</strong> obtains the current system time.</li>
+
+<li><strong>ctime()</strong> converts the timestamp into a readable string.</li>
+
+<li><strong>sendto()</strong> sends the current time back to the requesting client.</li>
+
+<li><strong>pthread_detach()</strong> automatically releases thread resources after completion.</li>
+
+</ul>
+
+</div>
+
+</section>
+  <!-- ====================================================== -->
+<!-- SERVER PROGRAM EXPLANATION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🔍 Understanding the Server Program
+
+</h2>
+
+<div class="accordion" id="serverExplanation">
+
+<!-- Header Files -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button" type="button"
+data-bs-toggle="collapse"
+data-bs-target="#headerfiles">
+
+1️⃣ Header Files
+
+</button>
+
+</h2>
+
+<div id="headerfiles"
+class="accordion-collapse collapse show"
+data-bs-parent="#serverExplanation">
+
+<div class="accordion-body">
+
+<table class="table table-bordered">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>Header File</th>
+
+<th>Purpose</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>&lt;stdio.h&gt;</td>
+
+<td>Standard input/output functions.</td>
+
+</tr>
+
+<tr>
+
+<td>&lt;stdlib.h&gt;</td>
+
+<td>Dynamic memory allocation and exit functions.</td>
+
+</tr>
+
+<tr>
+
+<td>&lt;string.h&gt;</td>
+
+<td>String handling functions.</td>
+
+</tr>
+
+<tr>
+
+<td>&lt;unistd.h&gt;</td>
+
+<td>Provides close() and other UNIX system calls.</td>
+
+</tr>
+
+<tr>
+
+<td>&lt;arpa/inet.h&gt;</td>
+
+<td>Internet address conversion and socket structures.</td>
+
+</tr>
+
+<tr>
+
+<td>&lt;pthread.h&gt;</td>
+
+<td>POSIX thread library.</td>
+
+</tr>
+
+<tr>
+
+<td>&lt;time.h&gt;</td>
+
+<td>System date and time functions.</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Socket Creation -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#socketcreate">
+
+2️⃣ Creating the UDP Socket
+
+</button>
+
+</h2>
+
+<div id="socketcreate"
+class="accordion-collapse collapse"
+data-bs-parent="#serverExplanation">
+
+<div class="accordion-body">
+
+<pre><code class="language-c">
+serverSocket = socket(AF_INET, SOCK_DGRAM, 0);
+</code></pre>
+
+<p>
+
+This statement creates a UDP socket.
+
+</p>
+
+<table class="table table-striped">
+
+<tr>
+
+<th>Argument</th>
+
+<th>Description</th>
+
+</tr>
+
+<tr>
+
+<td>AF_INET</td>
+
+<td>IPv4 Address Family</td>
+
+</tr>
+
+<tr>
+
+<td>SOCK_DGRAM</td>
+
+<td>UDP Socket</td>
+
+</tr>
+
+<tr>
+
+<td>0</td>
+
+<td>Default UDP Protocol</td>
+
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Binding -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#binding">
+
+3️⃣ Binding the Socket
+
+</button>
+
+</h2>
+
+<div id="binding"
+class="accordion-collapse collapse"
+data-bs-parent="#serverExplanation">
+
+<div class="accordion-body">
+
+<pre><code class="language-c">
+bind(serverSocket,
+(struct sockaddr *)&serverAddr,
+sizeof(serverAddr));
+</code></pre>
+
+<p>
+
+Binding associates the socket with a port number so that clients
+know where to send their requests.
+
+</p>
+
+<div class="alert alert-warning">
+
+Without <strong>bind()</strong>, the server cannot receive
+datagrams on a known port.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Receiving -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#recv">
+
+4️⃣ Receiving Client Requests
+
+</button>
+
+</h2>
+
+<div id="recv"
+class="accordion-collapse collapse"
+data-bs-parent="#serverExplanation">
+
+<div class="accordion-body">
+
+<pre><code class="language-c">
+recvfrom(serverSocket,
+buffer,
+BUFFER_SIZE,
+0,
+(struct sockaddr *)&clientAddr,
+&clientLen);
+</code></pre>
+
+<p>
+
+The server waits until a client sends a request.
+
+Once a datagram arrives, <strong>recvfrom()</strong> stores both
+the message and the sender's address.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Thread -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#thread">
+
+5️⃣ Concurrent Request Handling
+
+</button>
+
+</h2>
+
+<div id="thread"
+class="accordion-collapse collapse"
+data-bs-parent="#serverExplanation">
+
+<div class="accordion-body">
+
+<pre><code class="language-c">
+pthread_create(&tid,
+NULL,
+handleClient,
+client);
+</code></pre>
+
+<p>
+
+A new worker thread is created for every client request.
+
+The main thread immediately goes back to waiting for more
+incoming requests.
+
+</p>
+
+<div class="alert alert-success">
+
+This allows the server to handle multiple clients without
+blocking future requests.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Time -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#time">
+
+6️⃣ Obtaining Current Time
+
+</button>
+
+</h2>
+
+<div id="time"
+class="accordion-collapse collapse"
+data-bs-parent="#serverExplanation">
+
+<div class="accordion-body">
+
+<pre><code class="language-c">
+time(&currentTime);
+
+timeString = ctime(&currentTime);
+</code></pre>
+
+<p>
+
+The <strong>time()</strong> function retrieves the current system
+timestamp.
+
+The <strong>ctime()</strong> function converts it into a readable
+date and time string.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Send -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#send">
+
+7️⃣ Sending Response
+
+</button>
+
+</h2>
+
+<div id="send"
+class="accordion-collapse collapse"
+data-bs-parent="#serverExplanation">
+
+<div class="accordion-body">
+
+<pre><code class="language-c">
+sendto(serverSocket,
+timeString,
+strlen(timeString),
+0,
+(struct sockaddr *)&clientAddr,
+clientLen);
+</code></pre>
+
+<p>
+
+The formatted system time is transmitted back to the requesting
+client.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Loop -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#loop">
+
+8️⃣ Infinite Server Loop
+
+</button>
+
+</h2>
+
+<div id="loop"
+class="accordion-collapse collapse"
+data-bs-parent="#serverExplanation">
+
+<div class="accordion-body">
+
+<p>
+
+The server continuously waits for new requests inside an infinite
+loop.
+
+After serving one client, it immediately becomes ready for the next
+request.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SERVER EXECUTION WORKFLOW -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+⚙️ Server Execution Workflow
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<div class="flow flex-column align-items-center">
+
+<div class="flow-step">
+
+Start Server
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Create UDP Socket
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Bind Port 8080
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Wait for Datagram
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Create Worker Thread
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Read Current Time
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Send Time to Client
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Wait for Next Client
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- COMPILATION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🛠️ Compilation
+
+</h2>
+
+<div class="card">
+
+<div class="card-body">
+
+<pre><code class="language-bash">
+gcc server.c -o server -lpthread
+</code></pre>
+
+<div class="alert alert-info">
+
+The <strong>-lpthread</strong> option links the POSIX thread library
+required for concurrent execution.
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SAMPLE SERVER OUTPUT -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📺 Sample Server Output
+
+</h2>
+
+<div class="card bg-dark text-white">
+
+<div class="card-body">
+
+<pre>
+=========================================
+ Concurrent UDP Time Server
+=========================================
+
+Listening on Port 8080...
+
+-----------------------------------------
+Request received from 127.0.0.1:53012
+
+Time Sent :
+Thu Jul 30 22:45:16 IST 2026
+
+-----------------------------------------
+Request received from 127.0.0.1:53018
+
+Time Sent :
+Thu Jul 30 22:45:20 IST 2026
+</pre>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- DEBUGGING TIPS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🐞 Debugging Tips
+
+</h2>
+
+<div class="alert alert-warning">
+
+<ul class="mb-0">
+
+<li>Check whether the server port is already in use.</li>
+
+<li>Verify that the client uses the correct IP address and port.</li>
+
+<li>Compile with <code>-lpthread</code> to enable thread support.</li>
+
+<li>Ensure that the firewall is not blocking UDP traffic.</li>
+
+<li>Check the return values of <code>socket()</code>, <code>bind()</code>, <code>recvfrom()</code>, and <code>sendto()</code>.</li>
+
+</ul>
+
+</div>
+
+</section>
+  <!-- ====================================================== -->
+<!-- CLIENT PROGRAM -->
+<!-- ====================================================== -->
+
+<section class="container py-5" id="client">
+
+<h2 class="section-title">
+
+💻 Program 2 – UDP Time Client
+
+</h2>
+
+<div class="card shadow mb-4">
+
+<div class="card-body">
+
+<h4>
+
+Objective
+
+</h4>
+
+<p>
+
+The client creates a UDP socket and sends a simple request message
+to the server. The server replies with its current system time.
+The client then displays the received time on the screen.
+
+</p>
+
+<div class="alert alert-info">
+
+<strong>Concepts Used</strong>
+
+<ul class="mt-2 mb-0">
+
+<li>UDP Client Socket</li>
+
+<li>sendto()</li>
+
+<li>recvfrom()</li>
+
+<li>Server Address Configuration</li>
+
+<li>Datagram Communication</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card shadow">
+
+<div class="card-header bg-dark text-white">
+
+<i class="fas fa-code"></i>
+
+client.c
+
+</div>
+
+<div class="card-body">
+
+<pre><code class="language-c">
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+
+#define PORT 8080
+#define BUFFER_SIZE 1024
+
+int main()
+{
+    int clientSocket;
+
+    struct sockaddr_in serverAddr;
+
+    char request[] = "TIME";
+
+    char buffer[BUFFER_SIZE];
+
+    socklen_t len = sizeof(serverAddr);
+
+    clientSocket = socket(AF_INET, SOCK_DGRAM, 0);
+
+    if(clientSocket < 0)
+    {
+        perror("Socket Creation Failed");
+        exit(EXIT_FAILURE);
+    }
+
+    memset(&serverAddr,0,sizeof(serverAddr));
+
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(PORT);
+    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+    sendto(clientSocket,
+           request,
+           strlen(request),
+           0,
+           (struct sockaddr *)&serverAddr,
+           len);
+
+    int bytes = recvfrom(clientSocket,
+                         buffer,
+                         BUFFER_SIZE,
+                         0,
+                         NULL,
+                         NULL);
+
+    if(bytes < 0)
+    {
+        perror("Receive Failed");
+        close(clientSocket);
+        exit(EXIT_FAILURE);
+    }
+
+    buffer[bytes]='\0';
+
+    printf("\n=====================================\n");
+    printf(" Current Time Received from Server\n");
+    printf("=====================================\n\n");
+
+    printf("%s\n",buffer);
+
+    close(clientSocket);
+
+    return 0;
+}
+</code></pre>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- CLIENT PROGRAM EXPLANATION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🔍 Understanding the Client Program
+
+</h2>
+
+<div class="accordion" id="clientExplanation">
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button"
+data-bs-toggle="collapse"
+data-bs-target="#c1">
+
+1️⃣ Creating UDP Socket
+
+</button>
+
+</h2>
+
+<div id="c1"
+class="accordion-collapse collapse show"
+data-bs-parent="#clientExplanation">
+
+<div class="accordion-body">
+
+<pre><code class="language-c">
+clientSocket =
+socket(AF_INET,SOCK_DGRAM,0);
+</code></pre>
+
+Creates a UDP socket for communication.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#c2">
+
+2️⃣ Configuring Server Address
+
+</button>
+
+</h2>
+
+<div id="c2"
+class="accordion-collapse collapse"
+data-bs-parent="#clientExplanation">
+
+<div class="accordion-body">
+
+The client specifies
+
+<ul>
+
+<li>Server IP Address</li>
+
+<li>Port Number</li>
+
+<li>IPv4 Address Family</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#c3">
+
+3️⃣ Sending Request
+
+</button>
+
+</h2>
+
+<div id="c3"
+class="accordion-collapse collapse"
+data-bs-parent="#clientExplanation">
+
+<div class="accordion-body">
+
+<pre><code class="language-c">
+sendto(...)
+</code></pre>
+
+The request "TIME" is sent to the server.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#c4">
+
+4️⃣ Receiving Response
+
+</button>
+
+</h2>
+
+<div id="c4"
+class="accordion-collapse collapse"
+data-bs-parent="#clientExplanation">
+
+<div class="accordion-body">
+
+<pre><code class="language-c">
+recvfrom(...)
+</code></pre>
+
+Receives the current system time from the server.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#c5">
+
+5️⃣ Displaying Time
+
+</button>
+
+</h2>
+
+<div id="c5"
+class="accordion-collapse collapse"
+data-bs-parent="#clientExplanation">
+
+<div class="accordion-body">
+
+The received time string is printed using
+
+<pre><code class="language-c">
+printf("%s",buffer);
+</code></pre>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- COMPILATION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🛠️ Compilation
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<pre><code class="language-bash">
+gcc server.c -o server -lpthread
+
+gcc client.c -o client
+</code></pre>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- EXECUTION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+▶️ Execution
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-6">
+
+<div class="card border-primary">
+
+<div class="card-header bg-primary text-white">
+
+Terminal 1
+
+</div>
+
+<div class="card-body">
+
+<pre><code class="language-bash">
+./server
+</code></pre>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card border-success">
+
+<div class="card-header bg-success text-white">
+
+Terminal 2
+
+</div>
+
+<div class="card-body">
+
+<pre><code class="language-bash">
+./client
+</code></pre>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SAMPLE OUTPUT -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🖥️ Sample Client Output
+
+</h2>
+
+<div class="card bg-dark text-white">
+
+<div class="card-body">
+
+<pre>
+=====================================
+ Current Time Received from Server
+=====================================
+
+Thu Jul 30 22:55:48 IST 2026
+</pre>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- OBSERVATION TABLE -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📊 Observation Table
+
+</h2>
+
+<table class="table table-bordered table-striped">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>Step</th>
+
+<th>Server</th>
+
+<th>Client</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Create Socket</td>
+
+<td>Yes</td>
+
+<td>Yes</td>
+
+</tr>
+
+<tr>
+
+<td>Send Request</td>
+
+<td>No</td>
+
+<td>Yes</td>
+
+</tr>
+
+<tr>
+
+<td>Receive Request</td>
+
+<td>Yes</td>
+
+<td>No</td>
+
+</tr>
+
+<tr>
+
+<td>Generate Time</td>
+
+<td>Yes</td>
+
+<td>No</td>
+
+</tr>
+
+<tr>
+
+<td>Send Response</td>
+
+<td>Yes</td>
+
+<td>No</td>
+
+</tr>
+
+<tr>
+
+<td>Receive Response</td>
+
+<td>No</td>
+
+<td>Yes</td>
+
+</tr>
+
+<tr>
+
+<td>Display Time</td>
+
+<td>No</td>
+
+<td>Yes</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- RESULT -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<div class="alert alert-success">
+
+<h3>
+
+✅ Result
+
+</h3>
+
+<p>
+
+The UDP Concurrent Time Server and Client were implemented successfully.
+The client transmitted a time request to the server, the server retrieved
+its current system time, and the client correctly displayed the received
+time. The experiment demonstrated UDP-based request-response communication
+and concurrent handling of client requests.
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- VIVA QUESTIONS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🎤 Viva Questions
+
+</h2>
+
+<div class="accordion" id="vivaAccordion">
+
+<!-- Viva 1 -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button"
+data-bs-toggle="collapse"
+data-bs-target="#v1">
+
+1. What is UDP?
+
+</button>
+
+</h2>
+
+<div id="v1"
+class="accordion-collapse collapse show"
+data-bs-parent="#vivaAccordion">
+
+<div class="accordion-body">
+
+UDP (User Datagram Protocol) is a connectionless transport layer
+protocol that provides fast communication without guaranteeing
+delivery or ordering of packets.
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Viva 2 -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v2">
+
+2. Why is UDP used for a Time Server?
+
+</button>
+
+</h2>
+
+<div id="v2"
+class="accordion-collapse collapse"
+data-bs-parent="#vivaAccordion">
+
+<div class="accordion-body">
+
+Because a Time Server only needs a simple request-response mechanism.
+UDP provides low latency and low communication overhead.
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Viva 3 -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v3">
+
+3. What is a Datagram?
+
+</button>
+
+</h2>
+
+<div id="v3"
+class="accordion-collapse collapse"
+data-bs-parent="#vivaAccordion">
+
+<div class="accordion-body">
+
+A datagram is an independent packet transmitted using UDP without
+establishing a connection.
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Viva 4 -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v4">
+
+4. Which socket type is used for UDP?
+
+</button>
+
+</h2>
+
+<div id="v4"
+class="accordion-collapse collapse"
+data-bs-parent="#vivaAccordion">
+
+<div class="accordion-body">
+
+SOCK_DGRAM
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Viva 5 -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v5">
+
+5. Which function sends a UDP packet?
+
+</button>
+
+</h2>
+
+<div id="v5"
+class="accordion-collapse collapse"
+data-bs-parent="#vivaAccordion">
+
+<div class="accordion-body">
+
+sendto()
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Viva 6 -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v6">
+
+6. Which function receives a UDP packet?
+
+</button>
+
+</h2>
+
+<div id="v6"
+class="accordion-collapse collapse"
+data-bs-parent="#vivaAccordion">
+
+<div class="accordion-body">
+
+recvfrom()
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Viva 7 -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v7">
+
+7. What is bind() used for?
+
+</button>
+
+</h2>
+
+<div id="v7"
+class="accordion-collapse collapse"
+data-bs-parent="#vivaAccordion">
+
+<div class="accordion-body">
+
+It associates a socket with a specific IP address and port.
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Viva 8 -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v8">
+
+8. Why are threads used in this server?
+
+</button>
+
+</h2>
+
+<div id="v8"
+class="accordion-collapse collapse"
+data-bs-parent="#vivaAccordion">
+
+<div class="accordion-body">
+
+Threads enable the server to process multiple client requests
+concurrently while continuing to listen for new requests.
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Viva 9 -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v9">
+
+9. Which function obtains the current system time?
+
+</button>
+
+</h2>
+
+<div id="v9"
+class="accordion-collapse collapse"
+data-bs-parent="#vivaAccordion">
+
+<div class="accordion-body">
+
+time()
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Viva 10 -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v10">
+
+10. Which function converts time into readable format?
+
+</button>
+
+</h2>
+
+<div id="v10"
+class="accordion-collapse collapse"
+data-bs-parent="#vivaAccordion">
+
+<div class="accordion-body">
+
+ctime()
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- MCQs -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📝 Self Assessment Quiz
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-6">
+
+<div class="card">
+
+<div class="card-body">
+
+<strong>1. UDP is ______ protocol.</strong>
+
+<ul>
+
+<li>a) Connection Oriented</li>
+
+<li class="text-success">b) Connectionless ✔</li>
+
+<li>c) Reliable</li>
+
+<li>d) Stateful</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card">
+
+<div class="card-body">
+
+<strong>2. UDP socket type is</strong>
+
+<ul>
+
+<li>a) SOCK_STREAM</li>
+
+<li class="text-success">b) SOCK_DGRAM ✔</li>
+
+<li>c) SOCK_RAW</li>
+
+<li>d) SOCK_SEQPACKET</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card">
+
+<div class="card-body">
+
+<strong>3. Which function sends a datagram?</strong>
+
+<ul>
+
+<li>a) write()</li>
+
+<li class="text-success">b) sendto() ✔</li>
+
+<li>c) recv()</li>
+
+<li>d) printf()</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card">
+
+<div class="card-body">
+
+<strong>4. UDP belongs to which layer?</strong>
+
+<ul>
+
+<li>a) Application</li>
+
+<li class="text-success">b) Transport ✔</li>
+
+<li>c) Data Link</li>
+
+<li>d) Network</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- COMMON ERRORS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🐞 Common Errors
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered">
+
+<thead class="table-danger">
+
+<tr>
+
+<th>Error</th>
+
+<th>Reason</th>
+
+<th>Solution</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Bind Failed</td>
+
+<td>Port already in use</td>
+
+<td>Change port or stop previous server</td>
+
+</tr>
+
+<tr>
+
+<td>Socket Creation Failed</td>
+
+<td>Socket API error</td>
+
+<td>Check permissions</td>
+
+</tr>
+
+<tr>
+
+<td>No Response</td>
+
+<td>Server not running</td>
+
+<td>Start server first</td>
+
+</tr>
+
+<tr>
+
+<td>Receive Failed</td>
+
+<td>Incorrect IP/Port</td>
+
+<td>Verify server configuration</td>
+
+</tr>
+
+<tr>
+
+<td>Compilation Error</td>
+
+<td>pthread missing</td>
+
+<td>Compile with -lpthread</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- PROGRAMMING TIPS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+💡 Programming Tips
+
+</h2>
+
+<div class="alert alert-info">
+
+<ul class="mb-0">
+
+<li>Always check the return value of socket().</li>
+
+<li>Always bind the server socket before receiving data.</li>
+
+<li>Use htons() when specifying the port number.</li>
+
+<li>Close sockets before exiting.</li>
+
+<li>Use pthread_detach() for worker threads.</li>
+
+<li>Display meaningful error messages using perror().</li>
+
+<li>Validate IP addresses before sending requests.</li>
+
+</ul>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- FAQ -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+❓ Frequently Asked Questions
+
+</h2>
+
+<div class="accordion" id="faq">
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button"
+data-bs-toggle="collapse"
+data-bs-target="#faq1">
+
+Why is UDP faster than TCP?
+
+</button>
+
+</h2>
+
+<div id="faq1"
+class="accordion-collapse collapse show"
+data-bs-parent="#faq">
+
+<div class="accordion-body">
+
+UDP does not establish connections or perform acknowledgements,
+making it faster with lower overhead.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#faq2">
+
+Can packets be lost in UDP?
+
+</button>
+
+</h2>
+
+<div id="faq2"
+class="accordion-collapse collapse"
+data-bs-parent="#faq">
+
+<div class="accordion-body">
+
+Yes. UDP does not guarantee delivery, ordering, or retransmission.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#faq3">
+
+Why do we use ctime()?
+
+</button>
+
+</h2>
+
+<div id="faq3"
+class="accordion-collapse collapse"
+data-bs-parent="#faq">
+
+<div class="accordion-body">
+
+ctime() converts the timestamp returned by time() into a human-readable
+date and time string.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- LAB CHECKLIST -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+✅ Lab Completion Checklist
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Compiled the server program.</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Compiled the client program.</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Executed the server.</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Executed the client.</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Verified the received system time.</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Answered the viva questions.</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Completed the self-assessment quiz.</label>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- ONE MINUTE REVISION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+⚡ One Minute Revision
+
+</h2>
+
+<div class="alert alert-success">
+
+<ul class="mb-0">
+
+<li>UDP is a connectionless transport layer protocol.</li>
+
+<li>The client sends a request using <code>sendto()</code>.</li>
+
+<li>The server receives requests using <code>recvfrom()</code>.</li>
+
+<li><code>time()</code> obtains the current system time.</li>
+
+<li><code>ctime()</code> converts the timestamp to a readable string.</li>
+
+<li>The server replies using <code>sendto()</code>.</li>
+
+<li>POSIX threads allow concurrent handling of multiple client requests.</li>
+
+</ul>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- REFERENCES -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📚 References
+
+</h2>
+
+<div class="card">
+
+<div class="card-body">
+
+<ol>
+
+<li>W. Richard Stevens, <em>UNIX Network Programming</em>, Volume 1.</li>
+
+<li>Behrouz A. Forouzan, <em>TCP/IP Protocol Suite</em>.</li>
+
+<li>Andrew S. Tanenbaum, <em>Computer Networks</em>.</li>
+
+<li>Linux Manual Pages – socket(), bind(), recvfrom(), sendto(), pthread.</li>
+
+</ol>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- FOOTER -->
+<!-- ====================================================== -->
+
+<footer class="py-5 bg-dark text-white text-center">
+
+<div class="container">
+
+<h4>
+
+PCCSL507 Computer Networks Laboratory
+
+</h4>
+
+<p>
+
+Lab 8 – Concurrent Time Server using UDP Socket Programming
+
+</p>
+
+<hr class="bg-light">
+
+<p class="mb-1">
+
+Prepared by
+
+<strong>Ms. Prof. Anju Markose J K</strong>
+
+</p>
+
+<p>
+
+Assistant Professor
+
+<br>
+
+Department of Computer Science & Engineering
+
+<br>
+
+Viswajyothi College of Engineering & Technology
+
+</p>
+
+<a href="#top" class="btn btn-primary">
+
+<i class="fas fa-arrow-up"></i>
+
+Back to Top
+
+</a>
+
+</div>
+
+</footer>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+
+</body>
+</html>

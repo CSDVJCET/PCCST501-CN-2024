@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Socket Programming Learning Module | PCCSL507</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+
+font-family:'Poppins',sans-serif;
+
+background:#f5f7fb;
+
+color:#263238;
+
+line-height:1.7;
+
+}
+
+.navbar{
+
+background:#0b3c7a;
+
+box-shadow:0 4px 15px rgba(0,0,0,.15);
+
+}
+
+.hero{
+
+background:linear-gradient(135deg,#082f6b,#1565c0);
+
+color:white;
+
+padding:90px 0;
+
+}
+
+.hero h1{
+
+font-size:3.2rem;
+
+font-weight:700;
+
+}
+
+.hero p{
+
+font-size:1.15rem;
+
+}
+
+.btn-start{
+
+padding:14px 34px;
+
+font-size:18px;
+
+border-radius:40px;
+
+}
+
+.section-title{
+
+border-left:6px solid #1565c0;
+
+padding-left:14px;
+
+margin-top:60px;
+
+margin-bottom:25px;
+
+font-weight:700;
+
+}
+
+.card{
+
+border:none;
+
+border-radius:18px;
+
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+
+transition:.3s;
+
+}
+
+.card:hover{
+
+transform:translateY(-6px);
+
+}
+
+.learning-card{
+
+padding:30px;
+
+text-align:center;
+
+height:100%;
+
+}
+
+.learning-card i{
+
+font-size:48px;
+
+margin-bottom:18px;
+
+}
+
+.stats-card{
+
+padding:30px;
+
+text-align:center;
+
+}
+
+.stats-card h2{
+
+font-size:42px;
+
+font-weight:700;
+
+color:#1565c0;
+
+}
+
+.roadmap-step{
+
+background:white;
+
+padding:18px;
+
+border-left:5px solid #1565c0;
+
+margin-bottom:15px;
+
+border-radius:12px;
+
+font-weight:500;
+
+}
+
+.chapter-card{
+
+height:100%;
+
+padding:25px;
+
+}
+
+.chapter-card h4{
+
+color:#1565c0;
+
+font-weight:700;
+
+}
+
+footer{
+
+margin-top:70px;
+
+background:#082f6b;
+
+color:white;
+
+padding:25px;
+
+text-align:center;
+
+}
+
+</style>
+
+</head>
+
+<body id="top">
+
+<!-- ===========================
+Navigation
+=========================== -->
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+
+<div class="container">
+
+<a class="navbar-brand fw-bold"
+
+href="../networklab.html">
+
+<i class="fas fa-network-wired me-2"></i>
+
+PCCSL507
+
+</a>
+
+<button
+
+class="navbar-toggler"
+
+type="button"
+
+data-bs-toggle="collapse"
+
+data-bs-target="#navbarMenu">
+
+<span class="navbar-toggler-icon">
+
+</span>
+
+</button>
+
+<div
+
+class="collapse navbar-collapse"
+
+id="navbarMenu">
+
+<ul class="navbar-nav ms-auto">
+
+<li class="nav-item">
+
+<a class="nav-link"
+
+href="../networklab.html">
+
+Home
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link"
+
+href="lab5.html">
+
+Lab 5
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link active"
+
+href="#">
+
+Learning Module
+
+</a>
+
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</nav>
+
+<!-- ===========================
+Hero Section
+=========================== -->
+
+<section class="hero">
+
+<div class="container text-center">
+
+<h1>
+
+<i class="fas fa-book-open me-2"></i>
+
+Socket Programming
+
+<br>
+
+Learning Module
+
+</h1>
+
+<p class="mt-4">
+
+Interactive Study Material for
+
+<strong>PCCSL507 Computer Networks Laboratory</strong>
+
+</p>
+
+<p>
+
+Master socket programming concepts before implementing
+TCP and UDP client–server applications.
+
+</p>
+
+<div class="mt-4">
+
+<a
+
+href="#learning-outcomes"
+
+class="btn btn-warning btn-start">
+
+<i class="fas fa-play-circle me-2"></i>
+
+Start Learning
+
+</a>
+
+<a
+
+href="lab5.html"
+
+class="btn btn-light btn-start ms-2">
+
+<i class="fas fa-arrow-left me-2"></i>
+
+Back to Lab 5
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<main class="container py-5">
+
+<!-- ===========================
+Learning Outcomes
+=========================== -->
+
+<h2
+
+id="learning-outcomes"
+
+class="section-title">
+
+🎯 Learning Outcomes
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-3">
+
+<div class="card learning-card">
+
+<i class="fas fa-plug text-primary"></i>
+
+<h5>
+
+Socket Basics
+
+</h5>
+
+<p>
+
+Understand what sockets are and why applications use them.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card learning-card">
+
+<i class="fas fa-server text-success"></i>
+
+<h5>
+
+Client–Server
+
+</h5>
+
+<p>
+
+Understand communication between clients and servers.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card learning-card">
+
+<i class="fas fa-code text-danger"></i>
+
+<h5>
+
+Socket APIs
+
+</h5>
+
+<p>
+
+Learn the important socket programming functions.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card learning-card">
+
+<i class="fas fa-laptop-code text-warning"></i>
+
+<h5>
+
+Programming
+
+</h5>
+
+<p>
+
+Prepare for TCP and UDP programming experiments.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Continue with Part 1B -->
+  <!-- ===================================================== -->
+<!-- COURSE STATISTICS -->
+<!-- ===================================================== -->
+
+<h2 class="section-title">
+    <i class="fas fa-chart-line text-primary me-2"></i>
+    Module Statistics
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-3">
+<div class="card stats-card">
+<i class="fas fa-book fa-3x text-primary mb-3"></i>
+<h2>15</h2>
+<p>Learning Chapters</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card stats-card">
+<i class="fas fa-code fa-3x text-success mb-3"></i>
+<h2>20+</h2>
+<p>Socket APIs</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card stats-card">
+<i class="fas fa-laptop-code fa-3x text-danger mb-3"></i>
+<h2>50+</h2>
+<p>Code Examples</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card stats-card">
+<i class="fas fa-question-circle fa-3x text-warning mb-3"></i>
+<h2>50</h2>
+<p>Practice MCQs</p>
+</div>
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- LEARNING ROADMAP -->
+<!-- ===================================================== -->
+
+<h2 class="section-title">
+<i class="fas fa-road text-success me-2"></i>
+Learning Roadmap
+</h2>
+
+<div class="roadmap-step">
+📘 Chapter 1 — Introduction to Network Programming
+</div>
+
+<div class="roadmap-step">
+🌐 Chapter 2 — Client–Server Architecture
+</div>
+
+<div class="roadmap-step">
+🔌 Chapter 3 — Socket Fundamentals
+</div>
+
+<div class="roadmap-step">
+🏗 Chapter 4 — Socket Address Structures
+</div>
+
+<div class="roadmap-step">
+🌍 Chapter 5 — IPv4 & IPv6
+</div>
+
+<div class="roadmap-step">
+🔢 Chapter 6 — Byte Ordering
+</div>
+
+<div class="roadmap-step">
+📍 Chapter 7 — Address Conversion
+</div>
+
+<div class="roadmap-step">
+💻 Chapter 8 — Socket Programming APIs
+</div>
+
+<div class="roadmap-step">
+📦 Chapter 9 — TCP Programming
+</div>
+
+<div class="roadmap-step">
+📨 Chapter 10 — UDP Programming
+</div>
+
+<div class="roadmap-step">
+⚙ Chapter 11 — Advanced Socket I/O
+</div>
+
+<div class="roadmap-step">
+🐧 Chapter 12 — Linux Networking Commands
+</div>
+
+<div class="roadmap-step">
+🚨 Chapter 13 — Common Errors
+</div>
+
+<div class="roadmap-step">
+📝 Chapter 14 — Revision
+</div>
+
+<div class="roadmap-step">
+🎯 Chapter 15 — Interactive Self Assessment
+</div>
+
+<!-- ===================================================== -->
+<!-- HOW TO USE -->
+<!-- ===================================================== -->
+
+<h2 class="section-title">
+<i class="fas fa-compass text-warning me-2"></i>
+How to Use This Learning Module
+</h2>
+
+<div class="card p-4">
+
+<div class="row">
+
+<div class="col-md-6">
+
+<h5>
+<i class="fas fa-book-open text-primary me-2"></i>
+Study
+</h5>
+
+<p>
+Read each chapter in sequence. Every chapter introduces one concept and builds on the previous one.
+</p>
+
+</div>
+
+<div class="col-md-6">
+
+<h5>
+<i class="fas fa-code text-success me-2"></i>
+Practice
+</h5>
+
+<p>
+Study the examples and Linux commands before attempting the laboratory experiments.
+</p>
+
+</div>
+
+<div class="col-md-6 mt-4">
+
+<h5>
+<i class="fas fa-pencil-ruler text-danger me-2"></i>
+Revise
+</h5>
+
+<p>
+Use the summary tables and quick revision sections before your laboratory examination.
+</p>
+
+</div>
+
+<div class="col-md-6 mt-4">
+
+<h5>
+<i class="fas fa-check-circle text-warning me-2"></i>
+Assess
+</h5>
+
+<p>
+Complete the MCQs after finishing every chapter to evaluate your understanding.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- TABLE OF CONTENTS -->
+<!-- ===================================================== -->
+
+<h2 id="toc" class="section-title">
+<i class="fas fa-list text-primary me-2"></i>
+Table of Contents
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-4">
+<div class="card chapter-card">
+<h4>Chapter 1</h4>
+<p>Introduction to Network Programming</p>
+<a href="#chapter1" class="btn btn-outline-primary btn-sm">
+Open Chapter
+</a>
+</div>
+</div>
+
+<div class="col-lg-4">
+<div class="card chapter-card">
+<h4>Chapter 2</h4>
+<p>Client–Server Architecture</p>
+<a href="#chapter2" class="btn btn-outline-primary btn-sm">
+Open Chapter
+</a>
+</div>
+</div>
+
+<div class="col-lg-4">
+<div class="card chapter-card">
+<h4>Chapter 3</h4>
+<p>Socket Fundamentals</p>
+<a href="#chapter3" class="btn btn-outline-primary btn-sm">
+Open Chapter
+</a>
+</div>
+</div>
+
+<div class="col-lg-4">
+<div class="card chapter-card">
+<h4>Chapter 4</h4>
+<p>Socket Address Structures</p>
+<a href="#chapter4" class="btn btn-outline-primary btn-sm">
+Open Chapter
+</a>
+</div>
+</div>
+
+<div class="col-lg-4">
+<div class="card chapter-card">
+<h4>Chapter 5</h4>
+<p>IPv4 & IPv6</p>
+<a href="#chapter5" class="btn btn-outline-primary btn-sm">
+Open Chapter
+</a>
+</div>
+</div>
+
+<div class="col-lg-4">
+<div class="card chapter-card">
+<h4>Chapter 6</h4>
+<p>Byte Ordering</p>
+<a href="#chapter6" class="btn btn-outline-primary btn-sm">
+Open Chapter
+</a>
+</div>
+</div>
+
+</main>
+
+<footer>
+
+<h5>PCCSL507 Computer Networks Laboratory</h5>
+
+<p>
+
+Socket Programming Learning Module
+
+</p>
+
+<p>
+
+Developed by
+
+<strong>Ms. Prof. Anju Markose J K</strong>
+
+</p>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,4723 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+
+Lab 7 | Multi-User Chat Server using TCP | PCCSL507
+
+</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+background:#f5f7fb;
+color:#263238;
+}
+
+.navbar{
+background:#0b3c7a;
+}
+
+.hero{
+
+background:linear-gradient(135deg,#082f6b,#26a69a);
+
+padding:90px 0;
+
+color:white;
+
+}
+
+.hero h1{
+
+font-size:48px;
+
+font-weight:bold;
+
+}
+
+.hero p{
+
+font-size:20px;
+
+}
+
+.card{
+
+border:none;
+
+border-radius:18px;
+
+box-shadow:0 8px 20px rgba(0,0,0,.12);
+
+transition:.3s;
+
+}
+
+.card:hover{
+
+transform:translateY(-5px);
+
+}
+
+.section-title{
+
+border-left:6px solid #26a69a;
+
+padding-left:12px;
+
+margin-top:60px;
+
+margin-bottom:20px;
+
+font-weight:bold;
+
+}
+
+.stats{
+
+font-size:28px;
+
+font-weight:bold;
+
+color:#26a69a;
+
+}
+
+.api-card{
+
+padding:25px;
+
+text-align:center;
+
+height:100%;
+
+}
+
+.flow{
+
+background:#111827;
+
+color:#7CFC00;
+
+padding:20px;
+
+border-radius:12px;
+
+font-family:Consolas;
+
+overflow:auto;
+
+}
+
+footer{
+
+background:#082f6b;
+
+color:white;
+
+padding:25px;
+
+margin-top:60px;
+
+}
+
+</style>
+
+</head>
+
+<body id="top">
+
+<!-- ====================================================== -->
+<!-- NAVBAR -->
+<!-- ====================================================== -->
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+
+<div class="container">
+
+<a class="navbar-brand fw-bold"
+href="module.html">
+
+<i class="fas fa-network-wired"></i>
+
+PCCSL507
+
+</a>
+
+<button class="navbar-toggler"
+
+type="button"
+
+data-bs-toggle="collapse"
+
+data-bs-target="#menu">
+
+<span class="navbar-toggler-icon">
+
+</span>
+
+</button>
+
+<div class="collapse navbar-collapse"
+id="menu">
+
+<ul class="navbar-nav ms-auto">
+
+<li class="nav-item">
+
+<a class="nav-link"
+
+href="module.html">
+
+Network Lab
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link"
+
+href="lab6.html">
+
+Lab 6
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link active"
+
+href="#">
+
+Lab 7
+
+</a>
+
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</nav>
+
+<!-- ====================================================== -->
+<!-- HERO -->
+<!-- ====================================================== -->
+
+<section class="hero">
+
+<div class="container text-center">
+
+<h1>
+
+<i class="fas fa-paper-plane"></i>
+
+Lab 7
+
+<br>
+Multi-User Chat Server using TCP
+
+</h1>
+
+<p class="mt-4">
+
+Pre-Laboratory Learning Module
+
+</p>
+
+<p>
+
+Learn how real-time chat applications like WhatsApp, Slack and Discord use TCP Socket Programming to exchange messages reliably between multiple clients through a centralized server.
+
+</p>
+
+</div>
+
+</section>
+<!-- ====================================================== -->
+<!-- COURSE STATISTICS -->
+<!-- ====================================================== -->
+
+<section class="py-5">
+
+<div class="container">
+
+<div class="row g-4">
+
+<div class="col-md-3">
+
+<div class="card stat-card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-network-wired fa-3x text-primary mb-3"></i>
+
+<h2>TCP</h2>
+
+<p>
+
+Reliable Communication
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card stat-card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-users fa-3x text-success mb-3"></i>
+
+<h2>Multi User</h2>
+
+<p>
+
+Multiple Clients
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card stat-card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-comments fa-3x text-warning mb-3"></i>
+
+<h2>Chat</h2>
+
+<p>
+
+Real-Time Messaging
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card stat-card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-server fa-3x text-danger mb-3"></i>
+
+<h2>Server</h2>
+
+<p>
+
+Central Communication Hub
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- LEARNING OUTCOMES -->
+<!-- ====================================================== -->
+
+<section id="overview" class="container py-5">
+
+<h2 class="section-title">
+
+🎯 Learning Outcomes
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-6">
+
+<div class="card border-primary h-100">
+
+<div class="card-header bg-primary text-white">
+
+After completing this lab, you will be able to
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Understand TCP based multi-user communication.</li>
+
+<li>Create a TCP chat server.</li>
+
+<li>Create multiple TCP clients.</li>
+
+<li>Exchange messages between clients.</li>
+
+<li>Understand concurrent client handling.</li>
+
+<li>Compile socket programs in Linux.</li>
+
+<li>Debug client-server communication.</li>
+
+<li>Observe reliable message delivery.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card border-success h-100">
+
+<div class="card-header bg-success text-white">
+
+Prerequisites
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Linux Operating System</li>
+
+<li>Basic C Programming</li>
+
+<li>TCP Socket APIs</li>
+
+<li>Terminal Commands</li>
+
+<li>gcc Compiler</li>
+
+<li>Knowledge of Client-Server Model</li>
+
+<li>Basic Networking Concepts</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- WHY CHAT SERVER -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+💬 What is a Multi-User Chat Server?
+
+</h2>
+
+<div class="card shadow-sm p-4">
+
+<p>
+
+A multi-user chat server is a centralized application
+that allows multiple clients to communicate with each
+other simultaneously over a network.
+Each connected client sends messages to the server,
+and the server distributes those messages to the
+appropriate clients.
+
+</p>
+
+<div class="alert alert-primary mt-3">
+
+<b>Key Idea</b>
+
+<br><br>
+
+Clients never communicate directly with one another.
+
+All communication passes through the TCP server,
+which manages connections and forwards messages.
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- WHY TCP -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🔒 Why TCP for Chat Applications?
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-6">
+
+<div class="card border-success h-100">
+
+<div class="card-header bg-success text-white">
+
+Advantages
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Reliable communication</li>
+
+<li>No packet loss</li>
+
+<li>Messages arrive in order</li>
+
+<li>Error checking</li>
+
+<li>Flow control</li>
+
+<li>Congestion control</li>
+
+<li>Connection-oriented protocol</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card border-danger h-100">
+
+<div class="card-header bg-danger text-white">
+
+Why Not UDP?
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Packets may be lost.</li>
+
+<li>Packets may arrive out of order.</li>
+
+<li>No delivery guarantee.</li>
+
+<li>No acknowledgements.</li>
+
+<li>Not suitable for chat applications.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- REAL WORLD APPLICATIONS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🌍 Real-World Applications
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fab fa-whatsapp fa-4x text-success mb-3"></i>
+
+<h4>WhatsApp</h4>
+
+<p>
+
+Reliable instant messaging.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fab fa-discord fa-4x text-primary mb-3"></i>
+
+<h4>Discord</h4>
+
+<p>
+
+Gaming and community chat.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-users fa-4x text-info mb-3"></i>
+
+<h4>Microsoft Teams</h4>
+
+<p>
+
+Enterprise collaboration.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fab fa-slack fa-4x text-warning mb-3"></i>
+
+<h4>Slack</h4>
+
+<p>
+
+Office communication platform.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-comments fa-4x text-danger mb-3"></i>
+
+<h4>IRC</h4>
+
+<p>
+
+Internet Relay Chat.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-video fa-4x text-primary mb-3"></i>
+
+<h4>Zoom Chat</h4>
+
+<p>
+
+Meeting chat system.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- TCP SOCKET RECAP -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📚 TCP Socket Programming Refresher
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>Function</th>
+
+<th>Purpose</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td><code>socket()</code></td>
+
+<td>Create a TCP socket.</td>
+
+</tr>
+
+<tr>
+
+<td><code>bind()</code></td>
+
+<td>Assign IP address and port.</td>
+
+</tr>
+
+<tr>
+
+<td><code>listen()</code></td>
+
+<td>Wait for client connections.</td>
+
+</tr>
+
+<tr>
+
+<td><code>accept()</code></td>
+
+<td>Accept a client connection.</td>
+
+</tr>
+
+<tr>
+
+<td><code>connect()</code></td>
+
+<td>Connect client to server.</td>
+
+</tr>
+
+<tr>
+
+<td><code>send()</code></td>
+
+<td>Send messages.</td>
+
+</tr>
+
+<tr>
+
+<td><code>recv()</code></td>
+
+<td>Receive messages.</td>
+
+</tr>
+
+<tr>
+
+<td><code>close()</code></td>
+
+<td>Terminate the connection.</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="alert alert-success mt-5">
+
+<h4>
+
+🚀 Next Section
+
+</h4>
+
+<p>
+
+Next, we will understand the
+<b>Multi-User Chat Server Architecture</b>,
+how multiple clients connect to one server,
+and how messages are exchanged between them.
+
+</p>
+
+</div>
+
+</section>
+<!-- ====================================================== -->
+<!-- CLIENT SERVER ARCHITECTURE -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🏗 Multi-User Chat Architecture
+
+</h2>
+
+<div class="card shadow-sm p-5">
+
+<div class="row align-items-center">
+
+<div class="col-lg-4 text-center">
+
+<div class="alert alert-primary">
+
+👤 Client 1
+
+<br>
+
+Alice
+
+</div>
+
+<div class="alert alert-primary">
+
+👤 Client 2
+
+<br>
+
+Bob
+
+</div>
+
+<div class="alert alert-primary">
+
+👤 Client 3
+
+<br>
+
+Charlie
+
+</div>
+
+</div>
+
+<div class="col-lg-4 text-center">
+
+<div class="card border-danger">
+
+<div class="card-body">
+
+<i class="fas fa-server fa-4x text-danger mb-3"></i>
+
+<h3>
+
+TCP Chat Server
+
+</h3>
+
+<p>
+
+Accepts Connections
+
+<br>
+
+Receives Messages
+
+<br>
+
+Broadcasts Messages
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-4 text-center">
+
+<div class="alert alert-success">
+
+👤 Client 4
+
+<br>
+
+David
+
+</div>
+
+<div class="alert alert-success">
+
+👤 Client 5
+
+<br>
+
+Emma
+
+</div>
+
+<div class="alert alert-success">
+
+👤 Client 6
+
+<br>
+
+Frank
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- HOW CHAT WORKS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🔄 How Does a Chat Server Work?
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-3">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<div class="display-4">
+
+①
+
+</div>
+
+<h5>
+
+Connect
+
+</h5>
+
+<p>
+
+Client establishes a TCP connection with the server.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<div class="display-4">
+
+②
+
+</div>
+
+<h5>
+
+Send
+
+</h5>
+
+<p>
+
+Client sends a chat message to the server.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<div class="display-4">
+
+③
+
+</div>
+
+<h5>
+
+Broadcast
+
+</h5>
+
+<p>
+
+Server forwards the message to every connected client.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<div class="display-4">
+
+④
+
+</div>
+
+<h5>
+
+Receive
+
+</h5>
+
+<p>
+
+Every client receives and displays the new message.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- MESSAGE FLOW -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📨 Message Flow
+
+</h2>
+
+<div class="card shadow-sm p-5">
+
+<div class="text-center">
+
+<div class="alert alert-primary">
+
+👤 Alice
+
+</div>
+
+<div class="display-6">
+
+⬇
+
+</div>
+
+<div class="alert alert-warning">
+
+TCP send()
+
+</div>
+
+<div class="display-6">
+
+⬇
+
+</div>
+
+<div class="alert alert-danger">
+
+🖥 Chat Server
+
+</div>
+
+<div class="display-6">
+
+⬇⬇⬇
+
+</div>
+
+<div class="row">
+
+<div class="col-md-4">
+
+<div class="alert alert-success">
+
+👤 Bob
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="alert alert-success">
+
+👤 Charlie
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="alert alert-success">
+
+👤 David
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SERVER RESPONSIBILITIES -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🖥 Responsibilities of the Server
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-6">
+
+<div class="card border-danger h-100">
+
+<div class="card-header bg-danger text-white">
+
+Server Tasks
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Create a TCP socket.</li>
+
+<li>Bind to a port number.</li>
+
+<li>Listen for incoming connections.</li>
+
+<li>Accept multiple clients.</li>
+
+<li>Receive client messages.</li>
+
+<li>Broadcast messages to all connected clients.</li>
+
+<li>Handle client disconnections.</li>
+
+<li>Close sockets when the server terminates.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card border-primary h-100">
+
+<div class="card-header bg-primary text-white">
+
+Client Tasks
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Create a TCP socket.</li>
+
+<li>Connect to the server.</li>
+
+<li>Send chat messages.</li>
+
+<li>Receive messages from others.</li>
+
+<li>Display received messages.</li>
+
+<li>Disconnect safely.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SOCKET APIS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+⚙ TCP Socket APIs Used
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover">
+
+<thead class="table-success">
+
+<tr>
+
+<th>API</th>
+
+<th>Purpose</th>
+
+<th>Used By</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td><code>socket()</code></td>
+
+<td>Create a socket.</td>
+
+<td>Client & Server</td>
+
+</tr>
+
+<tr>
+
+<td><code>bind()</code></td>
+
+<td>Assign port number.</td>
+
+<td>Server</td>
+
+</tr>
+
+<tr>
+
+<td><code>listen()</code></td>
+
+<td>Wait for client requests.</td>
+
+<td>Server</td>
+
+</tr>
+
+<tr>
+
+<td><code>accept()</code></td>
+
+<td>Accept a connection.</td>
+
+<td>Server</td>
+
+</tr>
+
+<tr>
+
+<td><code>connect()</code></td>
+
+<td>Connect to server.</td>
+
+<td>Client</td>
+
+</tr>
+
+<tr>
+
+<td><code>send()</code></td>
+
+<td>Transmit messages.</td>
+
+<td>Both</td>
+
+</tr>
+
+<tr>
+
+<td><code>recv()</code></td>
+
+<td>Receive messages.</td>
+
+<td>Both</td>
+
+</tr>
+
+<tr>
+
+<td><code>close()</code></td>
+
+<td>Terminate the connection.</td>
+
+<td>Both</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- WHY THREADS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🧵 Why Does a Chat Server Need Threads?
+
+</h2>
+
+<div class="card shadow-sm p-4">
+
+<p>
+
+A single-threaded server can communicate with only one client at a time.
+If multiple clients connect simultaneously, the remaining clients must wait
+until the current communication finishes.
+
+</p>
+
+<div class="alert alert-info">
+
+<b>Solution:</b>
+
+Create one thread for every connected client.
+
+Each thread independently receives messages from its client while
+the main server continues accepting new connections.
+
+</div>
+
+<div class="row mt-4">
+
+<div class="col-md-3">
+
+<div class="card text-center">
+
+<div class="card-body">
+
+🧵 Thread 1
+
+<br>
+
+Client 1
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card text-center">
+
+<div class="card-body">
+
+🧵 Thread 2
+
+<br>
+
+Client 2
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card text-center">
+
+<div class="card-body">
+
+🧵 Thread 3
+
+<br>
+
+Client 3
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card text-center">
+
+<div class="card-body">
+
+🧵 Thread 4
+
+<br>
+
+Client 4
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- TRANSITION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<div class="alert alert-success">
+
+<h4>
+
+🚀 Next Section
+
+</h4>
+
+<p>
+
+Now that you understand how a multi-user chat application works,
+we will study the experiment objective, problem statement,
+design algorithm, and workflow before implementing the complete
+TCP chat server and client programs.
+
+</p>
+
+</div>
+
+</section>
+<!-- ====================================================== -->
+<!-- EXPERIMENT OBJECTIVE -->
+<!-- ====================================================== -->
+
+<section class="container py-5" id="experiment">
+
+<h2 class="section-title">
+
+🧪 Experiment Objective
+
+</h2>
+
+<div class="card shadow-sm p-4">
+
+<p>
+
+To design and implement a
+<b>Multi-User Chat Server</b>
+using
+<b>TCP Socket Programming</b>
+in Linux.
+The server should allow multiple clients to connect
+simultaneously and exchange messages reliably over a TCP
+connection.
+
+</p>
+
+<div class="alert alert-primary">
+
+After completing this experiment, students will understand
+how modern messaging applications implement reliable
+client-server communication.
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- PROBLEM STATEMENT -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📄 Problem Statement
+
+</h2>
+
+<div class="card shadow-sm p-4">
+
+<p>
+
+Implement a
+<b>Multi-User Chat Server</b>
+using
+<b>TCP</b>
+as the transport layer protocol.
+
+The server should
+
+<ul>
+
+<li>Accept multiple client connections.</li>
+
+<li>Receive messages from any connected client.</li>
+
+<li>Broadcast the received message to every other connected client.</li>
+
+<li>Allow clients to communicate until they disconnect.</li>
+
+</ul>
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- EXPERIMENT REQUIREMENTS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📋 Functional Requirements
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-6">
+
+<div class="card border-success h-100">
+
+<div class="card-header bg-success text-white">
+
+Server Requirements
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Create a TCP socket.</li>
+
+<li>Bind to a port number.</li>
+
+<li>Listen for clients.</li>
+
+<li>Accept multiple clients.</li>
+
+<li>Create a thread for every client.</li>
+
+<li>Receive client messages.</li>
+
+<li>Broadcast messages.</li>
+
+<li>Remove disconnected clients.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card border-primary h-100">
+
+<div class="card-header bg-primary text-white">
+
+Client Requirements
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Create TCP socket.</li>
+
+<li>Connect to server.</li>
+
+<li>Send messages.</li>
+
+<li>Receive messages continuously.</li>
+
+<li>Display sender messages.</li>
+
+<li>Exit gracefully.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SERVER ALGORITHM -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🖥 Server Algorithm
+
+</h2>
+
+<div class="card shadow-sm p-4">
+
+<ol>
+
+<li>Create a TCP socket.</li>
+
+<li>Bind the socket to a port.</li>
+
+<li>Listen for incoming connections.</li>
+
+<li>Accept a client connection.</li>
+
+<li>Store the client's socket descriptor.</li>
+
+<li>Create a separate thread for the client.</li>
+
+<li>Receive messages from the client.</li>
+
+<li>Broadcast messages to every connected client.</li>
+
+<li>If the client disconnects, remove it from the client list.</li>
+
+<li>Continue serving remaining clients.</li>
+
+</ol>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- CLIENT ALGORITHM -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+👤 Client Algorithm
+
+</h2>
+
+<div class="card shadow-sm p-4">
+
+<ol>
+
+<li>Create a TCP socket.</li>
+
+<li>Connect to the chat server.</li>
+
+<li>Enter a username.</li>
+
+<li>Create a receiving thread.</li>
+
+<li>Continuously read messages from the keyboard.</li>
+
+<li>Send messages to the server.</li>
+
+<li>Display incoming messages from other users.</li>
+
+<li>Exit when requested.</li>
+
+</ol>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- PROGRAM LOGIC -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🧠 Program Logic
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-6">
+
+<div class="card border-primary h-100">
+
+<div class="card-header bg-primary text-white">
+
+Server Logic
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Maintain a list of connected clients.</li>
+
+<li>Each client gets a dedicated thread.</li>
+
+<li>Receive one client's message.</li>
+
+<li>Broadcast to all remaining clients.</li>
+
+<li>Repeat until client disconnects.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card border-success h-100">
+
+<div class="card-header bg-success text-white">
+
+Client Logic
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Connect to server.</li>
+
+<li>Send username.</li>
+
+<li>Type chat messages.</li>
+
+<li>Receive messages simultaneously.</li>
+
+<li>Display all incoming chats.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- WORKFLOW -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🔄 Complete Workflow
+
+</h2>
+
+<div class="card shadow-sm p-5">
+
+<div class="text-center">
+
+<div class="alert alert-primary">
+
+Start Server
+
+</div>
+
+↓
+
+<div class="alert alert-success">
+
+Accept Client Connection
+
+</div>
+
+↓
+
+<div class="alert alert-warning">
+
+Create Client Thread
+
+</div>
+
+↓
+
+<div class="alert alert-info">
+
+Receive Client Message
+
+</div>
+
+↓
+
+<div class="alert alert-danger">
+
+Broadcast Message
+
+</div>
+
+↓
+
+<div class="alert alert-success">
+
+All Clients Receive Message
+
+</div>
+
+↓
+
+<div class="alert alert-secondary">
+
+Repeat Until Exit
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- COMMUNICATION EXAMPLE -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+💬 Communication Example
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-4">
+
+<div class="card">
+
+<div class="card-header bg-primary text-white">
+
+Alice
+
+</div>
+
+<div class="card-body">
+
+<pre class="flow">
+Hello Everyone!
+</pre>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card">
+
+<div class="card-header bg-danger text-white">
+
+Server
+
+</div>
+
+<div class="card-body">
+
+<pre class="flow">
+Receive Message
+
+Broadcast
+
+to all users
+</pre>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card">
+
+<div class="card-header bg-success text-white">
+
+Bob & Charlie
+
+</div>
+
+<div class="card-body">
+
+<pre class="flow">
+Alice :
+
+Hello Everyone!
+</pre>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- THREAD VISUALIZATION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🧵 Thread Management
+
+</h2>
+
+<div class="card shadow-sm p-5">
+
+<div class="row text-center">
+
+<div class="col-md-2">
+
+<div class="alert alert-primary">
+
+Main Thread
+
+</div>
+
+</div>
+
+<div class="col-md-2">
+
+<div class="alert alert-success">
+
+Client 1
+
+</div>
+
+</div>
+
+<div class="col-md-2">
+
+<div class="alert alert-success">
+
+Client 2
+
+</div>
+
+</div>
+
+<div class="col-md-2">
+
+<div class="alert alert-success">
+
+Client 3
+
+</div>
+
+</div>
+
+<div class="col-md-2">
+
+<div class="alert alert-success">
+
+Client 4
+
+</div>
+
+</div>
+
+<div class="col-md-2">
+
+<div class="alert alert-success">
+
+Client 5
+
+</div>
+
+</div>
+
+</div>
+
+<p class="mt-4">
+
+Each client communicates with the server through its own
+thread, allowing multiple users to chat simultaneously
+without blocking one another.
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- TRANSITION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<div class="alert alert-success">
+
+<h4>
+
+🚀 Next Section
+
+</h4>
+
+<p>
+
+You are now ready to implement the complete
+<b>TCP Multi-User Chat Server</b>.
+In the next section we will develop the
+complete <b>Server Program</b> using
+POSIX Threads (<code>pthread</code>) to
+handle multiple clients concurrently.
+
+</p>
+
+</div>
+
+</section>
+<!-- ====================================================== -->
+<!-- COMPLETE SERVER PROGRAM -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+💻 TCP Multi-User Chat Server (server.c)
+
+</h2>
+
+<div class="alert alert-primary">
+
+This server uses <b>POSIX Threads (pthread)</b> to handle multiple clients simultaneously.
+Each connected client gets a dedicated thread. When one client sends a message, the
+server broadcasts it to all the remaining connected clients.
+
+</div>
+
+<div class="card shadow-sm">
+
+<div class="card-body">
+
+<pre><code class="language-c">
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;pthread.h&gt;
+
+#define PORT 8080
+#define MAX_CLIENTS 10
+#define BUFFER_SIZE 1024
+
+typedef struct
+{
+    int socket;
+    char name[50];
+} Client;
+
+Client clients[MAX_CLIENTS];
+int clientCount = 0;
+
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
+void broadcast(char message[], int sender)
+{
+    pthread_mutex_lock(&mutex);
+
+    for(int i=0;i&lt;clientCount;i++)
+    {
+        if(clients[i].socket != sender)
+        {
+            send(clients[i].socket,
+                 message,
+                 strlen(message),
+                 0);
+        }
+    }
+
+    pthread_mutex_unlock(&mutex);
+}
+
+void removeClient(int socket)
+{
+    pthread_mutex_lock(&mutex);
+
+    for(int i=0;i&lt;clientCount;i++)
+    {
+        if(clients[i].socket == socket)
+        {
+            for(int j=i;j&lt;clientCount-1;j++)
+                clients[j]=clients[j+1];
+
+            clientCount--;
+            break;
+        }
+    }
+
+    pthread_mutex_unlock(&mutex);
+}
+
+void *clientHandler(void *arg)
+{
+    int clientSocket = *(int *)arg;
+
+    char name[50];
+    char message[BUFFER_SIZE];
+    char finalMessage[BUFFER_SIZE+100];
+
+    recv(clientSocket,name,sizeof(name),0);
+
+    printf("%s joined the chat.\n",name);
+
+    sprintf(finalMessage,"%s joined the chat.",name);
+    broadcast(finalMessage,clientSocket);
+
+    while(1)
+    {
+        int bytes =
+        recv(clientSocket,
+             message,
+             sizeof(message),
+             0);
+
+        if(bytes<=0)
+            break;
+
+        message[bytes]='\0';
+
+        sprintf(finalMessage,
+                "%s : %s",
+                name,
+                message);
+
+        printf("%s\n",finalMessage);
+
+        broadcast(finalMessage,
+                  clientSocket);
+    }
+
+    printf("%s disconnected.\n",name);
+
+    sprintf(finalMessage,
+            "%s left the chat.",
+            name);
+
+    broadcast(finalMessage,
+              clientSocket);
+
+    removeClient(clientSocket);
+
+    close(clientSocket);
+
+    pthread_exit(NULL);
+}
+
+int main()
+{
+    int serverSocket;
+    int clientSocket;
+
+    struct sockaddr_in serverAddr;
+    struct sockaddr_in clientAddr;
+
+    socklen_t addrSize;
+
+    serverSocket = socket(AF_INET,
+                          SOCK_STREAM,
+                          0);
+
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(PORT);
+    serverAddr.sin_addr.s_addr = INADDR_ANY;
+
+    bind(serverSocket,
+         (struct sockaddr *)&serverAddr,
+         sizeof(serverAddr));
+
+    listen(serverSocket,MAX_CLIENTS);
+
+    printf("\n=================================\n");
+    printf(" Multi-User TCP Chat Server\n");
+    printf("=================================\n");
+    printf("Listening on Port %d...\n\n",PORT);
+
+    while(1)
+    {
+        addrSize = sizeof(clientAddr);
+
+        clientSocket =
+        accept(serverSocket,
+               (struct sockaddr *)&clientAddr,
+               &addrSize);
+
+        pthread_mutex_lock(&mutex);
+
+        clients[clientCount].socket = clientSocket;
+
+        clientCount++;
+
+        pthread_mutex_unlock(&mutex);
+
+        pthread_t tid;
+
+        pthread_create(&tid,
+                       NULL,
+                       clientHandler,
+                       &clients[clientCount-1].socket);
+
+        pthread_detach(tid);
+    }
+
+    close(serverSocket);
+
+    return 0;
+}
+
+</code></pre>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SERVER CODE EXPLANATION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📝 Server Program Explanation
+
+</h2>
+
+<div class="accordion" id="serverAccordion">
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#collapseOne">
+
+1. Global Client List
+
+</button>
+
+</h2>
+
+<div id="collapseOne"
+class="accordion-collapse collapse show">
+
+<div class="accordion-body">
+
+The server maintains an array of connected clients.
+Whenever a new client joins, its socket descriptor is stored
+in this array so that messages can later be broadcast to
+every connected client.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#collapseTwo">
+
+2. Broadcast Function
+
+</button>
+
+</h2>
+
+<div id="collapseTwo"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+Whenever a client sends a message,
+the <code>broadcast()</code> function
+iterates through every connected client
+and forwards the message to everyone
+except the sender.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#collapseThree">
+
+3. Client Thread
+
+</button>
+
+</h2>
+
+<div id="collapseThree"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+Each connected client is handled by a
+separate POSIX thread.
+This allows several users to chat
+simultaneously without blocking the server.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#collapseFour">
+
+4. Thread Synchronization
+
+</button>
+
+</h2>
+
+<div id="collapseFour"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+A mutex is used while accessing the shared
+client list.
+This prevents race conditions when multiple
+threads add or remove clients simultaneously.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- IMPORTANT NOTE -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<div class="alert alert-success">
+
+<h4>
+
+✅ Server Completed
+
+</h4>
+
+<p>
+
+The server is now capable of accepting multiple TCP clients,
+creating a separate thread for each client,
+receiving messages, and broadcasting them to every other
+connected user.
+
+In the next section, we will develop the
+<b>TCP Chat Client Program (client.c)</b>,
+which allows users to connect, send messages,
+and receive broadcasts concurrently.
+
+</p>
+
+</div>
+
+</section>
+<!-- ====================================================== -->
+<!-- COMPLETE CLIENT PROGRAM -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+💻 TCP Chat Client (client.c)
+
+</h2>
+
+<div class="alert alert-primary">
+
+Each client connects to the server, enters a username,
+creates a separate thread to continuously receive incoming
+messages, and allows the user to send chat messages while
+receiving messages simultaneously.
+
+</div>
+
+<div class="card shadow-sm">
+
+<div class="card-body">
+
+<pre><code class="language-c">
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;pthread.h&gt;
+
+#define PORT 8080
+#define BUFFER_SIZE 1024
+
+int sockfd;
+
+void *receiveMessage(void *arg)
+{
+    char message[BUFFER_SIZE];
+
+    while(1)
+    {
+        int bytes = recv(sockfd,
+                         message,
+                         sizeof(message),
+                         0);
+
+        if(bytes <= 0)
+            break;
+
+        message[bytes] = '\0';
+
+        printf("\n%s\n", message);
+
+        printf("You : ");
+        fflush(stdout);
+    }
+
+    return NULL;
+}
+
+int main()
+{
+    struct sockaddr_in server;
+
+    char name[50];
+    char message[BUFFER_SIZE];
+
+    sockfd = socket(AF_INET,
+                    SOCK_STREAM,
+                    0);
+
+    server.sin_family = AF_INET;
+    server.sin_port = htons(PORT);
+    inet_pton(AF_INET,
+              "127.0.0.1",
+              &server.sin_addr);
+
+    connect(sockfd,
+            (struct sockaddr *)&server,
+            sizeof(server));
+
+    printf("Enter Your Name : ");
+    fgets(name,sizeof(name),stdin);
+
+    name[strcspn(name,"\n")] = '\0';
+
+    send(sockfd,
+         name,
+         strlen(name),
+         0);
+
+    pthread_t tid;
+
+    pthread_create(&tid,
+                   NULL,
+                   receiveMessage,
+                   NULL);
+
+    while(1)
+    {
+        printf("You : ");
+
+        fgets(message,
+              sizeof(message),
+              stdin);
+
+        message[strcspn(message,"\n")] = '\0';
+
+        if(strcmp(message,"exit")==0)
+            break;
+
+        send(sockfd,
+             message,
+             strlen(message),
+             0);
+    }
+
+    close(sockfd);
+
+    return 0;
+}
+
+</code></pre>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- COMPILATION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+⚙ Compilation
+
+</h2>
+
+<div class="card shadow-sm">
+
+<div class="card-body">
+
+<pre><code class="language-bash">
+
+gcc server.c -o server -lpthread
+
+gcc client.c -o client -lpthread
+
+</code></pre>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- EXECUTION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+▶ Program Execution
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-6">
+
+<div class="card border-danger h-100">
+
+<div class="card-header bg-danger text-white">
+
+Terminal 1
+
+</div>
+
+<div class="card-body">
+
+<pre><code>
+
+./server
+
+</code></pre>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card border-primary h-100">
+
+<div class="card-header bg-primary text-white">
+
+Terminal 2, 3, 4 ...
+
+</div>
+
+<div class="card-body">
+
+<pre><code>
+
+./client
+
+</code></pre>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SAMPLE EXECUTION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🖥 Sample Execution
+
+</h2>
+
+<div class="card shadow-sm p-4">
+
+<h5>
+
+Server Terminal
+
+</h5>
+
+<pre>
+
+=================================
+ Multi-User TCP Chat Server
+=================================
+
+Listening on Port 8080...
+
+Alice joined the chat.
+Bob joined the chat.
+
+Alice : Hello Everyone!
+
+Bob : Hi Alice!
+
+Charlie joined the chat.
+
+Charlie : Good Morning!
+
+Alice left the chat.
+
+</pre>
+
+</div>
+
+<br>
+
+<div class="row g-4">
+
+<div class="col-lg-4">
+
+<div class="card border-primary">
+
+<div class="card-header bg-primary text-white">
+
+Client 1
+
+</div>
+
+<div class="card-body">
+
+<pre>
+
+Enter Your Name
+
+Alice
+
+You : Hello Everyone!
+
+Bob : Hi Alice!
+
+Charlie : Good Morning!
+
+</pre>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="card border-success">
+
+<div class="card-header bg-success text-white">
+
+Client 2
+
+</div>
+
+<div class="card-body">
+
+<pre>
+
+Enter Your Name
+
+Bob
+
+Alice : Hello Everyone!
+
+You : Hi Alice!
+
+Charlie : Good Morning!
+
+</pre>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-4">
+
+<div class="card border-warning">
+
+<div class="card-header bg-warning">
+
+Client 3
+
+</div>
+
+<div class="card-body">
+
+<pre>
+
+Enter Your Name
+
+Charlie
+
+Alice : Hello Everyone!
+
+Bob : Hi Alice!
+
+You : Good Morning!
+
+</pre>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- OBSERVATION TABLE -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📊 Observation Table
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>Action</th>
+
+<th>Server Response</th>
+
+<th>Other Clients</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Client Connects</td>
+
+<td>Stores Socket</td>
+
+<td>User Joined</td>
+
+</tr>
+
+<tr>
+
+<td>Client Sends Message</td>
+
+<td>Receives Message</td>
+
+<td>Displays Message</td>
+
+</tr>
+
+<tr>
+
+<td>Client Disconnects</td>
+
+<td>Removes Client</td>
+
+<td>User Left</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- IMPORTANT NOTE -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<div class="alert alert-success">
+
+<h4>
+
+✅ Experiment Completed
+
+</h4>
+
+<p>
+
+The TCP Multi-User Chat application has now been implemented successfully.
+The server can accept multiple clients simultaneously, and every message
+sent by one client is broadcast to all other connected users using reliable
+TCP communication.
+
+</p>
+
+<p>
+
+In the final section, we will discuss common errors, debugging tips,
+viva questions, multiple-choice questions, lab checklist, and a quick
+revision summary.
+
+</p>
+
+</div>
+
+</section>
+<!-- ====================================================== -->
+<!-- COMMON ERRORS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🐞 Common Errors and Troubleshooting
+
+</h2>
+
+<div class="accordion" id="errorAccordion">
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#err1">
+
+Address already in use
+
+</button>
+
+</h2>
+
+<div id="err1"
+class="accordion-collapse collapse show">
+
+<div class="accordion-body">
+
+<b>Error</b>
+
+<pre>
+
+bind(): Address already in use
+
+</pre>
+
+<b>Reason</b>
+
+Another server is already using the same port.
+
+<br><br>
+
+<b>Solution</b>
+
+<ul>
+
+<li>Terminate the previous server process.</li>
+
+<li>Use <code>netstat -tulnp</code> to identify the process.</li>
+
+<li>Choose another port if required.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#err2">
+
+Connection Refused
+
+</button>
+
+</h2>
+
+<div id="err2"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+<b>Reason</b>
+
+The server is not running before the client starts.
+
+<br><br>
+
+<b>Solution</b>
+
+<ol>
+
+<li>Run the server first.</li>
+
+<li>Then execute one or more client programs.</li>
+
+</ol>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#err3">
+
+Undefined reference to pthread
+
+</button>
+
+</h2>
+
+<div id="err3"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+Compile using
+
+<pre>
+
+gcc server.c -o server -lpthread
+
+gcc client.c -o client -lpthread
+
+</pre>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#err4">
+
+Messages Not Received
+
+</button>
+
+</h2>
+
+<div id="err4"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+Possible reasons
+
+<ul>
+
+<li>Server not broadcasting correctly.</li>
+
+<li>Client disconnected.</li>
+
+<li>Firewall blocking the connection.</li>
+
+<li>Wrong IP address or port number.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- PROGRAMMING TIPS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+💡 Programming Tips
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-4">
+
+<div class="card h-100 border-success">
+
+<div class="card-body">
+
+<h5>
+
+✔ Validate Connections
+
+</h5>
+
+<p>
+
+Always check the return values of
+<code>socket()</code>,
+<code>bind()</code>,
+<code>listen()</code>,
+<code>accept()</code>,
+and
+<code>connect()</code>.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card h-100 border-primary">
+
+<div class="card-body">
+
+<h5>
+
+✔ Protect Shared Data
+
+</h5>
+
+<p>
+
+When multiple threads access the client list,
+use a mutex to avoid race conditions.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card h-100 border-warning">
+
+<div class="card-body">
+
+<h5>
+
+✔ Close Sockets
+
+</h5>
+
+<p>
+
+Close sockets properly after communication to
+avoid resource leaks.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- VIVA QUESTIONS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🎓 Viva Questions
+
+</h2>
+
+<div class="card shadow-sm">
+
+<div class="card-body">
+
+<ol>
+
+<li>What is a socket?</li>
+
+<li>Why is TCP preferred for chat applications?</li>
+
+<li>What is a multi-user chat server?</li>
+
+<li>What is the purpose of <code>listen()</code>?</li>
+
+<li>How does <code>accept()</code> work?</li>
+
+<li>Why are threads required in a chat server?</li>
+
+<li>What is broadcasting?</li>
+
+<li>What is the role of a mutex?</li>
+
+<li>Differentiate TCP and UDP.</li>
+
+<li>How does the server identify disconnected clients?</li>
+
+</ol>
+
+</div>
+
+</div>
+
+</section>
+<!-- ====================================================== -->
+<!-- OPTIONAL IMPLEMENTATION USING FORK -->
+<!-- ====================================================== -->
+
+<section id="fork-method" class="container py-5">
+
+<h2 class="section-title">
+
+🔄 Optional Implementation – Using fork()
+
+</h2>
+
+<div class="alert alert-warning">
+
+<h5>
+<i class="fas fa-lightbulb"></i>
+Alternative Approach
+</h5>
+
+<p class="mb-0">
+
+The multi-user chat server can also be implemented using
+<strong>process-based concurrency</strong> with the
+<strong>fork()</strong> system call.
+
+The main implementation of this experiment uses
+<strong>POSIX threads (pthread)</strong>. The
+<strong>fork()</strong> implementation is provided as an
+optional method to understand another approach to concurrent
+server programming.
+
+</p>
+
+</div>
+
+
+<!-- ------------------------------------------------------ -->
+<!-- CONCEPT -->
+<!-- ------------------------------------------------------ -->
+
+<div class="card border-primary mb-4">
+
+<div class="card-header bg-primary text-white">
+
+<h4 class="mb-0">
+
+<i class="fas fa-project-diagram"></i>
+Concept
+
+</h4>
+
+</div>
+
+<div class="card-body">
+
+<p>
+
+In the thread-based implementation, the server creates a
+separate thread for each connected client.
+
+In the alternative implementation, the server creates a
+<strong>child process using fork()</strong> for each client.
+
+</p>
+
+<div class="text-center my-4">
+
+<div class="p-4 bg-light rounded">
+
+<h5>Parent Server</h5>
+
+<p class="mb-2">
+
+accept()
+
+</p>
+
+<div class="row g-3">
+
+<div class="col-md-4">
+
+<div class="border rounded p-3">
+
+<strong>fork()</strong>
+
+<br>
+
+Child Process 1
+
+<br>
+
+Client 1
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="border rounded p-3">
+
+<strong>fork()</strong>
+
+<br>
+
+Child Process 2
+
+<br>
+
+Client 2
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="border rounded p-3">
+
+<strong>fork()</strong>
+
+<br>
+
+Child Process 3
+
+<br>
+
+Client 3
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ------------------------------------------------------ -->
+<!-- IMPORTANT DIFFERENCE -->
+<!-- ------------------------------------------------------ -->
+
+<div class="card border-danger mb-4">
+
+<div class="card-header bg-danger text-white">
+
+<h4 class="mb-0">
+
+⚠️ Important Difference
+
+</h4>
+
+</div>
+
+<div class="card-body">
+
+<p>
+
+Threads belonging to the same process can directly access
+shared memory. However, a child process created using
+<strong>fork()</strong> has its own separate address space.
+
+</p>
+
+<p>
+
+Therefore, the child processes cannot simply update a common
+<strong>clients[]</strong> array in the parent process.
+
+</p>
+
+<p>
+
+For this reason, the optional fork-based implementation uses
+<strong>pipes</strong> for communication between child processes
+and the parent server.
+
+</p>
+
+<div class="alert alert-info mb-0">
+
+<strong>Communication flow:</strong>
+
+<br><br>
+
+Child Process
+
+<i class="fas fa-arrow-down"></i>
+
+Pipe
+
+<i class="fas fa-arrow-down"></i>
+
+Parent Server
+
+<i class="fas fa-arrow-down"></i>
+
+Broadcast
+
+<i class="fas fa-arrow-down"></i>
+
+All Connected Clients
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ------------------------------------------------------ -->
+<!-- SERVER ALGORITHM -->
+<!-- ------------------------------------------------------ -->
+
+<div class="card mb-4">
+
+<div class="card-header bg-dark text-white">
+
+<h4 class="mb-0">
+
+🖥️ Server Algorithm – fork() Method
+
+</h4>
+
+</div>
+
+<div class="card-body">
+
+<ol>
+
+<li>Start the server.</li>
+
+<li>Create a TCP socket using
+<strong>socket()</strong>.</li>
+
+<li>Bind the socket to the specified port using
+<strong>bind()</strong>.</li>
+
+<li>Put the socket into listening mode using
+<strong>listen()</strong>.</li>
+
+<li>Initialize the client list.</li>
+
+<li>Wait for an incoming client connection.</li>
+
+<li>Accept the client using
+<strong>accept()</strong>.</li>
+
+<li>Create a pipe for communication between the child
+and parent processes.</li>
+
+<li>Create a child process using
+<strong>fork()</strong>.</li>
+
+<li>
+
+In the child process, communicate with the connected client.
+
+</li>
+
+<li>
+
+Receive the client's username and messages.
+
+</li>
+
+<li>
+
+Send received messages to the parent through the pipe.
+
+</li>
+
+<li>
+
+The parent receives messages from the child process.
+
+</li>
+
+<li>
+
+The parent broadcasts the message to connected clients.
+
+</li>
+
+<li>
+
+If a client disconnects, remove the client from the
+client list.
+
+</li>
+
+<li>
+
+The parent continues accepting new clients.
+
+</li>
+
+<li>
+
+Repeat the process until the server is terminated.
+
+</li>
+
+<li>
+
+Close the server socket and terminate the program.
+
+</li>
+
+</ol>
+
+</div>
+
+</div>
+
+
+<!-- ------------------------------------------------------ -->
+<!-- CLIENT ALGORITHM -->
+<!-- ------------------------------------------------------ -->
+
+<div class="card mb-4">
+
+<div class="card-header bg-success text-white">
+
+<h4 class="mb-0">
+
+👤 Client Algorithm
+
+</h4>
+
+</div>
+
+<div class="card-body">
+
+<ol>
+
+<li>Start the client.</li>
+
+<li>Create a TCP socket using
+<strong>socket()</strong>.</li>
+
+<li>Specify the server IP address and port number.</li>
+
+<li>Connect to the server using
+<strong>connect()</strong>.</li>
+
+<li>Enter a username.</li>
+
+<li>Send the username to the server.</li>
+
+<li>Create a receiving thread.</li>
+
+<li>Read messages from the keyboard.</li>
+
+<li>Send messages to the server using
+<strong>send()</strong>.</li>
+
+<li>Receive messages from the server using
+<strong>recv()</strong>.</li>
+
+<li>Display messages received from other clients.</li>
+
+<li>Continue communication until the user enters
+<strong>exit</strong>.</li>
+
+<li>Close the socket.</li>
+
+<li>Terminate the program.</li>
+
+</ol>
+
+</div>
+
+</div>
+
+
+<!-- ------------------------------------------------------ -->
+<!-- SERVER CODE -->
+<!-- ------------------------------------------------------ -->
+
+<div class="card mb-4">
+
+<div class="card-header bg-secondary text-white">
+
+<h4 class="mb-0">
+
+💻 Server Program – fork() Version
+
+</h4>
+
+</div>
+
+<div class="card-body">
+
+<p>
+
+Save the following program as
+<strong>server_fork.c</strong>.
+
+</p>
+
+<pre><code class="language-c">
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/wait.h&gt;
+#include &lt;signal.h&gt;
+
+#define PORT 8080
+#define BUFFER_SIZE 1024
+
+void handle_client(int client_socket)
+{
+    char buffer[BUFFER_SIZE];
+
+    while (1)
+    {
+        memset(buffer, 0, sizeof(buffer));
+
+        int n = recv(client_socket,
+                     buffer,
+                     sizeof(buffer) - 1,
+                     0);
+
+        if (n &lt;= 0)
+            break;
+
+        buffer[n] = '\0';
+
+        if (strcmp(buffer, "exit") == 0)
+            break;
+
+        printf("Client [%d]: %s\n",
+               getpid(),
+               buffer);
+
+        send(client_socket,
+             buffer,
+             strlen(buffer),
+             0);
+    }
+
+    close(client_socket);
+    exit(0);
+}
+
+void reap_children(int sig)
+{
+    while (waitpid(-1, NULL, WNOHANG) &gt; 0);
+}
+
+int main()
+{
+    int server_socket;
+    int client_socket;
+
+    struct sockaddr_in server_addr;
+    struct sockaddr_in client_addr;
+
+    socklen_t client_len =
+        sizeof(client_addr);
+
+    signal(SIGCHLD, reap_children);
+
+    server_socket =
+        socket(AF_INET,
+               SOCK_STREAM,
+               0);
+
+    if (server_socket &lt; 0)
+    {
+        perror("socket");
+        exit(1);
+    }
+
+    memset(&server_addr,
+           0,
+           sizeof(server_addr));
+
+    server_addr.sin_family =
+        AF_INET;
+
+    server_addr.sin_addr.s_addr =
+        INADDR_ANY;
+
+    server_addr.sin_port =
+        htons(PORT);
+
+    if (bind(server_socket,
+             (struct sockaddr *)&amp;server_addr,
+             sizeof(server_addr)) &lt; 0)
+    {
+        perror("bind");
+        exit(1);
+    }
+
+    listen(server_socket, 10);
+
+    printf("TCP Server started\n");
+    printf("Server PID: %d\n", getpid());
+    printf("Port: %d\n", PORT);
+    printf("Waiting for clients...\n");
+
+    while (1)
+    {
+        client_socket =
+            accept(server_socket,
+                   (struct sockaddr *)&amp;client_addr,
+                   &amp;client_len);
+
+        if (client_socket &lt; 0)
+        {
+            perror("accept");
+            continue;
+        }
+
+        pid_t pid = fork();
+
+        if (pid == 0)
+        {
+            close(server_socket);
+
+            printf("Child process PID %d "
+                   "handling client\n",
+                   getpid());
+
+            handle_client(client_socket);
+        }
+
+        else if (pid &gt; 0)
+        {
+            close(client_socket);
+
+            printf("Created child process "
+                   "PID: %d\n",
+                   pid);
+        }
+
+        else
+        {
+            perror("fork");
+            close(client_socket);
+        }
+    }
+
+    close(server_socket);
+
+    return 0;
+}
+
+</code></pre>
+
+</div>
+
+</div>
+
+
+<!-- ------------------------------------------------------ -->
+<!-- NOTE ABOUT CODE -->
+<!-- ------------------------------------------------------ -->
+
+<div class="alert alert-warning">
+
+<h5>
+
+⚠️ Educational Note
+
+</h5>
+
+<p>
+
+The above simplified fork example demonstrates
+<strong>process-based concurrency</strong>. For a complete
+multi-user broadcast chat server, inter-process communication
+such as <strong>pipes</strong> or another IPC mechanism is
+required so that the parent can coordinate messages between
+different child processes.
+
+</p>
+
+<p class="mb-0">
+
+Students should first understand the primary
+<strong>pthread-based multi-user chat implementation</strong>
+before attempting the fork-based approach.
+
+</p>
+
+</div>
+
+
+<!-- ------------------------------------------------------ -->
+<!-- COMPILATION -->
+<!-- ------------------------------------------------------ -->
+
+<div class="card border-success mb-4">
+
+<div class="card-header bg-success text-white">
+
+<h4 class="mb-0">
+
+⚙️ Compilation and Execution
+
+</h4>
+
+</div>
+
+<div class="card-body">
+
+<h5>Compile</h5>
+
+<pre><code class="language-bash">
+
+gcc server_fork.c -o server_fork
+
+</code></pre>
+
+<h5>Run the Server</h5>
+
+<pre><code class="language-bash">
+
+./server_fork
+
+</code></pre>
+
+<h5>Compile Client</h5>
+
+<pre><code class="language-bash">
+
+gcc client.c -o client -lpthread
+
+</code></pre>
+
+<h5>Run Client</h5>
+
+<pre><code class="language-bash">
+
+./client 127.0.0.1 8080
+
+</code></pre>
+
+</div>
+
+</div>
+
+
+<!-- ------------------------------------------------------ -->
+<!-- COMPARISON -->
+<!-- ------------------------------------------------------ -->
+
+<div class="card border-info mb-4">
+
+<div class="card-header bg-info text-white">
+
+<h4 class="mb-0">
+
+⚖️ pthread vs fork()
+
+</h4>
+
+</div>
+
+<div class="card-body">
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover">
+
+<thead>
+
+<tr>
+
+<th>Feature</th>
+
+<th>pthread</th>
+
+<th>fork()</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Concurrency Unit</td>
+
+<td>Thread</td>
+
+<td>Process</td>
+
+</tr>
+
+<tr>
+
+<td>Memory</td>
+
+<td>Shared</td>
+
+<td>Separate</td>
+
+</tr>
+
+<tr>
+
+<td>Creation</td>
+
+<td>pthread_create()</td>
+
+<td>fork()</td>
+
+</tr>
+
+<tr>
+
+<td>Communication</td>
+
+<td>Shared memory</td>
+
+<td>IPC may be required</td>
+
+</tr>
+
+<tr>
+
+<td>Resource Usage</td>
+
+<td>Generally lower</td>
+
+<td>Generally higher</td>
+
+</tr>
+
+<tr>
+
+<td>Client Handling</td>
+
+<td>One thread per client</td>
+
+<td>One child process per client</td>
+
+</tr>
+
+<tr>
+
+<td>Lab 7 Status</td>
+
+<td>
+<span class="badge bg-primary">
+Primary Method
+</span>
+</td>
+
+<td>
+<span class="badge bg-warning text-dark">
+Optional Method
+</span>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ------------------------------------------------------ -->
+<!-- VIVA QUESTIONS -->
+<!-- ------------------------------------------------------ -->
+
+<div class="card border-warning mb-4">
+
+<div class="card-header bg-warning">
+
+<h4 class="mb-0">
+
+🎓 Optional Method – Viva Questions
+
+</h4>
+
+</div>
+
+<div class="card-body">
+
+<ol>
+
+<li>
+What is the purpose of <strong>fork()</strong>?
+</li>
+
+<li>
+What is the difference between a process and a thread?
+</li>
+
+<li>
+Why does a child process have a separate address space?
+</li>
+
+<li>
+Why is IPC required when using fork() for a multi-user chat server?
+</li>
+
+<li>
+What is the purpose of a pipe?
+</li>
+
+<li>
+Why is pthread preferred for the primary implementation?
+</li>
+
+<li>
+What happens when a child process terminates?
+</li>
+
+<li>
+What is the purpose of <strong>waitpid()</strong>?
+</li>
+
+</ol>
+
+</div>
+
+</div>
+
+
+<!-- ------------------------------------------------------ -->
+<!-- KEY TAKEAWAY -->
+<!-- ------------------------------------------------------ -->
+
+<div class="alert alert-success text-center">
+
+<h4>
+
+💡 Key Takeaway
+
+</h4>
+
+<p class="mb-0">
+
+<strong>
+
+pthread_create() → Thread-based concurrency
+
+</strong>
+
+<br>
+
+<strong>
+
+fork() → Process-based concurrency
+
+</strong>
+
+<br><br>
+
+Both approaches can be used to implement concurrent
+servers. For this laboratory, the
+<strong>pthread-based implementation is the primary method</strong>,
+while the <strong>fork()-based implementation is an optional
+alternative</strong> for further understanding.
+
+</p>
+
+</div>
+
+</section>
+<!-- ====================================================== -->
+<!-- MCQS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📝 Self Assessment Quiz
+
+</h2>
+
+<div class="accordion" id="quizAccordion">
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#mcq1">
+
+Question 1
+
+</button>
+
+</h2>
+
+<div id="mcq1"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+<b>Which protocol is used in this experiment?</b>
+
+<ul>
+
+<li>A. UDP</li>
+
+<li><b>B. TCP ✔</b></li>
+
+<li>C. HTTP</li>
+
+<li>D. FTP</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#mcq2">
+
+Question 2
+
+</button>
+
+</h2>
+
+<div id="mcq2"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+<b>Which function waits for incoming client connections?</b>
+
+<ul>
+
+<li>A. recv()</li>
+
+<li><b>B. listen() ✔</b></li>
+
+<li>C. send()</li>
+
+<li>D. close()</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#mcq3">
+
+Question 3
+
+</button>
+
+</h2>
+
+<div id="mcq3"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+<b>Which API accepts a client connection?</b>
+
+<ul>
+
+<li>A. bind()</li>
+
+<li>B. connect()</li>
+
+<li><b>C. accept() ✔</b></li>
+
+<li>D. recv()</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#mcq4">
+
+Question 4
+
+</button>
+
+</h2>
+
+<div id="mcq4"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+<b>Why are POSIX threads used in this experiment?</b>
+
+<ul>
+
+<li>A. To reduce memory usage</li>
+
+<li><b>B. To handle multiple clients simultaneously ✔</b></li>
+
+<li>C. To replace sockets</li>
+
+<li>D. To improve compiler speed</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#mcq5">
+
+Question 5
+
+</button>
+
+</h2>
+
+<div id="mcq5"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+<b>Which function sends data through a TCP socket?</b>
+
+<ul>
+
+<li>A. recv()</li>
+
+<li><b>B. send() ✔</b></li>
+
+<li>C. bind()</li>
+
+<li>D. socket()</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- LAB CHECKLIST -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+✅ Lab Completion Checklist
+
+</h2>
+
+<div class="card shadow-sm">
+
+<div class="card-body">
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+Compiled server successfully.
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+Compiled client successfully.
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+Started the server.
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+Connected multiple clients.
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+Verified message broadcasting.
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+Observed client disconnection handling.
+
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- ONE-MINUTE REVISION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+⚡ One-Minute Revision
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover">
+
+<thead class="table-success">
+
+<tr>
+
+<th>Concept</th>
+
+<th>Summary</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Transport Layer</td>
+
+<td>TCP provides reliable communication.</td>
+
+</tr>
+
+<tr>
+
+<td>Architecture</td>
+
+<td>Client–Server Model.</td>
+
+</tr>
+
+<tr>
+
+<td>Communication</td>
+
+<td>One client sends, server broadcasts.</td>
+
+</tr>
+
+<tr>
+
+<td>Concurrency</td>
+
+<td>One thread per client.</td>
+
+</tr>
+
+<tr>
+
+<td>Synchronization</td>
+
+<td>Mutex protects shared client data.</td>
+
+</tr>
+
+<tr>
+
+<td>Socket APIs</td>
+
+<td>socket(), bind(), listen(), accept(), connect(), send(), recv(), close().</td>
+
+</tr>
+
+<tr>
+
+<td>Outcome</td>
+
+<td>Reliable real-time multi-user chat application.</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- FOOTER -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<div class="card bg-dark text-white text-center">
+
+<div class="card-body">
+
+<h3>
+
+🎉 Congratulations!
+
+</h3>
+
+<p>
+
+You have successfully completed <strong>Lab 7 – Multi-User Chat Server using TCP</strong>.
+
+</p>
+
+<p>
+
+You learned how to build a reliable real-time chat application using
+TCP sockets, multithreading with POSIX threads, message broadcasting,
+and concurrent client handling.
+
+</p>
+
+<hr>
+
+<p class="mb-0">
+
+<strong>PCCSL507 – Computer Networks Laboratory</strong><br>
+
+Prepared by <strong>Prof. Anju Markose J K</strong><br>
+
+Assistant Professor, Department of Computer Science & Engineering<br>
+
+Viswajyothi College of Engineering & Technology
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,3633 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+
+Lab 10 | Packet Capturing using Raw Sockets | PCCSL507
+
+</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+background:#f5f7fb;
+color:#263238;
+}
+
+.navbar{
+background:#0b3c7a;
+}
+
+.hero{
+
+background:linear-gradient(135deg,#082f6b,#26a69a);
+
+padding:90px 0;
+
+color:white;
+
+}
+
+.hero h1{
+
+font-size:48px;
+
+font-weight:bold;
+
+}
+
+.hero p{
+
+font-size:20px;
+
+}
+
+.card{
+
+border:none;
+
+border-radius:18px;
+
+box-shadow:0 8px 20px rgba(0,0,0,.12);
+
+transition:.3s;
+
+}
+
+.card:hover{
+
+transform:translateY(-5px);
+
+}
+
+.section-title{
+
+border-left:6px solid #26a69a;
+
+padding-left:12px;
+
+margin-top:60px;
+
+margin-bottom:20px;
+
+font-weight:bold;
+
+}
+
+.stats{
+
+font-size:28px;
+
+font-weight:bold;
+
+color:#26a69a;
+
+}
+
+.api-card{
+
+padding:25px;
+
+text-align:center;
+
+height:100%;
+
+}
+
+.flow{
+
+background:#111827;
+
+color:#7CFC00;
+
+padding:20px;
+
+border-radius:12px;
+
+font-family:Consolas;
+
+overflow:auto;
+
+}
+
+footer{
+
+background:#082f6b;
+
+color:white;
+
+padding:25px;
+
+margin-top:60px;
+
+}
+
+</style>
+
+</head>
+
+<body id="top">
+
+<!-- ====================================================== -->
+<!-- NAVBAR -->
+<!-- ====================================================== -->
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+
+<div class="container">
+
+<a class="navbar-brand fw-bold"
+href="module.html">
+
+<i class="fas fa-network-wired"></i>
+
+PCCSL507
+
+</a>
+
+<button class="navbar-toggler"
+
+type="button"
+
+data-bs-toggle="collapse"
+
+data-bs-target="#menu">
+
+<span class="navbar-toggler-icon">
+
+</span>
+
+</button>
+
+<div class="collapse navbar-collapse"
+id="menu">
+
+<ul class="navbar-nav ms-auto">
+
+<li class="nav-item">
+
+<a class="nav-link"
+
+href="module.html">
+
+Network Lab
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link"
+
+href="lab9.html">
+
+Lab 9
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link active"
+
+href="#">
+
+Lab 10
+
+</a>
+
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</nav>
+
+<!-- ====================================================== -->
+<!-- HERO SECTION -->
+<!-- ====================================================== -->
+
+<section class="hero text-center text-white" id="top">
+
+<div class="container">
+
+<span class="badge bg-warning text-dark px-3 py-2 mb-3">
+
+Computer Networks Laboratory • PCCSL507
+
+</span>
+
+<h1 class="display-4 fw-bold">
+
+📡 Lab 10
+
+<br>
+
+Packet Capturing using Raw Sockets
+
+</h1>
+
+<p class="lead mt-3">
+
+Learn how network monitoring tools capture packets directly from the
+network interface using
+<strong>Raw Socket Programming</strong>.
+This experiment demonstrates how packets can be received,
+analyzed, and displayed by accessing the network layer directly.
+
+</p>
+
+<div class="mt-4">
+
+<a href="#overview" class="btn btn-primary btn-lg me-2">
+
+<i class="fas fa-book-open"></i>
+
+Start Learning
+
+</a>
+
+<a href="#experiment" class="btn btn-outline-light btn-lg">
+
+<i class="fas fa-code"></i>
+
+View Experiment
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- LAB HIGHLIGHTS -->
+<!-- ====================================================== -->
+
+<section class="py-5">
+
+<div class="container">
+
+<div class="row g-4">
+
+<div class="col-md-3">
+
+<div class="card stat-card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-network-wired fa-3x text-primary mb-3"></i>
+
+<h2>Raw Socket</h2>
+
+<p>
+
+Direct Packet Access
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card stat-card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-box-open fa-3x text-success mb-3"></i>
+
+<h2>Packets</h2>
+
+<p>
+
+Capture & Analyze
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card stat-card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-layer-group fa-3x text-warning mb-3"></i>
+
+<h2>IP Header</h2>
+
+<p>
+
+Network Layer Information
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card stat-card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-search fa-3x text-danger mb-3"></i>
+
+<h2>Sniffer</h2>
+
+<p>
+
+Monitor Network Traffic
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- LEARNING OUTCOMES -->
+<!-- ====================================================== -->
+
+<section id="overview" class="container py-5">
+
+<h2 class="section-title">
+
+🎯 Learning Outcomes
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-6">
+
+<div class="card border-primary h-100">
+
+<div class="card-header bg-primary text-white">
+
+After completing this experiment, you will be able to
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Understand Raw Socket Programming.</li>
+
+<li>Create packet capturing applications.</li>
+
+<li>Capture packets directly from the network.</li>
+
+<li>Read IP packet headers.</li>
+
+<li>Identify source and destination IP addresses.</li>
+
+<li>Analyze network traffic.</li>
+
+<li>Compile and execute raw socket programs in Linux.</li>
+
+<li>Understand packet sniffing fundamentals.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card border-success h-100">
+
+<div class="card-header bg-success text-white">
+
+Prerequisites
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Linux Operating System</li>
+
+<li>Basic C Programming</li>
+
+<li>Computer Networks Fundamentals</li>
+
+<li>IP Protocol Basics</li>
+
+<li>Socket Programming</li>
+
+<li>Root/Sudo Privileges</li>
+
+<li>GCC Compiler</li>
+
+<li>Basic Linux Commands</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- WHAT IS A RAW SOCKET -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📘 What is a Raw Socket?
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<p>
+
+A <strong>Raw Socket</strong> is a special type of socket that
+allows an application to directly send and receive packets from
+the network layer without relying on higher-level transport
+protocols such as TCP or UDP.
+
+</p>
+
+<div class="alert alert-primary">
+
+<h5>
+
+Example
+
+</h5>
+
+Packet analyzers such as
+<strong>Wireshark</strong>,
+<strong>tcpdump</strong>,
+and many intrusion detection systems use packet capturing
+techniques to inspect network traffic.
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- WHY RAW SOCKETS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🚀 Why Use Raw Sockets?
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-6">
+
+<div class="card border-success h-100">
+
+<div class="card-header bg-success text-white">
+
+Advantages
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Direct access to network packets.</li>
+
+<li>Capture incoming and outgoing packets.</li>
+
+<li>Useful for protocol analysis.</li>
+
+<li>Supports custom packet processing.</li>
+
+<li>Helps understand packet structure.</li>
+
+<li>Useful for network monitoring.</li>
+
+<li>Foundation for packet sniffers.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card border-danger h-100">
+
+<div class="card-header bg-danger text-white">
+
+Limitations
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Requires administrator/root privileges.</li>
+
+<li>Platform dependent.</li>
+
+<li>Security restrictions apply.</li>
+
+<li>More complex than TCP/UDP sockets.</li>
+
+<li>Large traffic can overwhelm applications.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- REAL WORLD APPLICATIONS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🌍 Real-World Applications
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-bug fa-4x text-danger mb-3"></i>
+
+<h4>Intrusion Detection</h4>
+
+<p>
+
+Detect malicious network activity.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-shield-alt fa-4x text-primary mb-3"></i>
+
+<h4>Cyber Security</h4>
+
+<p>
+
+Monitor and analyze suspicious traffic.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-chart-line fa-4x text-success mb-3"></i>
+
+<h4>Network Monitoring</h4>
+
+<p>
+
+Observe network performance and traffic.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-search fa-4x text-warning mb-3"></i>
+
+<h4>Packet Sniffers</h4>
+
+<p>
+
+Capture packets for troubleshooting.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-project-diagram fa-4x text-info mb-3"></i>
+
+<h4>Protocol Analysis</h4>
+
+<p>
+
+Study protocol headers and payloads.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-user-secret fa-4x text-secondary mb-3"></i>
+
+<h4>Security Research</h4>
+
+<p>
+
+Understand communication between hosts.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+  <!-- ====================================================== -->
+<!-- RAW SOCKET ARCHITECTURE -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🏗️ Raw Socket Architecture
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<p>
+
+Unlike TCP and UDP sockets, a <strong>Raw Socket</strong> allows an
+application to directly receive packets from the Network Layer.
+The application can inspect the complete IP packet including the
+IP header and payload before any higher-layer processing occurs.
+
+</p>
+
+<div class="text-center mt-5">
+
+<div class="flow d-flex justify-content-center align-items-center gap-4 flex-wrap">
+
+<div class="flow-step">
+
+<i class="fas fa-laptop fa-3x text-primary"></i>
+
+<h5 class="mt-3">
+
+Network Interface
+
+</h5>
+
+<p>
+
+Receives Packets
+
+</p>
+
+</div>
+
+<i class="fas fa-arrow-right fa-2x text-success"></i>
+
+<div class="flow-step">
+
+<i class="fas fa-network-wired fa-3x text-danger"></i>
+
+<h5 class="mt-3">
+
+Raw Socket
+
+</h5>
+
+<p>
+
+Captures Packets
+
+</p>
+
+</div>
+
+<i class="fas fa-arrow-right fa-2x text-success"></i>
+
+<div class="flow-step">
+
+<i class="fas fa-search fa-3x text-warning"></i>
+
+<h5 class="mt-3">
+
+Packet Analyzer
+
+</h5>
+
+<p>
+
+Displays Header Information
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- PACKET CAPTURE WORKFLOW -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🔄 Packet Capture Workflow
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body text-center">
+
+<div class="flow flex-column align-items-center">
+
+<div class="flow-step">
+
+Create Raw Socket
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Wait for Incoming Packet
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Receive Packet using recvfrom()
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Extract IP Header
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Display Packet Details
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Wait for Next Packet
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- RAW SOCKET RESPONSIBILITIES -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+⚙️ Responsibilities of the Packet Capturing Program
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-6">
+
+<div class="card border-primary h-100">
+
+<div class="card-header bg-primary text-white">
+
+Program Tasks
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Create a Raw Socket.</li>
+
+<li>Wait for network packets.</li>
+
+<li>Capture packets.</li>
+
+<li>Read IP Header.</li>
+
+<li>Display Source IP.</li>
+
+<li>Display Destination IP.</li>
+
+<li>Display Protocol Number.</li>
+
+<li>Continue capturing packets.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card border-success h-100">
+
+<div class="card-header bg-success text-white">
+
+System Calls Used
+
+</div>
+
+<div class="card-body">
+
+<table class="table table-bordered">
+
+<tr>
+
+<td><code>socket()</code></td>
+
+<td>Create Raw Socket</td>
+
+</tr>
+
+<tr>
+
+<td><code>recvfrom()</code></td>
+
+<td>Receive Packet</td>
+
+</tr>
+
+<tr>
+
+<td><code>close()</code></td>
+
+<td>Close Socket</td>
+
+</tr>
+
+<tr>
+
+<td><code>inet_ntoa()</code></td>
+
+<td>Convert IP Address</td>
+
+</tr>
+
+<tr>
+
+<td><code>perror()</code></td>
+
+<td>Error Handling</td>
+
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- RAW SOCKET API -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📚 Important Raw Socket APIs
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-striped">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>Function</th>
+
+<th>Purpose</th>
+
+<th>Remarks</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>socket()</td>
+
+<td>Create Raw Socket</td>
+
+<td>Uses SOCK_RAW</td>
+
+</tr>
+
+<tr>
+
+<td>recvfrom()</td>
+
+<td>Receive Packet</td>
+
+<td>Reads complete packet</td>
+
+</tr>
+
+<tr>
+
+<td>inet_ntoa()</td>
+
+<td>Convert IP Address</td>
+
+<td>Displays readable IP</td>
+
+</tr>
+
+<tr>
+
+<td>ntohs()</td>
+
+<td>Convert Byte Order</td>
+
+<td>Network to Host</td>
+
+</tr>
+
+<tr>
+
+<td>close()</td>
+
+<td>Close Socket</td>
+
+<td>Release resources</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- IP PACKET STRUCTURE -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📦 IPv4 Packet Structure
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<div class="table-responsive">
+
+<table class="table table-bordered">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>Field</th>
+
+<th>Description</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Version</td>
+
+<td>IP Version (IPv4)</td>
+
+</tr>
+
+<tr>
+
+<td>IHL</td>
+
+<td>Header Length</td>
+
+</tr>
+
+<tr>
+
+<td>Total Length</td>
+
+<td>Packet Size</td>
+
+</tr>
+
+<tr>
+
+<td>Identification</td>
+
+<td>Packet Identifier</td>
+
+</tr>
+
+<tr>
+
+<td>TTL</td>
+
+<td>Time To Live</td>
+
+</tr>
+
+<tr>
+
+<td>Protocol</td>
+
+<td>TCP / UDP / ICMP</td>
+
+</tr>
+
+<tr>
+
+<td>Source Address</td>
+
+<td>Sender IP Address</td>
+
+</tr>
+
+<tr>
+
+<td>Destination Address</td>
+
+<td>Receiver IP Address</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- PACKET FLOW -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📡 Packet Flow
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body text-center">
+
+<pre class="bg-light p-4">
+
+Network Interface
+
+        │
+
+Incoming Packet
+
+        │
+
+Raw Socket
+
+        │
+
+recvfrom()
+
+        │
+
+Extract IP Header
+
+        │
+
+Display
+
+Source IP
+
+Destination IP
+
+Protocol
+
+Packet Length
+
+</pre>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- RAW SOCKET vs TCP vs UDP -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+⚖️ Socket Comparison
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>Feature</th>
+
+<th>TCP</th>
+
+<th>UDP</th>
+
+<th>Raw Socket</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Reliability</td>
+
+<td>Yes</td>
+
+<td>No</td>
+
+<td>Application Dependent</td>
+
+</tr>
+
+<tr>
+
+<td>Connection</td>
+
+<td>Connection-Oriented</td>
+
+<td>Connectionless</td>
+
+<td>No Connection</td>
+
+</tr>
+
+<tr>
+
+<td>Header Access</td>
+
+<td>No</td>
+
+<td>No</td>
+
+<td>Complete IP Header</td>
+
+</tr>
+
+<tr>
+
+<td>Packet Capture</td>
+
+<td>No</td>
+
+<td>No</td>
+
+<td>Yes</td>
+
+</tr>
+
+<tr>
+
+<td>Used By</td>
+
+<td>Applications</td>
+
+<td>Streaming</td>
+
+<td>Packet Sniffers</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- REAL WORLD TOOLS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🌍 Real-World Packet Capture Tools
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-wifi fa-4x text-primary mb-3"></i>
+
+<h4>Wireshark</h4>
+
+<p>
+
+GUI-based packet analyzer used by network engineers.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-terminal fa-4x text-success mb-3"></i>
+
+<h4>tcpdump</h4>
+
+<p>
+
+Command-line packet capture utility for Linux.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-shield-alt fa-4x text-danger mb-3"></i>
+
+<h4>IDS</h4>
+
+<p>
+
+Intrusion Detection Systems monitor suspicious packets.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ====================================================== -->
+<!-- EXPERIMENT -->
+<!-- ====================================================== -->
+
+<section id="experiment" class="container py-5">
+
+<h2 class="section-title">
+
+🧪 Experiment
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<h4>
+
+Aim
+
+</h4>
+
+<p>
+
+To develop a packet capturing application using
+<strong>Raw Sockets</strong> that captures incoming IP packets
+from the network interface and displays important packet
+information such as the source IP address,
+destination IP address, protocol number,
+and packet length.
+
+</p>
+
+<hr>
+
+<h4>
+
+Problem Statement
+
+</h4>
+
+<p>
+
+Develop a packet-sniffing application using Raw Socket
+Programming in Linux.
+The application should continuously receive IP packets
+from the network interface and extract useful information
+from the IP header for display.
+
+</p>
+
+<div class="alert alert-primary">
+
+<strong>Expected Output</strong>
+
+<ul class="mt-2">
+
+<li>Create a Raw Socket successfully.</li>
+
+<li>Capture incoming IP packets.</li>
+
+<li>Display Source IP Address.</li>
+
+<li>Display Destination IP Address.</li>
+
+<li>Display Protocol Number.</li>
+
+<li>Display Packet Length.</li>
+
+<li>Continue capturing packets until terminated.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ====================================================== -->
+<!-- ALGORITHM -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📖 Algorithm
+
+</h2>
+
+<div class="card border-primary">
+
+<div class="card-body">
+
+<ol>
+
+<li>Create a Raw Socket.</li>
+
+<li>Check whether the socket is created successfully.</li>
+
+<li>Allocate a packet buffer.</li>
+
+<li>Wait for an incoming packet.</li>
+
+<li>Receive the packet using <code>recvfrom()</code>.</li>
+
+<li>Extract the IPv4 header.</li>
+
+<li>Read Source IP Address.</li>
+
+<li>Read Destination IP Address.</li>
+
+<li>Read Protocol Number.</li>
+
+<li>Read Packet Length.</li>
+
+<li>Display the packet information.</li>
+
+<li>Repeat until the program is terminated.</li>
+
+</ol>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- PROGRAM LOGIC -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🧠 Program Logic
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-6">
+
+<div class="card border-primary">
+
+<div class="card-header bg-primary text-white">
+
+Raw Socket Logic
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Create Raw Socket.</li>
+
+<li>Allocate packet buffer.</li>
+
+<li>Receive packet.</li>
+
+<li>Identify IPv4 Header.</li>
+
+<li>Extract header fields.</li>
+
+<li>Display packet details.</li>
+
+<li>Repeat forever.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card border-success">
+
+<div class="card-header bg-success text-white">
+
+Packet Processing
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Read Version.</li>
+
+<li>Read Header Length.</li>
+
+<li>Read Total Length.</li>
+
+<li>Read Source Address.</li>
+
+<li>Read Destination Address.</li>
+
+<li>Read Protocol Field.</li>
+
+<li>Display packet information.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- ====================================================== -->
+<!-- PROGRAM -->
+<!-- ====================================================== -->
+
+<section class="container py-5" id="program">
+
+<h2 class="section-title">
+
+💻 Program – Packet Capturing using Raw Sockets
+
+</h2>
+
+<div class="card shadow mb-4">
+
+<div class="card-body">
+
+<h4>
+
+Objective
+
+</h4>
+
+<p>
+
+This program creates a <strong>Raw Socket</strong> to capture
+incoming IPv4 packets directly from the network interface.
+For every packet received, it extracts the IPv4 header and
+displays important information such as the packet length,
+source IP address, destination IP address, and protocol number.
+
+</p>
+
+<div class="alert alert-info">
+
+<strong>Concepts Used</strong>
+
+<ul class="mt-2 mb-0">
+
+<li>Raw Socket Programming</li>
+
+<li>Packet Sniffing</li>
+
+<li>IPv4 Header Processing</li>
+
+<li>recvfrom()</li>
+
+<li>Linux Networking APIs</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card shadow">
+
+<div class="card-header bg-dark text-white">
+
+<i class="fas fa-code"></i>
+
+packet_capture.c
+
+</div>
+
+<div class="card-body">
+
+<pre><code class="language-c">
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;sys/socket.h&gt;
+#include &lt;netinet/ip.h&gt;
+#include &lt;linux/if_packet.h&gt;
+#include &lt;net/ethernet.h&gt;
+
+#define BUFFER_SIZE 65536
+
+int main()
+{
+    int sockfd;
+    unsigned char *buffer;
+    struct sockaddr saddr;
+    socklen_t saddr_len;
+
+    struct iphdr *ip_header;
+
+    buffer = (unsigned char *)malloc(BUFFER_SIZE);
+
+    if(buffer == NULL)
+    {
+        printf("Memory Allocation Failed\n");
+        return 1;
+    }
+
+    /* Create Raw Socket */
+    sockfd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ALL));
+
+    if(sockfd < 0)
+    {
+        perror("Socket");
+        return 1;
+    }
+
+    printf("\n=========================================\n");
+    printf("   RAW SOCKET PACKET CAPTURE STARTED\n");
+    printf("=========================================\n");
+
+    while(1)
+    {
+        saddr_len = sizeof(saddr);
+
+        int packet_size = recvfrom(sockfd,
+                                   buffer,
+                                   BUFFER_SIZE,
+                                   0,
+                                   &saddr,
+                                   &saddr_len);
+
+        if(packet_size < 0)
+        {
+            perror("recvfrom");
+            break;
+        }
+
+        ip_header = (struct iphdr *)buffer;
+
+        struct sockaddr_in source;
+        struct sockaddr_in destination;
+
+        memset(&source,0,sizeof(source));
+        memset(&destination,0,sizeof(destination));
+
+        source.sin_addr.s_addr = ip_header->saddr;
+        destination.sin_addr.s_addr = ip_header->daddr;
+
+        printf("\n----------------------------------------\n");
+
+        printf("Packet Length      : %d Bytes\n",packet_size);
+
+        printf("IP Version         : %d\n",
+               ip_header->version);
+
+        printf("Header Length      : %d Bytes\n",
+               ip_header->ihl * 4);
+
+        printf("TTL                : %d\n",
+               ip_header->ttl);
+
+        printf("Protocol Number    : %d\n",
+               ip_header->protocol);
+
+        printf("Source IP          : %s\n",
+               inet_ntoa(source.sin_addr));
+
+        printf("Destination IP     : %s\n",
+               inet_ntoa(destination.sin_addr));
+
+        printf("----------------------------------------\n");
+    }
+
+    close(sockfd);
+
+    free(buffer);
+
+    return 0;
+}
+</code></pre>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- PROGRAM EXPLANATION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📖 Program Explanation
+
+</h2>
+
+<div class="accordion" id="programExplanation">
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button"
+data-bs-toggle="collapse"
+data-bs-target="#e1">
+
+1️⃣ Creating the Raw Socket
+
+</button>
+
+</h2>
+
+<div id="e1"
+class="accordion-collapse collapse show">
+
+<div class="accordion-body">
+
+The socket is created using
+
+<pre><code class="language-c">
+socket(AF_INET,
+SOCK_RAW,
+IPPROTO_TCP);
+</code></pre>
+
+This allows the program to receive raw TCP packets directly from
+the Network Layer.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#e2">
+
+2️⃣ Receiving Packets
+
+</button>
+
+</h2>
+
+<div id="e2"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+The program continuously waits for packets using
+
+<pre><code class="language-c">
+recvfrom()
+</code></pre>
+
+Whenever a packet arrives, it is copied into a packet buffer.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#e3">
+
+3️⃣ Reading the IPv4 Header
+
+</button>
+
+</h2>
+
+<div id="e3"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+The received buffer is typecast into an
+<code>iphdr</code> structure.
+
+This allows easy access to Version,
+Header Length,
+TTL,
+Protocol,
+Source IP,
+and Destination IP.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#e4">
+
+4️⃣ Displaying Packet Information
+
+</button>
+
+</h2>
+
+<div id="e4"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+The program prints:
+
+<ul>
+
+<li>Packet Length</li>
+
+<li>IP Version</li>
+
+<li>Header Length</li>
+
+<li>TTL</li>
+
+<li>Protocol Number</li>
+
+<li>Source IP Address</li>
+
+<li>Destination IP Address</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- COMPILATION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🛠️ Compilation
+
+</h2>
+
+<div class="card">
+
+<div class="card-body">
+
+<pre><code class="language-bash">
+gcc packet_capture.c -o packet_capture
+</code></pre>
+
+<div class="alert alert-warning">
+
+<strong>Note:</strong>
+
+Raw socket applications require administrator privileges.
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- EXECUTION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+▶️ Execution
+
+</h2>
+
+<div class="card">
+
+<div class="card-body">
+
+<pre><code class="language-bash">
+sudo ./packet_capture
+</code></pre>
+
+<div class="alert alert-info">
+
+Generate network traffic by opening websites,
+using <code>ping</code>, or running other network applications
+while the program is executing.
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SAMPLE OUTPUT -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🖥️ Sample Output
+
+</h2>
+
+<div class="card bg-dark text-white">
+
+<div class="card-body">
+
+<pre>
+===================================
+ Raw Socket Packet Sniffer Started
+===================================
+
+----------------------------------------
+Packet Length      : 60 Bytes
+IP Version         : 4
+Header Length      : 20 Bytes
+TTL                : 64
+Protocol           : 6
+Source IP          : 192.168.1.10
+Destination IP     : 142.250.183.46
+----------------------------------------
+
+----------------------------------------
+Packet Length      : 52 Bytes
+IP Version         : 4
+Header Length      : 20 Bytes
+TTL                : 128
+Protocol           : 1
+Source IP          : 8.8.8.8
+Destination IP     : 192.168.1.10
+----------------------------------------
+</pre>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- DEBUGGING -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🐞 Debugging Tips
+
+</h2>
+
+<div class="alert alert-warning">
+
+<ul class="mb-0">
+
+<li>Run the program using <code>sudo</code>.</li>
+
+<li>Check internet connectivity before capturing packets.</li>
+
+<li>Use <code>ping google.com</code> to generate traffic.</li>
+
+<li>Verify that your Linux kernel supports raw sockets.</li>
+
+<li>If <code>socket()</code> fails, verify administrator privileges.</li>
+
+<li>Close the socket before terminating the program.</li>
+
+</ul>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- WIRESHARK COMPARISON -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🔍 Compare with Wireshark
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<p>
+
+Run the packet capture program and Wireshark simultaneously.
+
+Generate traffic by browsing websites or using the
+<code>ping</code> command.
+
+Compare the following information displayed by both tools:
+
+<ul>
+
+<li>Source IP Address</li>
+
+<li>Destination IP Address</li>
+
+<li>Protocol Number</li>
+
+<li>Packet Length</li>
+
+<li>IPv4 Header Fields</li>
+
+</ul>
+
+This comparison helps verify that the raw socket application is correctly capturing network packets.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- OBSERVATION TABLE -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📊 Observation Table
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>Packet No.</th>
+
+<th>Source IP</th>
+
+<th>Destination IP</th>
+
+<th>Protocol</th>
+
+<th>Packet Length (Bytes)</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>1</td>
+
+<td>________________</td>
+
+<td>________________</td>
+
+<td>TCP</td>
+
+<td>______</td>
+
+</tr>
+
+<tr>
+
+<td>2</td>
+
+<td>________________</td>
+
+<td>________________</td>
+
+<td>UDP</td>
+
+<td>______</td>
+
+</tr>
+
+<tr>
+
+<td>3</td>
+
+<td>________________</td>
+
+<td>________________</td>
+
+<td>ICMP</td>
+
+<td>______</td>
+
+</tr>
+
+<tr>
+
+<td>4</td>
+
+<td>________________</td>
+
+<td>________________</td>
+
+<td>TCP</td>
+
+<td>______</td>
+
+</tr>
+
+<tr>
+
+<td>5</td>
+
+<td>________________</td>
+
+<td>________________</td>
+
+<td>UDP</td>
+
+<td>______</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SAMPLE RESULT -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🖥️ Sample Observation
+
+</h2>
+
+<div class="card bg-dark text-white">
+
+<div class="card-body">
+
+<pre>
+Packet 1
+
+Source IP      : 192.168.1.10
+Destination IP : 142.250.183.46
+Protocol        : TCP (6)
+Length          : 60 Bytes
+
+------------------------------------
+
+Packet 2
+
+Source IP      : 8.8.8.8
+Destination IP : 192.168.1.10
+Protocol        : ICMP (1)
+Length          : 52 Bytes
+
+------------------------------------
+
+Packet 3
+
+Source IP      : 192.168.1.10
+Destination IP : 224.0.0.251
+Protocol        : UDP (17)
+Length          : 74 Bytes
+</pre>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- RESULT -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<div class="alert alert-success">
+
+<h3>
+
+✅ Result
+
+</h3>
+
+<p>
+
+The packet capturing application using Raw Sockets was
+implemented successfully.
+The program captured incoming IP packets and displayed
+important IPv4 header information including
+Source IP Address,
+Destination IP Address,
+Protocol Number,
+and Packet Length.
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- COMMON ERRORS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🐞 Common Errors
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered">
+
+<thead class="table-danger">
+
+<tr>
+
+<th>Error</th>
+
+<th>Possible Reason</th>
+
+<th>Solution</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Socket Error</td>
+
+<td>Program executed without root privileges.</td>
+
+<td>Run using <code>sudo</code>.</td>
+
+</tr>
+
+<tr>
+
+<td>Permission Denied</td>
+
+<td>Raw socket requires administrator permission.</td>
+
+<td>Execute as root.</td>
+
+</tr>
+
+<tr>
+
+<td>No Packets Captured</td>
+
+<td>No network activity.</td>
+
+<td>Generate traffic using ping or web browsing.</td>
+
+</tr>
+
+<tr>
+
+<td>Compilation Error</td>
+
+<td>Missing header files.</td>
+
+<td>Verify required Linux headers are installed.</td>
+
+</tr>
+
+<tr>
+
+<td>Invalid IP Address</td>
+
+<td>Incorrect packet parsing.</td>
+
+<td>Verify IPv4 header extraction.</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- TROUBLESHOOTING -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🛠️ Troubleshooting Guide
+
+</h2>
+
+<div class="accordion" id="troubleshoot">
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button"
+data-bs-toggle="collapse"
+data-bs-target="#t1">
+
+Program exits immediately
+
+</button>
+
+</h2>
+
+<div id="t1"
+class="accordion-collapse collapse show">
+
+<div class="accordion-body">
+
+Run the application with
+
+<code>sudo</code>
+
+because raw sockets require administrator privileges.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#t2">
+
+No packets are displayed
+
+</button>
+
+</h2>
+
+<div id="t2"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+Open another terminal and execute
+
+<pre><code class="language-bash">
+ping google.com
+</code></pre>
+
+or browse websites to generate network traffic.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#t3">
+
+Only TCP packets are captured
+
+</button>
+
+</h2>
+
+<div id="t3"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+The program currently creates the socket using
+
+<code>IPPROTO_TCP</code>.
+
+Modify the protocol if you want to capture other packet types.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- EXPERIMENT VERIFICATION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+✔ Experiment Verification
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<h5>
+
+Verify the following during execution:
+
+</h5>
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+Raw socket created successfully.
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+Packets are continuously captured.
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+Source IP is displayed.
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+Destination IP is displayed.
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+Protocol number is displayed.
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+Packet length is displayed.
+
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- PRACTICAL EXERCISES -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📝 Practice Exercises
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<ol>
+
+<li>Capture five TCP packets and record their source and destination IP addresses.</li>
+
+<li>Generate traffic using the <code>ping</code> command and observe ICMP packets.</li>
+
+<li>Compare the output of your program with Wireshark.</li>
+
+<li>Identify the protocol numbers for TCP, UDP and ICMP.</li>
+
+<li>Modify the program to display the Identification field of the IPv4 header.</li>
+
+</ol>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- VIVA QUESTIONS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🎤 Viva Questions
+
+</h2>
+
+<div class="accordion" id="vivaAccordion">
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button"
+data-bs-toggle="collapse"
+data-bs-target="#v1">
+
+1. What is a Raw Socket?
+
+</button>
+
+</h2>
+
+<div id="v1"
+class="accordion-collapse collapse show">
+
+<div class="accordion-body">
+
+A Raw Socket allows direct access to packets at the Network Layer,
+enabling applications to capture and analyze complete IP packets.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v2">
+
+2. Why are Raw Sockets used?
+
+</button>
+
+</h2>
+
+<div id="v2"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+They are used for packet sniffing, protocol analysis,
+network monitoring, and security applications.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v3">
+
+3. Why must the program be executed using sudo?
+
+</button>
+
+</h2>
+
+<div id="v3"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+Creating raw sockets requires administrator privileges
+because they provide direct access to network packets.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v4">
+
+4. Which function creates a Raw Socket?
+
+</button>
+
+</h2>
+
+<div id="v4"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+socket()
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v5">
+
+5. Which function receives packets?
+
+</button>
+
+</h2>
+
+<div id="v5"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+recvfrom()
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v6">
+
+6. Which header is extracted in this experiment?
+
+</button>
+
+</h2>
+
+<div id="v6"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+The IPv4 Header.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v7">
+
+7. Which header file defines struct iphdr?
+
+</button>
+
+</h2>
+
+<div id="v7"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+&lt;netinet/ip.h&gt;
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v8">
+
+8. Which function converts an IP address into readable format?
+
+</button>
+
+</h2>
+
+<div id="v8"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+inet_ntoa()
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v9">
+
+9. What does the TTL field indicate?
+
+</button>
+
+</h2>
+
+<div id="v9"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+TTL (Time To Live) specifies the maximum number of routers
+through which a packet can travel before being discarded.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v10">
+
+10. Name two packet capturing tools.
+
+</button>
+
+</h2>
+
+<div id="v10"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+Wireshark and tcpdump.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SELF ASSESSMENT QUIZ -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📝 Self Assessment Quiz
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-6">
+
+<div class="card">
+
+<div class="card-body">
+
+<strong>1. Raw sockets operate mainly at which layer?</strong>
+
+<ul>
+
+<li>Application</li>
+
+<li>Transport</li>
+
+<li class="text-success">✔ Network</li>
+
+<li>Session</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card">
+
+<div class="card-body">
+
+<strong>2. Which socket type is used?</strong>
+
+<ul>
+
+<li>SOCK_STREAM</li>
+
+<li>SOCK_DGRAM</li>
+
+<li class="text-success">✔ SOCK_RAW</li>
+
+<li>SOCK_PACKET</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card">
+
+<div class="card-body">
+
+<strong>3. Which function receives packets?</strong>
+
+<ul>
+
+<li>read()</li>
+
+<li>recv()</li>
+
+<li class="text-success">✔ recvfrom()</li>
+
+<li>send()</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card">
+
+<div class="card-body">
+
+<strong>4. Which protocol number represents TCP?</strong>
+
+<ul>
+
+<li>1</li>
+
+<li class="text-success">✔ 6</li>
+
+<li>17</li>
+
+<li>50</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- COMMON ERRORS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🐞 Common Errors
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered">
+
+<thead class="table-danger">
+
+<tr>
+
+<th>Error</th>
+
+<th>Reason</th>
+
+<th>Solution</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Socket Error</td>
+
+<td>Program executed without root privileges.</td>
+
+<td>Run using <code>sudo</code>.</td>
+
+</tr>
+
+<tr>
+
+<td>Permission Denied</td>
+
+<td>Insufficient privileges.</td>
+
+<td>Execute as administrator.</td>
+
+</tr>
+
+<tr>
+
+<td>No Packets</td>
+
+<td>No network activity.</td>
+
+<td>Generate traffic using ping or a browser.</td>
+
+</tr>
+
+<tr>
+
+<td>Compilation Failed</td>
+
+<td>Missing Linux headers.</td>
+
+<td>Install development packages.</td>
+
+</tr>
+
+<tr>
+
+<td>Invalid Output</td>
+
+<td>Incorrect header parsing.</td>
+
+<td>Verify IP header extraction logic.</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- PROGRAMMING TIPS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+💡 Programming Tips
+
+</h2>
+
+<div class="alert alert-info">
+
+<ul class="mb-0">
+
+<li>Always execute the program using <code>sudo</code>.</li>
+
+<li>Check the return value of <code>socket()</code>.</li>
+
+<li>Validate the number of bytes returned by <code>recvfrom()</code>.</li>
+
+<li>Free dynamically allocated memory.</li>
+
+<li>Close the raw socket before exiting.</li>
+
+<li>Generate network traffic while capturing packets.</li>
+
+<li>Compare results with Wireshark for verification.</li>
+
+</ul>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- FAQ -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+❓ Frequently Asked Questions
+
+</h2>
+
+<div class="accordion" id="faq">
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button"
+data-bs-toggle="collapse"
+data-bs-target="#faq1">
+
+Why do Raw Sockets require administrator privileges?
+
+</button>
+
+</h2>
+
+<div id="faq1"
+class="accordion-collapse collapse show">
+
+<div class="accordion-body">
+
+Raw sockets allow direct access to network packets,
+which can affect system security. Therefore,
+administrator privileges are required.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#faq2">
+
+Can Raw Sockets capture all packets?
+
+</button>
+
+</h2>
+
+<div id="faq2"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+They can capture packets based on the protocol specified
+when creating the socket.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#faq3">
+
+How can I generate packets for testing?
+
+</button>
+
+</h2>
+
+<div id="faq3"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+Use commands like
+<code>ping google.com</code>,
+browse websites,
+or transfer files over the network.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- LAB CHECKLIST -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+✅ Lab Completion Checklist
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Compiled the program successfully.</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Executed the program using sudo.</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Captured network packets.</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Observed Source and Destination IP addresses.</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Observed Protocol Number and Packet Length.</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Compared results with Wireshark.</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Answered the Viva Questions.</label>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- ONE MINUTE REVISION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+⚡ One-Minute Revision
+
+</h2>
+
+<div class="alert alert-success">
+
+<ul class="mb-0">
+
+<li>Raw Sockets provide direct access to network packets.</li>
+
+<li><code>socket(AF_INET, SOCK_RAW, IPPROTO_TCP)</code> creates a raw socket.</li>
+
+<li><code>recvfrom()</code> receives incoming packets.</li>
+
+<li><code>struct iphdr</code> stores IPv4 header information.</li>
+
+<li><code>inet_ntoa()</code> converts IP addresses into readable form.</li>
+
+<li>Administrator privileges are required.</li>
+
+<li>Packet sniffers such as Wireshark also inspect packet headers.</li>
+
+</ul>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- REFERENCES -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📚 References
+
+</h2>
+
+<div class="card">
+
+<div class="card-body">
+
+<ol>
+
+<li>W. Richard Stevens, <em>UNIX Network Programming</em>, Volume 1.</li>
+
+<li>Andrew S. Tanenbaum, <em>Computer Networks</em>.</li>
+
+<li>Behrouz A. Forouzan, <em>TCP/IP Protocol Suite</em>.</li>
+
+<li>Linux Manual Pages – socket(), recvfrom(), ip(7), raw(7).</li>
+
+</ol>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- FOOTER -->
+<!-- ====================================================== -->
+
+<footer class="py-5 bg-dark text-white text-center">
+
+<div class="container">
+
+<h4>
+
+PCCSL507 Computer Networks Laboratory
+
+</h4>
+
+<p>
+
+Lab 10 – Packet Capturing using Raw Sockets
+
+</p>
+
+<hr class="bg-light">
+
+<p class="mb-1">
+
+Prepared by
+
+<strong>Ms. Prof. Anju Markose J K</strong>
+
+</p>
+
+<p>
+
+Assistant Professor<br>
+
+Department of Computer Science & Engineering<br>
+
+Viswajyothi College of Engineering & Technology
+
+</p>
+
+<a href="#top" class="btn btn-primary">
+
+<i class="fas fa-arrow-up"></i>
+
+Back to Top
+
+</a>
+
+</div>
+
+</footer>

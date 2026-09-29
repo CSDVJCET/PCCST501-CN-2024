@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Experiments | PCCSL507 Network Lab</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body{background:#f4f7fb;font-family:Arial,sans-serif;color:#1f2937}
+.navbar-brand{letter-spacing:.4px}
+.hero{background:linear-gradient(135deg,#082f6b,#1565c0);color:#fff;padding:82px 0}
+.hero .lead{max-width:850px;margin:0 auto}
+.card{border:0;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.08);transition:.25s}
+.hover-card:hover{transform:translateY(-6px)}
+.section-title{border-left:5px solid #1565c0;padding-left:12px;margin:42px 0 20px}
+.stat-card{height:100%;text-align:center}
+.icon-box{font-size:2rem}
+.lab-card{height:100%}
+.lab-number{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#e8f1ff;color:#0d47a1;font-weight:700;flex-shrink:0}
+.status-ready{background:#dcfce7;color:#166534}
+.status-upcoming{background:#f3f4f6;color:#4b5563}
+.category-header{border-radius:16px;padding:24px;color:#fff;margin-top:42px}
+.warmup{background:linear-gradient(135deg,#0f766e,#14b8a6)}
+.wireshark{background:linear-gradient(135deg,#1d4ed8,#3b82f6)}
+.socket{background:linear-gradient(135deg,#7c3aed,#a855f7)}
+.packet{background:linear-gradient(135deg,#c2410c,#f97316)}
+footer{background:#0d47a1;color:#fff;padding:22px;margin-top:55px}
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+<div class="container">
+<a class="navbar-brand fw-bold" href="../networklab.html">PCCSL507 Network Lab</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+<div class="collapse navbar-collapse" id="mainNavbar">
+<div class="navbar-nav ms-auto">
+<a class="nav-link" href="../index.html">Home</a>
+<a class="nav-link" href="module.html">Experiments</a>
+<a class="nav-link" href="lab1.html">Start Lab</a>
+</div>
+</div>
+</div>
+</nav>
+
+<section class="hero text-center">
+<div class="container">
+<p class="text-uppercase fw-bold mb-2">PCCSL507 Network Laboratory</p>
+<h1 class="display-5 fw-bold">🧪 Experiment Modules</h1>
+<p class="lead mt-3">Move from network investigation to packet analysis, socket programming and complete network design.</p>
+</div>
+</section>
+
+<main class="container py-5">
+<div class="card p-4">
+<h4>How to use this page</h4>
+<p class="mb-0">Open the current experiment, complete the investigation, record your own observations and submit the required evidence. New experiments will be activated as the course progresses.</p>
+</div>
+
+<div class="category-header warmup"><h2 class="mb-1">🐧 Warm-up</h2><p class="mb-0">Explore this stage of the laboratory journey.</p></div><div class="row g-4 mt-1">
+<div class="col-md-6 col-lg-4">
+<div class="card lab-card hover-card p-4">
+<div class="d-flex gap-3 align-items-start">
+<div class="lab-number">1</div>
+<div>
+<div class="mb-2"><span class="badge status-ready">Ready</span></div>
+<h5>Linux Network Detective</h5>
+<p>Build an evidence-based profile of a Linux machine.</p>
+<a href="lab1.html" class="btn btn-sm btn-primary">Open Experiment</a>
+</div>
+</div>
+</div>
+</div></div><div class="category-header wireshark"><h2 class="mb-1">🦈 Wireshark Based</h2><p class="mb-0">Explore this stage of the laboratory journey.</p></div><div class="row g-4 mt-1">
+<div class="col-md-6 col-lg-4">
+<div class="card lab-card hover-card p-4">
+<div class="d-flex gap-3 align-items-start">
+<div class="lab-number">2</div>
+<div>
+<div class="mb-2"><span class="badge status-ready">Ready</span></div>
+<h5>HTTP Conversation Investigator</h5>
+<p>Reconstruct a browser–server HTTP conversation.</p>
+<a href="lab2.html" class="btn btn-sm btn-primary">Open Experiment</a>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-6 col-lg-4">
+<div class="card lab-card hover-card p-4">
+<div class="d-flex gap-3 align-items-start">
+<div class="lab-number">3</div>
+<div>
+<div class="mb-2"><span class="badge status-ready">Ready</span></div>
+<h5>Email Journey Investigator</h5>
+<p>Observe and explain an application-layer mail exchange.</p>
+<a href="lab3.html" class="btn btn-sm btn-primary">Open Experiment</a>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-6 col-lg-4">
+<div class="card lab-card hover-card p-4">
+<div class="d-flex gap-3 align-items-start">
+<div class="lab-number">4</div>
+<div>
+<div class="mb-2"><span class="badge status-ready">Ready</span></div>
+<h5>DNS Resolution Detective</h5>
+<p>Trace how a domain name becomes an IP address.</p>
+<a href="lab4.html" class="btn btn-sm btn-primary">Open Experiment</a>
+</div>
+</div>
+</div>
+</div>
+<div class="category-header socket"><h2 class="mb-1">🔌 Socket Programming Based</h2><p class="mb-0">Explore this stage of the laboratory journey.</p></div><div class="row g-4 mt-1">
+<div class="col-md-6 col-lg-4">
+<div class="card lab-card hover-card p-4">
+<div class="d-flex gap-3 align-items-start">
+<div class="lab-number">5</div>
+<div>
+<div class="mb-2"><span class="badge status-upcoming">Ready</span></div>
+<h5>TCP Application Challenge</h5>
+<p>Build an original connection-oriented client–server application.</p>
+<a href="lab5learning.html" class="btn btn-sm btn-primary">Open Experiment</a>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-6 col-lg-4">
+<div class="card lab-card hover-card p-4">
+<div class="d-flex gap-3 align-items-start">
+<div class="lab-number">6</div>
+<div>
+<div class="mb-2"><span class="badge status-upcoming">Ready</span></div>
+<h5>UDP Application Challenge</h5>
+<p>Build an original connectionless request–response application.</p>
+<a href="lab6.html" class="btn btn-sm btn-primary">Open Experiment</a>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-6 col-lg-4">
+<div class="card lab-card hover-card p-4">
+<div class="d-flex gap-3 align-items-start">
+<div class="lab-number">7</div>
+<div>
+<div class="mb-2"><span class="badge status-upcoming">Ready</span></div>
+<h5>Multi-Client Communication</h5>
+<p>Create a server that handles multiple clients.</p>
+<a href="lab7.html" class="btn btn-sm btn-primary">Open Experiment</a>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-6 col-lg-4">
+<div class="card lab-card hover-card p-4">
+<div class="d-flex gap-3 align-items-start">
+<div class="lab-number">8</div>
+<div>
+<div class="mb-2"><span class="badge status-upcoming">Ready</span></div>
+<h5>Concurrent Service Lab</h5>
+<p>Design and test a concurrent network service.</p>
+<a href="lab8.html" class="btn btn-sm btn-primary">Open Experiment</a>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-6 col-lg-4">
+<div class="card lab-card hover-card p-4">
+<div class="d-flex gap-3 align-items-start">
+<div class="lab-number">9</div>
+<div>
+<div class="mb-2"><span class="badge status-upcoming">Ready</span></div>
+<h5>Network File Service</h5>
+<p>Transfer and verify data between networked processes.</p>
+<a href="lab9.html" class="btn btn-sm btn-primary">Open Experiment</a>
+</div>
+</div>
+</div>
+</div></div>
+ <div class="col-md-6 col-lg-4">
+<div class="card lab-card hover-card p-4">
+<div class="d-flex gap-3 align-items-start">
+<div class="lab-number">10</div>
+<div>
+<div class="mb-2"><span class="badge status-upcoming">Ready</span></div>
+<h5>Packet Capture Challenge</h5>
+<p>Capture and interpret traffic generated by your own application.</p>
+<a href="lab10.html" class="btn btn-sm btn-primary">Open Experiment</a>
+</div>
+</div>
+</div>
+</div></div> 
+<div class="category-header packet"><h2 class="mb-1">🖧 Cisco Packet Tracer Based</h2><p class="mb-0">Explore this stage of the laboratory journey.</p></div><div class="row g-4 mt-1">
+<div class="col-md-6 col-lg-4">
+<div class="card lab-card hover-card p-4">
+<div class="d-flex gap-3 align-items-start">
+<div class="lab-number">11</div>
+<div>
+<div class="mb-2"><span class="badge status-upcoming">Ready</span></div>
+<h5>LAN Design Challenge</h5>
+<p>Build and verify a basic local area network.</p>
+<a href="lab11.html" class="btn btn-sm btn-primary">Open Experiment</a>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-6 col-lg-4">
+<div class="card lab-card hover-card p-4">
+<div class="d-flex gap-3 align-items-start">
+<div class="lab-number">12</div>
+<div>
+<div class="mb-2"><span class="badge status-upcoming">Ready</span></div>
+<h5>Inter-Network Routing</h5>
+<p>Connect multiple networks and verify end-to-end reachability.</p>
+<a href="lab12.html" class="btn btn-sm btn-primary">Open Experiment</a>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-6 col-lg-4">
+<div class="card lab-card hover-card p-4">
+<div class="d-flex gap-3 align-items-start">
+<div class="lab-number">13</div>
+<div>
+<div class="mb-2"><span class="badge status-upcoming">Ready</span></div>
+<h5>Address Planning Mission</h5>
+<p>Design and apply an IP addressing plan.</p>
+<a href="lab13.html" class="btn btn-sm btn-primary">Open Experiment</a>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-6 col-lg-4">
+<div class="card lab-card hover-card p-4">
+<div class="d-flex gap-3 align-items-start">
+<div class="lab-number">14</div>
+<div>
+<div class="mb-2"><span class="badge status-upcoming">Ready</span></div>
+<h5>Switching Investigation</h5>
+<p>Explore switching behaviour and LAN communication.</p>
+<a href="lab14.html" class="btn btn-sm btn-primary">Open Experiment</a>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-6 col-lg-4">
+<div class="card lab-card hover-card p-4">
+<div class="d-flex gap-3 align-items-start">
+<div class="lab-number">15</div>
+<div>
+<div class="mb-2"><span class="badge status-upcoming">Ready</span></div>
+<h5>Routing Decision Lab</h5>
+<p>Configure routes and explain forwarding decisions.</p>
+<a href="lab15.html" class="btn btn-sm btn-primary">Open Experiment</a>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-6 col-lg-4">
+<div class="card lab-card hover-card p-4">
+<div class="d-flex gap-3 align-items-start">
+<div class="lab-number">16</div>
+<div>
+<div class="mb-2"><span class="badge status-upcoming">Ready</span></div>
+<h5>Network Troubleshooting Mission</h5>
+<p>Diagnose and repair a deliberately misconfigured network.</p>
+<a href="lab16.html" class="btn btn-sm btn-primary">Open Experiment</a>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-6 col-lg-4">
+<div class="card lab-card hover-card p-4">
+<div class="d-flex gap-3 align-items-start">
+<div class="lab-number">17</div>
+<div>
+<div class="mb-2"><span class="badge status-upcoming">Ready</span></div>
+<h5>Capstone Network Challenge</h5>
+<p>Integrate analysis, programming and network design skills.</p>
+<a href="lab17.html" class="btn btn-sm btn-primary">Open Experiment</a>
+</div>
+</div>
+</div>
+</div></div>
+<div class="d-flex justify-content-between mt-5">
+<a href="../networklab.html" class="btn btn-outline-primary">← Lab Home</a>
+<a href="lab1.html" class="btn btn-primary">Start Experiment 1 →</a>
+</div>
+</main>
+
+<footer class="text-center">© 2026 PCCST501 Computer Networks | Ms. Prof. Anju Markose J K</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

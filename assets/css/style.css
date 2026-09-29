@@ -559,3 +559,93 @@ canvas {
     padding: 1.25rem;
   }
 }
+
+/* --- Simulator Lab & Interactive Canvas Specific Styles --- */
+.sim-filter-btn {
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.sim-filter-btn:hover {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--primary-light);
+  border-color: var(--primary-light);
+}
+
+.sim-filter-btn.active {
+  background: var(--primary-color);
+  color: #ffffff;
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+}
+
+.sim-card-wrapper {
+  transition: all var(--transition-normal);
+}
+
+.animated-terminal-window {
+  background: #090d16;
+  border-radius: 12px;
+  border: 1px solid #1e293b;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.terminal-header-bar {
+  background: #0f172a;
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #1e293b;
+}
+
+.terminal-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.terminal-dot.red { background: #ef4444; }
+.terminal-dot.yellow { background: #f59e0b; }
+.terminal-dot.green { background: #10b981; }
+
+.animated-terminal-body {
+  padding: 1.2rem;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.85rem;
+  color: #f8fafc;
+  min-height: 180px;
+  max-height: 280px;
+  overflow-y: auto;
+  line-height: 1.6;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.35s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.sim-canvas {
+  width: 100%;
+  border-radius: 8px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+}
+

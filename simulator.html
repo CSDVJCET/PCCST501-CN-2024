@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Network Simulator Suite | PCCST501 Computer Networks | VJCET</title>
+    <meta name="description" content="Interactive Network Protocol & Hands-on Simulator Lab for KTU S5 B.Tech CSE by Prof. Anju Markose, VJCET. Simulate HTTP, DNS, P2P BitTorrent, TCP Handshake, Congestion Control, Subnetting, Dijkstra Routing, Sliding Window ARQ, CRC, Hamming Code, Line Coding, and SNMP.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+    <!-- ==================== TOP NAVIGATION BAR ==================== -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <span class="brand-badge"><i class="bi bi-diagram-3-fill"></i> PCCST501</span>
+                <span>Computer Networks</span>
+            </a>
+            
+            <div class="d-flex align-items-center gap-2 order-lg-last">
+                <button class="btn btn-sm btn-outline-secondary rounded-circle p-2" id="theme-toggle-btn" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
+                    <i class="bi bi-moon-stars-fill text-primary" id="theme-toggle-icon"></i>
+                </button>
+                <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbarMain">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="modules.html">Lecture Modules</a></li>
+                    <li class="nav-item"><a class="nav-link" href="networklab.html">Network Lab</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="simulator.html"><i class="bi bi-cpu-fill text-warning"></i> Simulator Suite</a></li>
+                    <li class="nav-item"><a class="nav-link" href="tutorials.html">Tools &amp; Calculators</a></li>
+                    <li class="nav-item"><a class="nav-link" href="questionbank.html">Question Bank</a></li>
+                    <li class="nav-item"><a class="nav-link" href="assignments.html">Assignments</a></li>
+                    <li class="nav-item"><a class="nav-link" href="resources.html">Downloads</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== HERO HEADER ==================== -->
+    <section class="py-5 bg-surface border-bottom position-relative overflow-hidden">
+        <div class="container position-relative">
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill fw-bold">
+                    <i class="bi bi-stars"></i> Interactive Protocol Workbench
+                </span>
+                <span class="text-muted small">&bull;</span>
+                <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill fw-bold">
+                    KTU 2024 Scheme Hands-On Simulation
+                </span>
+            </div>
+            <h1 class="hero-title mt-2">
+                PCCST501 Interactive Network Simulator Suite
+            </h1>
+            <p class="hero-subtitle mb-4">
+                Designed by <strong>Prof. Anju Markose</strong> (Dept. of CSE, VJCET) to provide students with live, interactive browser-based protocol runners, packet inspect engines, error detection laboratories, and hands-on terminal video walkthroughs across all four course modules.
+            </p>
+
+            <!-- Filter Badges -->
+            <div class="d-flex flex-wrap gap-2 pt-2">
+                <button class="sim-filter-btn active" data-filter="all">All Simulators (15+)</button>
+                <button class="sim-filter-btn" data-filter="m1">Module 1 (App Layer &amp; P2P)</button>
+                <button class="sim-filter-btn" data-filter="m2">Module 2 (Transport &amp; Network)</button>
+                <button class="sim-filter-btn" data-filter="m3">Module 3 (Data Link &amp; WLAN)</button>
+                <button class="sim-filter-btn" data-filter="m4">Module 4 (Physical &amp; SNMP)</button>
+                <button class="sim-filter-btn" data-filter="video">Hands-on Video Labs</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SIMULATORS WORKBENCH ==================== -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-5">
+
+                <!-- ==================== MODULE 1 SIMULATORS ==================== -->
+
+                <!-- SIMULATOR 1.1: HTTP Request/Response Inspector -->
+                <div class="col-lg-12 sim-card-wrapper" data-category="m1">
+                    <div class="card-custom">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="card-icon cyan m-0"><i class="bi bi-globe2"></i></div>
+                                <div>
+                                    <h3 class="fw-bold mb-0">1. HTTP/1.1 &amp; HTTP/2 Request-Response Inspector</h3>
+                                    <span class="text-muted small">Module 1 &bull; RFC 2616 / RFC 7540 Protocol Framing</span>
+                                </div>
+                            </div>
+                            <span class="badge bg-primary">Module 1 &bull; Application Layer</span>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-2">
+                                <label class="form-label-custom">Method</label>
+                                <select class="form-control-custom" id="http-method">
+                                    <option value="GET">GET</option>
+                                    <option value="POST">POST</option>
+                                    <option value="HEAD">HEAD</option>
+                                    <option value="PUT">PUT</option>
+                                    <option value="DELETE">DELETE</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label-custom">Request URI Path</label>
+                                <input type="text" class="form-control-custom" id="http-url" value="/index.html">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-custom">HTTP Version</label>
+                                <select class="form-control-custom" id="http-version">
+                                    <option value="HTTP/1.1">HTTP/1.1 (Persistent)</option>
+                                    <option value="HTTP/2">HTTP/2 (Binary Multiplexed)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-custom">Connection Header</label>
+                                <select class="form-control-custom" id="http-connection">
+                                    <option value="keep-alive">keep-alive</option>
+                                    <option value="close">close (non-persistent)</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label-custom">Request Body Payload (for POST / PUT)</label>
+                                <input type="text" class="form-control-custom font-mono" id="http-body" value='{"student_id": "VJCET_CSE_501", "course": "PCCST501"}'>
+                            </div>
+                        </div>
+
+                        <button class="btn-primary-custom mb-3" id="http-send-btn">
+                            <i class="bi bi-send-fill"></i> Transmit HTTP Request &amp; Inspect Stream
+                        </button>
+
+                        <div id="http-anim-track" class="mb-2"></div>
+                        <div id="http-response-box"></div>
+                    </div>
+                </div>
+
+                <!-- SIMULATOR 1.2: DNS Interactive Resolver -->
+                <div class="col-lg-12 sim-card-wrapper" data-category="m1">
+                    <div class="card-custom">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="card-icon indigo m-0"><i class="bi bi-diagram-3-fill"></i></div>
+                                <div>
+                                    <h3 class="fw-bold mb-0">2. DNS Recursive vs. Iterative Query Resolver</h3>
+                                    <span class="text-muted small">Module 1 &bull; Hierarchy Traversal: Root (.) &rarr; TLD (.in) &rarr; Authoritative Name Server</span>
+                                </div>
+                            </div>
+                            <span class="badge bg-primary">Module 1 &bull; Domain Name System</span>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-5">
+                                <label class="form-label-custom">Domain Name Query</label>
+                                <input type="text" class="form-control-custom" id="dns-domain" value="www.vjcet.ac.in">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label-custom">Resolution Mode</label>
+                                <select class="form-control-custom" id="dns-mode">
+                                    <option value="recursive">Recursive Query (Client &rarr; Local DNS &rarr; Root/TLD/Auth)</option>
+                                    <option value="iterative">Iterative Query (Client queries each hierarchy server directly)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label-custom">DNS Record Type</label>
+                                <select class="form-control-custom" id="dns-qtype">
+                                    <option value="A (IPv4 Address)">A (IPv4 Host Address)</option>
+                                    <option value="AAAA (IPv6 Address)">AAAA (IPv6 Address)</option>
+                                    <option value="CNAME (Canonical Alias)">CNAME (Canonical Alias)</option>
+                                    <option value="MX (Mail Exchange)">MX (Mail Exchange)</option>
+                                    <option value="NS (Name Server)">NS (Authoritative Name Server)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button class="btn-primary-custom mb-3" id="dns-resolve-btn">
+                            <i class="bi bi-play-circle-fill"></i> Execute Live DNS Query Simulation
+                        </button>
+
+                        <div id="dns-anim-box"></div>
+                        <div id="dns-result-box"></div>
+                    </div>
+                </div>
+
+                <!-- SIMULATOR 1.3: BitTorrent Swarm Simulator -->
+                <div class="col-lg-12 sim-card-wrapper" data-category="m1">
+                    <div class="card-custom">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="card-icon emerald m-0"><i class="bi bi-hdd-network-fill"></i></div>
+                                <div>
+                                    <h3 class="fw-bold mb-0">3. BitTorrent P2P Swarm &amp; Tit-for-Tat Choking Simulator</h3>
+                                    <span class="text-muted small">Module 1 &bull; Rarest-First Piece Selection &amp; Optimistic Unchoking (RFC 5694)</span>
+                                </div>
+                            </div>
+                            <span class="badge bg-primary">Module 1 &bull; Peer-to-Peer</span>
+                        </div>
+
+                        <p class="text-muted small">
+                            Simulates a live BitTorrent swarm with 1 initial Seeder (16 pieces) and 5 Leechers exchanging chunks via Tit-for-Tat rate matching.
+                        </p>
+
+                        <div class="d-flex gap-2 mb-4">
+                            <button class="btn btn-primary btn-sm" id="bt-start-btn"><i class="bi bi-play-fill"></i> Start Tit-for-Tat Swarm</button>
+                            <button class="btn btn-outline-secondary btn-sm" id="bt-reset-btn"><i class="bi bi-arrow-counterclockwise"></i> Reset Swarm</button>
+                        </div>
+
+                        <div class="row g-3" id="bt-swarm-container"></div>
+                    </div>
+                </div>
+
+                <!-- ==================== MODULE 2 SIMULATORS ==================== -->
+
+                <!-- SIMULATOR 2.1: TCP 3-Way Handshake & Teardown -->
+                <div class="col-lg-12 sim-card-wrapper" data-category="m2">
+                    <div class="card-custom">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="card-icon amber m-0"><i class="bi bi-arrow-left-right"></i></div>
+                                <div>
+                                    <h3 class="fw-bold mb-0">4. TCP 3-Way Handshake &amp; 4-Way Connection Teardown</h3>
+                                    <span class="text-muted small">Module 2 Transport Layer &bull; SYN, SYN-ACK, ACK, FIN State Machine</span>
+                                </div>
+                            </div>
+                            <span class="badge bg-info text-dark">Module 2 &bull; Transport Layer</span>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <div class="p-3 border rounded bg-surface text-center">
+                                    <div class="text-muted small">Client Endpoint (Port 52431)</div>
+                                    <div class="fs-5 fw-bold text-primary" id="tcp-client-state">CLOSED</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-3 border rounded bg-surface text-center">
+                                    <div class="text-muted small">Server Endpoint (Port 80)</div>
+                                    <div class="fs-5 fw-bold text-success" id="tcp-server-state">LISTEN</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2 mb-3">
+                            <button class="btn btn-primary btn-sm" id="tcp-step-btn"><i class="bi bi-play-fill"></i> Start Handshake (Step 1)</button>
+                            <button class="btn btn-outline-secondary btn-sm" id="tcp-reset-btn"><i class="bi bi-arrow-counterclockwise"></i> Reset State</button>
+                        </div>
+
+                        <div id="tcp-packet-anim" class="mb-2"></div>
+                        <div id="tcp-log-box" style="max-height: 220px; overflow-y: auto;"></div>
+                    </div>
+                </div>
+
+                <!-- SIMULATOR 2.2: TCP Congestion Control Visualizer -->
+                <div class="col-lg-12 sim-card-wrapper" data-category="m2">
+                    <div class="card-custom">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="card-icon purple m-0"><i class="bi bi-graph-up-arrow"></i></div>
+                                <div>
+                                    <h3 class="fw-bold mb-0">5. TCP Congestion Control Simulator (AIMD / Reno / Tahoe)</h3>
+                                    <span class="text-muted small">Module 2 &bull; Slow Start (Exponential) &bull; Congestion Avoidance (Linear) &bull; Fast Recovery</span>
+                                </div>
+                            </div>
+                            <span class="badge bg-info text-dark">Module 2 &bull; Congestion Control</span>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3">
+                                <div class="p-2 border rounded text-center bg-surface">
+                                    <small class="text-muted d-block">Current cwnd</small>
+                                    <strong class="fs-5 text-primary" id="val-current-cwnd">1 MSS</strong>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-2 border rounded text-center bg-surface">
+                                    <small class="text-muted d-block">Slow Start Threshold</small>
+                                    <strong class="fs-5 text-danger" id="val-current-ssthresh">16 MSS</strong>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-2 border rounded text-center bg-surface">
+                                    <small class="text-muted d-block">Transmission RTT</small>
+                                    <strong class="fs-5 text-dark" id="val-current-rtt">Round 0</strong>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="p-2 border rounded text-center bg-surface">
+                                    <small class="text-muted d-block">Operating Phase</small>
+                                    <span class="badge bg-primary" id="val-current-phase">Slow Start</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Canvas Chart -->
+                        <canvas id="tcp-cwnd-canvas" class="sim-canvas mb-3"></canvas>
+
+                        <div class="d-flex flex-wrap gap-2">
+                            <button class="btn btn-primary btn-sm" id="btn-cwnd-step"><i class="bi bi-arrow-right-circle"></i> Next RTT (+1 Step)</button>
+                            <button class="btn btn-warning btn-sm" id="btn-cwnd-3dup"><i class="bi bi-lightning-charge"></i> Inject 3 Duplicate ACKs (Fast Retransmit)</button>
+                            <button class="btn btn-danger btn-sm" id="btn-cwnd-timeout"><i class="bi bi-clock-history"></i> Inject Timeout Loss</button>
+                            <button class="btn btn-outline-secondary btn-sm" id="btn-cwnd-reset"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SIMULATOR 2.3: Dijkstra Shortest Path Routing -->
+                <div class="col-lg-12 sim-card-wrapper" data-category="m2">
+                    <div class="card-custom">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="card-icon indigo m-0"><i class="bi bi-signpost-split-fill"></i></div>
+                                <div>
+                                    <h3 class="fw-bold mb-0">6. Dijkstra Shortest Path Algorithm (OSPF / Link State)</h3>
+                                    <span class="text-muted small">Module 2 Network Layer &bull; Step-by-Step Edge Relaxation &amp; Shortest Path Tree</span>
+                                </div>
+                            </div>
+                            <span class="badge bg-info text-dark">Module 2 &bull; Unicast Routing</span>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label-custom">Source Router (Start Node)</label>
+                                <select class="form-control-custom" id="dijkstra-src">
+                                    <option value="A" selected>Router A</option>
+                                    <option value="B">Router B</option>
+                                    <option value="C">Router C</option>
+                                    <option value="D">Router D</option>
+                                    <option value="E">Router E</option>
+                                    <option value="F">Router F</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label-custom">Destination Router (Target Node)</label>
+                                <select class="form-control-custom" id="dijkstra-dest">
+                                    <option value="F" selected>Router F</option>
+                                    <option value="E">Router E</option>
+                                    <option value="D">Router D</option>
+                                    <option value="C">Router C</option>
+                                    <option value="B">Router B</option>
+                                    <option value="A">Router A</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button class="btn-primary-custom w-100" id="dijkstra-run-btn">
+                                    <i class="bi bi-cpu-fill"></i> Compute Shortest Path
+                                </button>
+                            </div>
+                        </div>
+
+                        <canvas id="dijkstra-canvas" class="sim-canvas mb-3"></canvas>
+                        <div id="dijkstra-result-box"></div>
+                    </div>
+                </div>
+
+                <!-- SIMULATOR 2.4: Distance Vector Routing -->
+                <div class="col-lg-12 sim-card-wrapper" data-category="m2">
+                    <div class="card-custom">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="card-icon emerald m-0"><i class="bi bi-shuffle"></i></div>
+                                <div>
+                                    <h3 class="fw-bold mb-0">7. Distance Vector Routing &amp; Bellman-Ford Convergence (RIP)</h3>
+                                    <span class="text-muted small">Module 2 &bull; Distributed Matrix Exchange &amp; Count-to-Infinity Mitigation</span>
+                                </div>
+                            </div>
+                            <span class="badge bg-info text-dark">Module 2 &bull; Distance Vector</span>
+                        </div>
+
+                        <p class="text-muted small">
+                            Simulate distributed Bellman-Ford table exchanges between neighboring routers R1, R2, R3, and R4 until convergence.
+                        </p>
+
+                        <button class="btn btn-primary btn-sm mb-3" id="dv-converge-btn"><i class="bi bi-play-circle"></i> Exchange Distance Vectors &amp; Converge Tables</button>
+                        <div id="dv-tables-box"></div>
+                    </div>
+                </div>
+
+                <!-- ==================== MODULE 3 SIMULATORS ==================== -->
+
+                <!-- SIMULATOR 3.1: Sliding Window ARQ Simulator -->
+                <div class="col-lg-12 sim-card-wrapper" data-category="m3">
+                    <div class="card-custom">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="card-icon cyan m-0"><i class="bi bi-window-stack"></i></div>
+                                <div>
+                                    <h3 class="fw-bold mb-0">8. Sliding Window Flow Control (Stop-and-Wait, Go-Back-N, Selective Repeat)</h3>
+                                    <span class="text-muted small">Module 3 Data Link Layer &bull; Sliding Window Frame Sequences &amp; ARQ Retransmissions</span>
+                                </div>
+                            </div>
+                            <span class="badge bg-warning text-dark">Module 3 &bull; Data Link Layer</span>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label-custom">ARQ Protocol Scheme</label>
+                                <select class="form-control-custom" id="arq-protocol-sel">
+                                    <option value="gbn">Go-Back-N ARQ (Window N=4, Cumulative ACKs)</option>
+                                    <option value="sr">Selective Repeat ARQ (Window N=4, Individual ACKs)</option>
+                                    <option value="saw">Stop-and-Wait ARQ (Window N=1)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 d-flex align-items-end gap-2">
+                                <button class="btn btn-primary btn-sm" id="arq-send-btn"><i class="bi bi-send-fill"></i> Send Next Frame</button>
+                                <button class="btn btn-danger btn-sm" id="arq-drop-btn"><i class="bi bi-x-octagon"></i> Drop Next Frame</button>
+                                <button class="btn btn-warning btn-sm" id="arq-ackdrop-btn"><i class="bi bi-slash-circle"></i> Drop Returning ACK</button>
+                                <button class="btn btn-outline-secondary btn-sm" id="arq-reset-btn"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label-custom">Sequence Number Buffer Window (Frames 0 to 7):</label>
+                            <div class="row g-2" id="arq-window-track"></div>
+                        </div>
+
+                        <div id="arq-log-box" class="p-2 border rounded bg-dark" style="max-height: 180px; overflow-y: auto;"></div>
+                    </div>
+                </div>
+
+                <!-- SIMULATOR 3.2: CRC Generator & Error Detector -->
+                <div class="col-lg-12 sim-card-wrapper" data-category="m3">
+                    <div class="card-custom">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="card-icon amber m-0"><i class="bi bi-shield-lock-fill"></i></div>
+                                <div>
+                                    <h3 class="fw-bold mb-0">9. CRC Modulo-2 Polynomial Divider &amp; Error Corruptor</h3>
+                                    <span class="text-muted small">Module 3 &bull; Binary Modulo-2 Polynomial XOR Long Division &amp; Receiver Verification</span>
+                                </div>
+                            </div>
+                            <span class="badge bg-warning text-dark">Module 3 &bull; Error Detection</span>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-7">
+                                <label class="form-label-custom">Data Bit Sequence (e.g. 11010011101100)</label>
+                                <input type="text" class="form-control-custom font-mono" id="crc-data-input" value="11010011101100">
+                            </div>
+                            <div class="col-md-5">
+                                <label class="form-label-custom">Generator Divisor Polynomial (e.g. 10011 for x^4+x+1)</label>
+                                <input type="text" class="form-control-custom font-mono" id="crc-poly-input" value="10011">
+                            </div>
+                        </div>
+
+                        <button class="btn-primary-custom" id="crc-calc-btn">
+                            <i class="bi bi-play-fill"></i> Compute CRC Checksum &amp; Generate Codeword
+                        </button>
+
+                        <div id="crc-sim-result"></div>
+                    </div>
+                </div>
+
+                <!-- SIMULATOR 3.3: Hamming (7,4) Error Corrector -->
+                <div class="col-lg-12 sim-card-wrapper" data-category="m3">
+                    <div class="card-custom">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="card-icon emerald m-0"><i class="bi bi-patch-check-fill"></i></div>
+                                <div>
+                                    <h3 class="fw-bold mb-0">10. Hamming (7,4) Single-Bit Error Detection &amp; Auto-Correction</h3>
+                                    <span class="text-muted small">Module 3 &bull; Linear Block Code (7,4) &bull; Syndrome Decoding Vector (S3, S2, S1)</span>
+                                </div>
+                            </div>
+                            <span class="badge bg-warning text-dark">Module 3 &bull; Error Correction</span>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-3 col-md-3">
+                                <label class="form-label-custom">Data Bit D3</label>
+                                <select class="form-control-custom" id="ham-d3"><option value="1">1</option><option value="0">0</option></select>
+                            </div>
+                            <div class="col-3 col-md-3">
+                                <label class="form-label-custom">Data Bit D2</label>
+                                <select class="form-control-custom" id="ham-d2"><option value="0">0</option><option value="1">1</option></select>
+                            </div>
+                            <div class="col-3 col-md-3">
+                                <label class="form-label-custom">Data Bit D1</label>
+                                <select class="form-control-custom" id="ham-d1"><option value="1">1</option><option value="0">0</option></select>
+                            </div>
+                            <div class="col-3 col-md-3">
+                                <label class="form-label-custom">Data Bit D0</label>
+                                <select class="form-control-custom" id="ham-d0"><option value="1">1</option><option value="0">0</option></select>
+                            </div>
+                        </div>
+
+                        <button class="btn-primary-custom" id="hamming-gen-btn">
+                            <i class="bi bi-cpu"></i> Generate Hamming (7,4) Codeword
+                        </button>
+
+                        <div id="hamming-result-box"></div>
+                    </div>
+                </div>
+
+                <!-- SIMULATOR 3.4: CSMA/CD Collision & Backoff -->
+                <div class="col-lg-12 sim-card-wrapper" data-category="m3">
+                    <div class="card-custom">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="card-icon purple m-0"><i class="bi bi-broadcast"></i></div>
+                                <div>
+                                    <h3 class="fw-bold mb-0">11. CSMA/CD &amp; CSMA/CA Backoff Collision Simulator</h3>
+                                    <span class="text-muted small">Module 3 MAC Sublayer &bull; IEEE 802.3 Carrier Sense &bull; Exponential Backoff Timer</span>
+                                </div>
+                            </div>
+                            <span class="badge bg-warning text-dark">Module 3 &bull; Multiple Access</span>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label-custom">Number of Contending Stations</label>
+                                <select class="form-control-custom" id="csma-stations">
+                                    <option value="3">3 Stations Transmitting Simultaneously (Trigger Collision)</option>
+                                    <option value="1">1 Station (Idle Channel / Direct Transmission)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 d-flex align-items-end">
+                                <button class="btn-primary-custom w-100" id="csma-transmit-btn">
+                                    <i class="bi bi-broadcast-pin"></i> Sense Medium &amp; Transmit
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="csma-log-box" class="p-2 border rounded bg-dark" style="max-height: 180px; overflow-y: auto;"></div>
+                    </div>
+                </div>
+
+                <!-- ==================== MODULE 4 SIMULATORS ==================== -->
+
+                <!-- SIMULATOR 4.1: Digital Line Coding Waveform Generator -->
+                <div class="col-lg-12 sim-card-wrapper" data-category="m4">
+                    <div class="card-custom">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="card-icon cyan m-0"><i class="bi bi-activity"></i></div>
+                                <div>
+                                    <h3 class="fw-bold mb-0">12. Digital Line Coding Waveform Generator</h3>
+                                    <span class="text-muted small">Module 4 Physical Layer &bull; NRZ-L, NRZ-I, Manchester, Differential Manchester, AMI</span>
+                                </div>
+                            </div>
+                            <span class="badge bg-danger">Module 4 &bull; Physical Layer</span>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-8">
+                                <label class="form-label-custom">Input Binary Sequence (e.g. 10110001 or 11010100)</label>
+                                <input type="text" class="form-control-custom font-mono" id="input-linecode-bits" value="10110001">
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <button class="btn-primary-custom w-100" id="btn-render-waveforms">
+                                    <i class="bi bi-pencil-fill"></i> Render Waveforms
+                                </button>
+                            </div>
+                        </div>
+
+                        <canvas id="line-code-canvas" class="sim-canvas mb-3"></canvas>
+                    </div>
+                </div>
+
+                <!-- SIMULATOR 4.2: Nyquist & Shannon Capacity Analyzer -->
+                <div class="col-lg-12 sim-card-wrapper" data-category="m4">
+                    <div class="card-custom">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="card-icon emerald m-0"><i class="bi bi-reception-4"></i></div>
+                                <div>
+                                    <h3 class="fw-bold mb-0">13. Nyquist &amp; Shannon Channel Capacity Analyzer</h3>
+                                    <span class="text-muted small">Module 4 &bull; Theoretical Data Rate Limits for Noiseless and Noisy Channels</span>
+                                </div>
+                            </div>
+                            <span class="badge bg-danger">Module 4 &bull; Channel Capacity</span>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label-custom">Channel Bandwidth (B in kHz)</label>
+                                <input type="number" class="form-control-custom" id="cap-bw" value="4">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label-custom">Signal Levels (L for Nyquist)</label>
+                                <input type="number" class="form-control-custom" id="cap-levels" value="8">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label-custom">Signal-to-Noise Ratio (SNR in dB)</label>
+                                <input type="number" class="form-control-custom" id="cap-snr" value="30">
+                            </div>
+                        </div>
+
+                        <button class="btn-primary-custom" id="cap-calc-btn">
+                            <i class="bi bi-calculator"></i> Calculate Theoretical Channel Capacities
+                        </button>
+
+                        <div id="cap-result-box"></div>
+                    </div>
+                </div>
+
+                <!-- SIMULATOR 4.3: SNMP Manager-Agent Polling -->
+                <div class="col-lg-12 sim-card-wrapper" data-category="m4">
+                    <div class="card-custom">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="card-icon amber m-0"><i class="bi bi-server"></i></div>
+                                <div>
+                                    <h3 class="fw-bold mb-0">14. SNMP Manager-Agent Polling &amp; MIB-2 Explorer</h3>
+                                    <span class="text-muted small">Module 4 &bull; Simple Network Management Protocol (RFC 1157) &bull; ASN.1 BER TLV</span>
+                                </div>
+                            </div>
+                            <span class="badge bg-danger">Module 4 &bull; Network Management</span>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label-custom">Target Object Identifier (OID)</label>
+                                <select class="form-control-custom font-mono" id="snmp-oid">
+                                    <option value="1.3.6.1.2.1.1.1.0">sysDescr.0 (1.3.6.1.2.1.1.1.0)</option>
+                                    <option value="1.3.6.1.2.1.1.3.0">sysUpTime.0 (1.3.6.1.2.1.1.3.0)</option>
+                                    <option value="1.3.6.1.2.1.1.4.0">sysContact.0 (1.3.6.1.2.1.1.4.0)</option>
+                                    <option value="1.3.6.1.2.1.2.1.0">ifNumber.0 (1.3.6.1.2.1.2.1.0)</option>
+                                    <option value="1.3.6.1.2.1.4.1.0">ipForwarding.0 (1.3.6.1.2.1.4.1.0)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label-custom">SNMP Operation PDU</label>
+                                <select class="form-control-custom" id="snmp-pdu">
+                                    <option value="GetRequest-PDU">GetRequest-PDU (Retrieve variable value)</option>
+                                    <option value="GetNextRequest-PDU">GetNextRequest-PDU (Lexicographical tree walk)</option>
+                                    <option value="SetRequest-PDU">SetRequest-PDU (Modify configuration)</option>
+                                    <option value="Trap-PDU">Trap-PDU (Unsolicited agent notification)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button class="btn-primary-custom" id="snmp-send-btn">
+                            <i class="bi bi-send-check"></i> Transmit SNMP PDU to Managed Agent
+                        </button>
+
+                        <div id="snmp-out-box"></div>
+                    </div>
+                </div>
+
+                <!-- ==================== HANDS-ON VIDEO DEMOS & TERMINAL SUITE ==================== -->
+                <div class="col-lg-12 sim-card-wrapper" data-category="video">
+                    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+                        <div>
+                            <span class="badge bg-success bg-opacity-10 text-success fw-bold px-3 py-2 rounded-pill">Laboratory Video &amp; Execution Walkthroughs</span>
+                            <h2 class="fw-bold mt-2">Hands-on Laboratory Demos &amp; Live Terminal Player</h2>
+                            <p class="text-muted mb-0">Watch interactive animated terminal sessions, copy verified C/Python socket code, and review compilation &amp; execution procedures for university lab exams.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIDEO LAB 1: HTTP Multi-threaded Server in C -->
+                <div class="col-lg-6 sim-card-wrapper" data-category="video">
+                    <div class="card-custom h-100 lab-demo-card">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="badge bg-primary">Lab Demo 1 &bull; Module 1</span>
+                            <span class="text-muted small"><i class="bi bi-code-slash"></i> C Socket API</span>
+                        </div>
+                        <h4 class="fw-bold">Multi-Threaded HTTP Web Server in C</h4>
+                        <p class="text-muted small">Implements socket(), bind(), listen(), accept(), and pthread_create() to serve HTTP GET requests concurrently.</p>
+
+                        <!-- Animated Terminal Window -->
+                        <div class="animated-terminal-window mb-3">
+                            <div class="terminal-header-bar">
+                                <div class="terminal-dots">
+                                    <div class="terminal-dot red"></div>
+                                    <div class="terminal-dot yellow"></div>
+                                    <div class="terminal-dot green"></div>
+                                </div>
+                                <span class="text-muted small font-mono">vjcet@linux-lab: ~/pccst501/lab1</span>
+                                <span class="badge bg-secondary bg-opacity-25 text-light small">bash</span>
+                            </div>
+                            <div class="animated-terminal-body" data-lines="$ gcc -pthread -Wall -O2 http_server_threaded.c -o http_server|$ ./http_server 8080|[INFO] HTTP Server listening on 0.0.0.0:8080...|[INFO] Worker thread pool initialized (4 threads)|[CONN] Accepted TCP client from 192.168.10.105:54210|[REQ] GET /index.html HTTP/1.1 (Host: localhost:8080)|[RESP] 200 OK | Content-Type: text/html | 2482 Bytes sent|[CONN] Connection kept alive for persistent requests.">
+                                <div class="text-muted small">Click "Play Terminal Demo" below to simulate live compilation &amp; socket execution.</div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary btn-sm lab-run-terminal-btn"><i class="bi bi-play-circle-fill"></i> Play Terminal Demo</button>
+                            <a href="assets/handson_code/module1/http_server_threaded.c" class="btn btn-outline-secondary btn-sm" download><i class="bi bi-download"></i> Download C Source</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIDEO LAB 2: TCP Echo Server with select() -->
+                <div class="col-lg-6 sim-card-wrapper" data-category="video">
+                    <div class="card-custom h-100 lab-demo-card">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="badge bg-info text-dark">Lab Demo 2 &bull; Module 2</span>
+                            <span class="text-muted small"><i class="bi bi-cpu"></i> I/O Multiplexing</span>
+                        </div>
+                        <h4 class="fw-bold">Concurrent TCP Server with select() Multiplexing</h4>
+                        <p class="text-muted small">Handles multiple simultaneous TCP client connections in a single process without threading using select() and fd_set.</p>
+
+                        <!-- Animated Terminal Window -->
+                        <div class="animated-terminal-window mb-3">
+                            <div class="terminal-header-bar">
+                                <div class="terminal-dots">
+                                    <div class="terminal-dot red"></div>
+                                    <div class="terminal-dot yellow"></div>
+                                    <div class="terminal-dot green"></div>
+                                </div>
+                                <span class="text-muted small font-mono">vjcet@linux-lab: ~/pccst501/lab2</span>
+                                <span class="badge bg-secondary bg-opacity-25 text-light small">bash</span>
+                            </div>
+                            <div class="animated-terminal-body" data-lines="$ gcc -Wall tcp_select_server.c -o tcp_select_server|$ ./tcp_select_server 9000|[INFO] Master socket created (FD=3) on port 9000|[INFO] Waiting for client connections using select()...|[EVENT] select() triggered: New connection on master socket|[CONN] Client #1 connected: FD=4 from 127.0.0.1:48210|[EVENT] select() triggered: Activity on Client FD=4|[RECV] Read 24 bytes from FD=4: 'Hello VJCET Network Lab'|[SEND] Echoed 24 bytes back to FD=4 successfully.">
+                                <div class="text-muted small">Click "Play Terminal Demo" below to simulate I/O multiplexing event loop.</div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary btn-sm lab-run-terminal-btn"><i class="bi bi-play-circle-fill"></i> Play Terminal Demo</button>
+                            <a href="assets/handson_code/module2/tcp_select_server.c" class="btn btn-outline-secondary btn-sm" download><i class="bi bi-download"></i> Download C Source</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIDEO LAB 3: Linux Raw Socket Sniffer -->
+                <div class="col-lg-6 sim-card-wrapper" data-category="video">
+                    <div class="card-custom h-100 lab-demo-card">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="badge bg-warning text-dark">Lab Demo 3 &bull; Module 3</span>
+                            <span class="text-muted small"><i class="bi bi-shield-shaded"></i> Raw Socket / PF_PACKET</span>
+                        </div>
+                        <h4 class="fw-bold">Linux Raw Socket Packet Sniffer</h4>
+                        <p class="text-muted small">Captures raw Ethernet frames from the data link layer interface using socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL)).</p>
+
+                        <!-- Animated Terminal Window -->
+                        <div class="animated-terminal-window mb-3">
+                            <div class="terminal-header-bar">
+                                <div class="terminal-dots">
+                                    <div class="terminal-dot red"></div>
+                                    <div class="terminal-dot yellow"></div>
+                                    <div class="terminal-dot green"></div>
+                                </div>
+                                <span class="text-muted small font-mono">root@linux-lab: ~/pccst501/sniffer</span>
+                                <span class="badge bg-secondary bg-opacity-25 text-light small">root bash</span>
+                            </div>
+                            <div class="animated-terminal-body" data-lines="$ sudo gcc -Wall raw_socket_packet_sniffer.c -o sniffer|$ sudo ./sniffer eth0|[RAW] Bound to interface eth0 in promiscuous mode...|[PACKET #1] Ethernet: Dest MAC 00:1A:2B:3C:4D:5E | Src MAC 08:00:27:FE:12:34 | Type: 0x0800 (IPv4)|[IP HEADER] 192.168.1.50 -> 14.139.185.12 | TTL: 64 | Protocol: 6 (TCP)|[TCP HEADER] Src Port: 53210 -> Dest Port: 443 (HTTPS) | Seq: 10482910 | Flags: [SYN]|[PACKET #2] Captured ARP Request: Who has 192.168.1.1? Tell 192.168.1.50">
+                                <div class="text-muted small">Click "Play Terminal Demo" below to see raw packet capture in real-time.</div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary btn-sm lab-run-terminal-btn"><i class="bi bi-play-circle-fill"></i> Play Terminal Demo</button>
+                            <a href="assets/handson_code/module3/raw_socket_packet_sniffer.c" class="btn btn-outline-secondary btn-sm" download><i class="bi bi-download"></i> Download C Source</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIDEO LAB 4: UDP Datagram Echo -->
+                <div class="col-lg-6 sim-card-wrapper" data-category="video">
+                    <div class="card-custom h-100 lab-demo-card">
+                        <div class="card-gradient-top"></div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="badge bg-secondary">Lab Demo 4 &bull; Module 2</span>
+                            <span class="text-muted small"><i class="bi bi-hdd-stack"></i> Datagram Socket API</span>
+                        </div>
+                        <h4 class="fw-bold">UDP Client-Server Datagram Communication</h4>
+                        <p class="text-muted small">Connectionless messaging using sendto() and recvfrom() with no handshake or connection state overhead.</p>
+
+                        <!-- Animated Terminal Window -->
+                        <div class="animated-terminal-window mb-3">
+                            <div class="terminal-header-bar">
+                                <div class="terminal-dots">
+                                    <div class="terminal-dot red"></div>
+                                    <div class="terminal-dot yellow"></div>
+                                    <div class="terminal-dot green"></div>
+                                </div>
+                                <span class="text-muted small font-mono">vjcet@linux-lab: ~/pccst501/udp</span>
+                                <span class="badge bg-secondary bg-opacity-25 text-light small">bash</span>
+                            </div>
+                            <div class="animated-terminal-body" data-lines="$ gcc udp_echo_server.c -o udp_server && ./udp_server 7070|[UDP] Socket created with AF_INET, SOCK_DGRAM|[UDP] Server bound to 0.0.0.0:7070, waiting for datagrams...|[RECVFROM] Received 32 bytes from 192.168.10.22:60112: 'Ping packet from Client'|[SENDTO] Sent 32 bytes datagram reply to 192.168.10.22:60112|[STATUS] Ready for next datagram without maintaining connection state.">
+                                <div class="text-muted small">Click "Play Terminal Demo" below to simulate connectionless datagram communication.</div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary btn-sm lab-run-terminal-btn"><i class="bi bi-play-circle-fill"></i> Play Terminal Demo</button>
+                            <a href="assets/handson_code/module2/udp_echo_server.c" class="btn btn-outline-secondary btn-sm" download><i class="bi bi-download"></i> Download C Source</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer-custom">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-5">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="brand-badge bg-primary text-white"><i class="bi bi-diagram-3-fill"></i></div>
+                        <span class="fs-5 fw-bold text-light">PCCST501 Computer Networks</span>
+                    </div>
+                    <p class="text-muted small pe-lg-4">
+                        Interactive Learning &amp; Hands-on Protocol Simulation Suite for S5 B.Tech CSE (KTU 2024 Scheme) at Viswajyothi College of Engineering and Technology (VJCET), Vazhakulam.
+                    </p>
+                    <div class="text-muted small">
+                        <strong>Course Faculty:</strong> Prof. Anju Markose &bull; <code>csd@vjcet.com</code>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <h6 class="text-light fw-bold mb-3">Quick Navigation</h6>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="index.html">Home Course Portal</a></li>
+                        <li><a href="modules.html">Lecture Modules Hub</a></li>
+                        <li><a href="simulator.html">Interactive Simulator Suite</a></li>
+                        <li><a href="networklab.html">Network Lab Manual</a></li>
+                        <li><a href="questionbank.html">Model Question Bank</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-4">
+                    <h6 class="text-light fw-bold mb-3">Exam Preparation Packs</h6>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="assets/notes_pdf/PCCST501_Complete_CN_Exam_Notes.pdf" download><i class="bi bi-file-earmark-pdf-fill text-danger"></i> Complete 2-Day Exam Revision Notes</a></li>
+                        <li><a href="assets/ppts/PCCST501_Complete_Course_Deck.pptx" download><i class="bi bi-file-earmark-ppt-fill text-warning"></i> Master Slide Deck (.pptx)</a></li>
+                        <li><a href="assets/notes_pdf/PCCST501_Comprehensive_Question_Bank.pdf" download><i class="bi bi-journal-text text-info"></i> University Solved Question Bank</a></li>
+                        <li><a href="resources.html"><i class="bi bi-cloud-arrow-down-fill text-success"></i> Central Downloads Portal</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-top border-secondary border-opacity-25 mt-4 pt-3 text-center text-muted small">
+                &copy; 2026-27 Viswajyothi College of Engineering and Technology (VJCET) &bull; Designed for Academic Excellence by Prof. Anju Markose.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom Application JS -->
+    <script src="assets/js/main.js"></script>
+    <!-- Dedicated Simulator Engine JS -->
+    <script src="assets/js/simulator.js"></script>
+</body>
+</html>

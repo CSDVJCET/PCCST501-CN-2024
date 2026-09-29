@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab 2 | HTTP Conversation Investigator | PCCST501</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{background:#f4f7fb;font-family:Arial,sans-serif;color:#1f2937}
+.hero{background:linear-gradient(135deg,#082f6b,#1565c0);color:#fff;padding:70px 0}
+.hero .lead{max-width:900px;margin:auto}
+.card{border:0;border-radius:16px;box-shadow:0 6px 20px rgba(0,0,0,.08)}
+.section-title{border-left:5px solid #1565c0;padding-left:12px;margin:40px 0 20px}
+.cmd{background:#111827;color:#86efac;padding:14px;border-radius:10px;font-family:Consolas,"Courier New",monospace;white-space:pre-wrap;overflow-x:auto}
+.special{border-left:5px solid #f59e0b}
+.note{border-left:5px solid #0d6efd;background:#eef6ff}
+.step{height:100%}
+footer{background:#0d47a1;color:#fff;padding:22px;margin-top:50px}
+</style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+<div class="container">
+<a class="navbar-brand fw-bold" href="index.html">PCCST501</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse" id="mainNavbar">
+<div class="navbar-nav ms-auto">
+<a class="nav-link" href="index.html">Home</a>
+<a class="nav-link" href="module.html">Experiments</a>
+<a class="nav-link active" aria-current="page" href="lab2.html">Lab 2</a>
+</div>
+</div>
+</div>
+</nav>
+
+<section class="hero text-center">
+<div class="container">
+<p class="text-uppercase fw-bold mb-2">Wireshark Based Experiment</p>
+<h1>🔎 Lab 2: HTTP Conversation Investigator</h1>
+<p class="lead mt-3">
+Capture one HTTP browser–server conversation and reconstruct the request,
+response, accepted content preferences, status information and response time.
+</p>
+</div>
+</section>
+
+<main class="container py-5">
+
+<div class="row g-3">
+<div class="col-md-3"><div class="card p-3 text-center"><b>Experiment</b><span class="d-block">02</span></div></div>
+<div class="col-md-3"><div class="card p-3 text-center"><b>Tool</b><span class="d-block">Wireshark</span></div></div>
+<div class="col-md-3"><div class="card p-3 text-center"><b>Protocol</b><span class="d-block">HTTP</span></div></div>
+<div class="col-md-3"><div class="card p-3 text-center"><b>Evidence</b><span class="d-block">Conversation Case File</span></div></div>
+</div>
+
+<h2 class="section-title">🎯 Aim</h2>
+<div class="card p-4">
+<p class="mb-0">
+To capture and analyse HTTP request and response messages using Wireshark,
+identify the communicating endpoints and HTTP header fields, and calculate
+the delay between a GET request and its corresponding response.
+</p>
+</div>
+
+<h2 class="section-title">⚠️ Before You Capture</h2>
+<div class="card note p-4">
+<p><strong>Important:</strong> Most modern websites use HTTPS, so the HTTP application data is encrypted and may not appear with the <code>http</code> display filter.</p>
+<p class="mb-0">
+Use an instructor-approved plain HTTP test page. Capture only your own permitted lab traffic.
+Some HTTP headers such as <code>Accept-Charset</code>, <code>Last-Modified</code> or <code>Content-Length</code> may be absent in a particular message; if so, record <strong>Not present</strong> rather than inventing a value.
+</p>
+</div>
+
+<h2 class="section-title">🧪 Capture Procedure</h2>
+<div class="row g-4">
+
+<div class="col-md-6">
+<div class="card step p-4">
+<h4>1️⃣ Prepare the Browser</h4>
+<p>Open the browser and clear its cache so that the page is requested again from the server instead of being served from cached content.</p>
+</div>
+</div>
+
+<div class="col-md-6">
+<div class="card step p-4">
+<h4>2️⃣ Start Wireshark</h4>
+<p>Select the active network interface and begin packet capture before opening the test webpage.</p>
+</div>
+</div>
+
+<div class="col-md-6">
+<div class="card step p-4">
+<h4>3️⃣ Generate HTTP Traffic</h4>
+<p>Visit the instructor-approved plain HTTP webpage once and wait until the page request and response are captured.</p>
+</div>
+</div>
+
+<div class="col-md-6">
+<div class="card step p-4">
+<h4>4️⃣ Stop and Filter</h4>
+<p>Stop packet capture after enough packets have been collected. Apply this Wireshark display filter:</p>
+<div class="cmd">http</div>
+</div>
+</div>
+
+</div>
+
+<h2 class="section-title">🕵️ Investigation Tasks</h2>
+<div class="card p-4">
+
+<h5>(a) First GET Message — Endpoints</h5>
+<p>Locate the first HTTP GET request and record its source IP address and destination IP address.</p>
+<hr>
+
+<h5>(b) Client Content Preferences</h5>
+<p>Using the first GET request, inspect these HTTP request headers:</p>
+<ul>
+<li><strong>Accepted media format:</strong> <code>Accept</code></li>
+<li><strong>Accepted language:</strong> <code>Accept-Language</code></li>
+<li><strong>Accepted encoding:</strong> <code>Accept-Encoding</code></li>
+<li><strong>Accepted character set:</strong> <code>Accept-Charset</code>, if present</li>
+</ul>
+<hr>
+
+<h5>(c) Requested Website and User Agent</h5>
+<p>From the first GET request, record the website/resource URL and the <code>User-Agent</code> value.</p>
+<hr>
+
+<h5>(d) First Response Message — Endpoints</h5>
+<p>Locate the response corresponding to the GET request and record its source and destination IP addresses.</p>
+<hr>
+
+<h5>(e) Response Status</h5>
+<p>Record the HTTP status code and reason phrase from the first response message.</p>
+<hr>
+
+<h5>(f) Last Modification Time</h5>
+<p>Record the value of the <code>Last-Modified</code> header. If the server does not send it, write <strong>Not present</strong>.</p>
+<hr>
+
+<h5>(g) Content Length</h5>
+<p>Record the value of the <code>Content-Length</code> header. If absent, write <strong>Not present</strong>.</p>
+<hr>
+
+<h5>(h) GET-to-Response Delay</h5>
+<p>Record the timestamp of the GET request and the timestamp of its corresponding response.</p>
+<div class="cmd">Response delay = Response timestamp - GET timestamp</div>
+<p class="mt-3">Report the result in seconds.</p>
+<hr>
+
+<h5>(i) Browser HTTP Version</h5>
+<p class="mb-0">Record the HTTP version shown in the request line of the first GET message.</p>
+
+</div>
+
+<h2 class="section-title">📋 HTTP Conversation Case File</h2>
+<div class="table-responsive">
+<table class="table table-bordered align-middle">
+<thead class="table-primary">
+<tr><th>Required Evidence</th><th>Your Observation</th></tr>
+</thead>
+<tbody>
+<tr><td>(a) GET source IP address</td><td></td></tr>
+<tr><td>(a) GET destination IP address</td><td></td></tr>
+<tr><td>(b) Accepted media format — Accept</td><td></td></tr>
+<tr><td>(b) Accepted language — Accept-Language</td><td></td></tr>
+<tr><td>(b) Accepted encoding — Accept-Encoding</td><td></td></tr>
+<tr><td>(b) Accepted character set — Accept-Charset</td><td></td></tr>
+<tr><td>(c) Website / requested URL</td><td></td></tr>
+<tr><td>(c) User-Agent</td><td></td></tr>
+<tr><td>(d) Response source IP address</td><td></td></tr>
+<tr><td>(d) Response destination IP address</td><td></td></tr>
+<tr><td>(e) Status code and reason phrase</td><td></td></tr>
+<tr><td>(f) Last-Modified</td><td></td></tr>
+<tr><td>(g) Content-Length</td><td></td></tr>
+<tr><td>(h) GET timestamp</td><td></td></tr>
+<tr><td>(h) Response timestamp</td><td></td></tr>
+<tr><td>(h) Calculated response delay</td><td></td></tr>
+<tr><td>(i) HTTP version</td><td></td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 class="section-title">🏁 Student Challenge</h2>
+<div class="card special p-4">
+<h5>Tell the HTTP Story</h5>
+<p>Using your captured evidence, explain the conversation in six sentences:</p>
+<ol class="mb-0">
+<li>Who sent the GET request and to whom?</li>
+<li>What resource was requested?</li>
+<li>What media, language, encoding and character-set preferences were advertised?</li>
+<li>Which browser/client software was identified?</li>
+<li>How did the server respond?</li>
+<li>How long did the request–response exchange take?</li>
+</ol>
+</div>
+
+<h2 class="section-title">❓ Viva Questions</h2>
+<div class="card p-4">
+<ol class="mb-0">
+<li>Why should the browser cache be cleared before this experiment?</li>
+<li>What is the purpose of an HTTP GET request?</li>
+<li>Why are the source and destination IP addresses reversed in the response?</li>
+<li>What is the difference between <code>Accept</code> and <code>Accept-Encoding</code>?</li>
+<li>What does the <code>User-Agent</code> header identify?</li>
+<li>What does an HTTP status code indicate?</li>
+<li>Why might <code>Last-Modified</code> or <code>Content-Length</code> be absent?</li>
+<li>How is the GET-to-response delay calculated?</li>
+<li>Where is the HTTP version visible in a request?</li>
+<li>Why does the <code>http</code> filter usually not reveal ordinary HTTPS application content?</li>
+</ol>
+</div>
+
+<h2 class="section-title">📤 Submission</h2>
+<div class="card p-4">
+<ul>
+<li>Completed HTTP Conversation Case File</li>
+<li>Screenshot of the first GET message</li>
+<li>Screenshot of the corresponding response message</li>
+<li>GET and response timestamps with delay calculation</li>
+<li>Six-sentence HTTP story</li>
+<li>Short conclusion</li>
+</ul>
+
+<div class="cmd">NetworkLab/Experiment02/README.md
+NetworkLab/Experiment02/screenshots/
+NetworkLab/Experiment02/capture.pcapng</div>
+</div>
+
+<div class="d-flex justify-content-between mt-5">
+<a class="btn btn-outline-primary" href="lab1.html">← Previous Experiment</a>
+<a class="btn btn-primary" href="lab3.html">Next Experiment →</a>
+</div>
+
+</main>
+
+<footer class="text-center">
+© 2026 PCCST501 Computer Networks | Ms. Prof. Anju Markose J K
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

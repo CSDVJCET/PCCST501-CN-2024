@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 12 | Static Routing | PCCSL507</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth}body{font-family:Poppins,sans-serif;background:#f5f7fb;color:#263238}
+.navbar{background:#0b3c7a}.hero{background:linear-gradient(135deg,#082f6b,#1565c0);padding:82px 0;color:#fff}
+.hero h1{font-size:46px;font-weight:700}.section-title{border-left:6px solid #26a69a;padding-left:12px;margin:55px 0 22px;font-weight:700}
+.card{border:0;border-radius:18px;box-shadow:0 8px 24px rgba(0,0,0,.09)}.command{background:#111827;color:#7CFC00;border-radius:10px;padding:15px 18px;font-family:Consolas,monospace;overflow:auto}
+.topology{background:#fff;border-radius:18px;padding:30px;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.router{width:120px;height:70px;border-radius:14px;background:#e8f1ff;border:3px solid #1565c0;display:flex;flex-direction:column;justify-content:center;align-items:center;font-weight:700;color:#0b3c7a}
+.link{height:5px;background:#26a69a;min-width:80px}.net{background:#fff4d6;border:2px dashed #f59e0b;border-radius:12px;padding:12px 20px;font-weight:600}
+.step{border-left:5px solid #1565c0}.flow{background:#111827;color:#fff;border-radius:15px;padding:25px}
+footer{background:#082f6b;color:#fff;padding:25px;margin-top:60px}.accordion-button:not(.collapsed){background:#e8f1ff;color:#0d47a1}
+</style>
+</head>
+<body id="top">
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top"><div class="container">
+<a class="navbar-brand fw-bold" href="module.html"><i class="fas fa-network-wired"></i> PCCSL507</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"><span class="navbar-toggler-icon"></span></button>
+<div class="collapse navbar-collapse" id="menu"><ul class="navbar-nav ms-auto">
+<li class="nav-item"><a class="nav-link" href="module.html">Network Lab</a></li>
+<li class="nav-item"><a class="nav-link" href="lab11.html">Lab 11</a></li>
+<li class="nav-item"><a class="nav-link active" href="#">Lab 12</a></li>
+</ul></div></div></nav>
+
+<section class="hero text-center"><div class="container">
+<span class="badge bg-warning text-dark px-3 py-2 mb-3">Cisco Packet Tracer • PCCSL507</span>
+<h1>🛣️ Lab 12<br>Static Routing</h1>
+<p class="lead mt-3">Configure static routes for the network specified in Figure 1, display the routing table, and verify connectivity using <strong>ping</strong>.</p>
+<a href="#experiment" class="btn btn-light btn-lg me-2"><i class="fas fa-play"></i> Start Experiment</a>
+<a href="#commands" class="btn btn-outline-light btn-lg"><i class="fas fa-terminal"></i> Commands</a>
+</div></section>
+
+<section class="container py-5"><div class="row g-4">
+<div class="col-md-3"><div class="card h-100 text-center p-4"><i class="fas fa-route fa-3x text-primary mb-3"></i><h4>Static Routes</h4><p>Manually configure routes</p></div></div>
+<div class="col-md-3"><div class="card h-100 text-center p-4"><i class="fas fa-table fa-3x text-success mb-3"></i><h4>Routing Table</h4><p>Inspect learned/connected routes</p></div></div>
+<div class="col-md-3"><div class="card h-100 text-center p-4"><i class="fas fa-network-wired fa-3x text-warning mb-3"></i><h4>Packet Tracer</h4><p>Build the given topology</p></div></div>
+<div class="col-md-3"><div class="card h-100 text-center p-4"><i class="fas fa-signal fa-3x text-danger mb-3"></i><h4>Ping</h4><p>Verify end-to-end connectivity</p></div></div>
+</div></section>
+
+<section class="container py-4"><h2 class="section-title">🎯 Aim</h2>
+<div class="card"><div class="card-body p-4">
+<p class="lead mb-0">Set up static routing for the network shown in <strong>Figure 1</strong>. Once the routes are set up, display the routing table and verify the connectivity using <strong>ping</strong>.</p>
+</div></div></section>
+
+<section class="container py-4"><h2 class="section-title">📚 What is Static Routing?</h2>
+<div class="card"><div class="card-body p-4">
+<p><strong>Static routing</strong> means that the network administrator manually adds routes to a router's routing table. Unlike dynamic routing protocols, the route is not learned automatically from another routing protocol.</p>
+<div class="row g-3 mt-2">
+<div class="col-md-4"><div class="alert alert-primary h-100"><strong>Destination network</strong><br>The remote network that must be reached.</div></div>
+<div class="col-md-4"><div class="alert alert-success h-100"><strong>Subnet mask</strong><br>Identifies the size of the destination network.</div></div>
+<div class="col-md-4"><div class="alert alert-warning h-100"><strong>Next hop</strong><br>The next router/interface through which the packet should be forwarded.</div></div>
+</div>
+</div></div></section>
+
+<section class="container py-4"><h2 class="section-title">🗺️ Figure 1 – Network Topology</h2>
+<div class="topology">
+<p class="text-muted text-center">The syllabus states that all interfaces in Figure 1 use a <strong>/24 mask</strong>. Use the exact interface addresses shown in the prescribed Figure 1 while building your Packet Tracer topology.</p>
+<div class="d-flex flex-wrap justify-content-center align-items-center gap-3 my-4">
+<div class="router"><i class="fas fa-router fa-lg"></i><span>2621</span><small>F0/0</small></div>
+<div class="link"></div>
+<div class="router"><i class="fas fa-router fa-lg"></i><span>2501A</span><small>E0 • S0</small></div>
+<div class="link"></div>
+<div class="router"><i class="fas fa-router fa-lg"></i><span>2501B</span><small>S0 • S1</small></div>
+<div class="link"></div>
+<div class="router"><i class="fas fa-router fa-lg"></i><span>2501</span><small>S0</small></div>
+</div>
+<div class="text-center mt-3"><span class="net">LAN shown above 2501B: 172.16.30.0/24</span></div>
+<div class="alert alert-info mt-4 mb-0"><strong>Source note:</strong> Figure 1 in the uploaded Networks Lab syllabus is the authoritative addressing diagram. The PDF identifies the routers/interfaces and states that all interfaces use a /24 mask; use the exact addresses printed in that figure rather than inventing different addresses.</div>
+</div></section>
+
+<section id="experiment" class="container py-4"><h2 class="section-title">🧪 Requirements</h2>
+<div class="card"><div class="card-body p-4"><ul class="mb-0">
+<li>Cisco Packet Tracer</li><li>Routers and interfaces corresponding to Figure 1</li><li>Appropriate cables/links</li><li>IPv4 addresses from Figure 1</li><li>All interfaces configured with the /24 mask specified in the syllabus</li>
+</ul></div></div></section>
+
+<section class="container py-4"><h2 class="section-title">📝 Procedure</h2>
+<div class="card"><div class="card-body p-4">
+<div class="step p-3 mb-3"><h5>Step 1 – Build the topology</h5><p class="mb-0">Open Cisco Packet Tracer and create the router topology shown in Figure 1. Connect the interfaces exactly as specified.</p></div>
+<div class="step p-3 mb-3"><h5>Step 2 – Configure interface addresses</h5><p class="mb-0">Assign each interface its address from Figure 1 and use the /24 subnet mask.</p></div>
+<div class="step p-3 mb-3"><h5>Step 3 – Enable interfaces</h5><p class="mb-0">Enter interface configuration mode and use <code>no shutdown</code>. Verify the interface status.</p></div>
+<div class="step p-3 mb-3"><h5>Step 4 – Add static routes</h5><p class="mb-0">On each router, add routes for remote networks that are not already directly connected.</p></div>
+<div class="step p-3 mb-3"><h5>Step 5 – Display the routing table</h5><p class="mb-0">Use <code>show ip route</code> and identify the static routes.</p></div>
+<div class="step p-3"><h5>Step 6 – Verify connectivity</h5><p class="mb-0">Use <code>ping</code> between appropriate hosts/interfaces and confirm successful end-to-end communication.</p></div>
+</div></div></section>
+
+<section id="commands" class="container py-4"><h2 class="section-title">⌨️ Static Routing Commands</h2>
+<div class="accordion" id="cmds">
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#c1">1️⃣ Enter privileged and configuration modes</button></h2>
+<div id="c1" class="accordion-collapse collapse show" data-bs-parent="#cmds"><div class="accordion-body">
+<pre class="command">Router&gt; enable
+Router# configure terminal
+Router(config)#</pre>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c2">2️⃣ Configure an interface</button></h2>
+<div id="c2" class="accordion-collapse collapse" data-bs-parent="#cmds"><div class="accordion-body">
+<pre class="command">Router(config)# interface fastEthernet 0/0
+Router(config-if)# ip address &lt;IP-ADDRESS&gt; 255.255.255.0
+Router(config-if)# no shutdown</pre>
+<p>Use the interface name and IP address given in Figure 1.</p>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c3">3️⃣ Add a static route</button></h2>
+<div id="c3" class="accordion-collapse collapse" data-bs-parent="#cmds"><div class="accordion-body">
+<p>The general Cisco IOS syntax is:</p>
+<pre class="command">Router(config)# ip route &lt;destination-network&gt; &lt;subnet-mask&gt; &lt;next-hop-IP&gt;</pre>
+<p>For example, the structure is:</p>
+<pre class="command">ip route 172.16.X.0 255.255.255.0 &lt;NEXT-HOP-IP&gt;</pre>
+<p><strong>Do not use the example address as a replacement for the addressing in Figure 1.</strong> Enter the actual destination network and next-hop address specified by the prescribed topology.</p>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c4">4️⃣ Display the routing table</button></h2>
+<div id="c4" class="accordion-collapse collapse" data-bs-parent="#cmds"><div class="accordion-body">
+<pre class="command">Router# show ip route</pre>
+<p>Look for entries marked <strong>S</strong>, which identify static IPv4 routes.</p>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c5">5️⃣ Verify interface status</button></h2>
+<div id="c5" class="accordion-collapse collapse" data-bs-parent="#cmds"><div class="accordion-body">
+<pre class="command">Router# show ip interface brief</pre>
+<p>Check that required interfaces have the expected IP addresses and are operational.</p>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c6">6️⃣ Test connectivity</button></h2>
+<div id="c6" class="accordion-collapse collapse" data-bs-parent="#cmds"><div class="accordion-body">
+<pre class="command">Router# ping &lt;destination-IP&gt;</pre>
+<p>In Packet Tracer, you can also use the PC command prompt:</p>
+<pre class="command">PC&gt; ping &lt;destination-IP&gt;</pre>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#c7">7️⃣ Save the configuration</button></h2>
+<div id="c7" class="accordion-collapse collapse" data-bs-parent="#cmds"><div class="accordion-body">
+<pre class="command">Router# copy running-config startup-config</pre>
+</div></div></div>
+</div></section>
+
+<section class="container py-4"><h2 class="section-title">🔑 Understanding the Routing Table</h2>
+<div class="table-responsive"><table class="table table-bordered bg-white align-middle">
+<thead class="table-primary"><tr><th>Code</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td><strong>C</strong></td><td>Connected route</td></tr>
+<tr><td><strong>L</strong></td><td>Local route</td></tr>
+<tr><td><strong>S</strong></td><td>Static route</td></tr>
+</tbody></table></div>
+<div class="alert alert-success"><strong>What to verify:</strong> After configuration, the routing table should contain the directly connected networks and the static routes required to reach the remote networks in Figure 1.</div>
+</section>
+
+<section class="container py-4"><h2 class="section-title">🔄 Static Routing Workflow</h2>
+<div class="flow"><div class="d-flex flex-wrap justify-content-center align-items-center gap-3">
+<span class="badge bg-light text-dark p-3">Build Topology</span><i class="fas fa-arrow-right text-warning"></i>
+<span class="badge bg-light text-dark p-3">Configure IPs</span><i class="fas fa-arrow-right text-warning"></i>
+<span class="badge bg-light text-dark p-3">no shutdown</span><i class="fas fa-arrow-right text-warning"></i>
+<span class="badge bg-light text-dark p-3">Add ip route</span><i class="fas fa-arrow-right text-warning"></i>
+<span class="badge bg-light text-dark p-3">show ip route</span><i class="fas fa-arrow-right text-warning"></i>
+<span class="badge bg-light text-dark p-3">ping</span>
+</div></div></section>
+
+<section class="container py-4"><h2 class="section-title">🔍 Verification Checklist</h2>
+<div class="card"><div class="card-body">
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">Topology matches Figure 1.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">All interface IP addresses match Figure 1.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">/24 subnet mask is used as specified.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">Required interfaces are enabled.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">Static routes have been configured for remote networks.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label"><code>show ip route</code> displays the required static routes.</label></div>
+<div class="form-check"><input class="form-check-input" type="checkbox"><label class="form-check-label">Connectivity is verified successfully using ping.</label></div>
+</div></div></section>
+
+<section class="container py-4"><h2 class="section-title">🐞 Common Errors & Troubleshooting</h2>
+<div class="table-responsive"><table class="table table-bordered bg-white">
+<thead class="table-danger"><tr><th>Problem</th><th>Possible cause</th><th>Check</th></tr></thead><tbody>
+<tr><td>Interface is down</td><td>Interface disabled or incorrect connection</td><td>Use <code>show ip interface brief</code> and <code>no shutdown</code>.</td></tr>
+<tr><td>Remote network not in routing table</td><td>Static route missing or incorrect</td><td>Check <code>ip route</code> configuration and next-hop address.</td></tr>
+<tr><td>Ping fails</td><td>Wrong IP, mask, route, or interface state</td><td>Check interfaces, routing table and addressing.</td></tr>
+<tr><td>Invalid next hop</td><td>Next-hop IP does not identify the appropriate adjacent router</td><td>Verify the topology and interface addresses in Figure 1.</td></tr>
+<tr><td>Only local networks work</td><td>Remote routes have not been configured</td><td>Add static routes for the required remote networks.</td></tr>
+</tbody></table></div></section>
+
+<section class="container py-4"><h2 class="section-title">🎤 Viva Questions</h2>
+<div class="accordion" id="viva">
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#v1">1. What is static routing?</button></h2><div id="v1" class="accordion-collapse collapse show" data-bs-parent="#viva"><div class="accordion-body">Static routing is the manual configuration of routes by the network administrator.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v2">2. Which command displays the IPv4 routing table?</button></h2><div id="v2" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body"><code>show ip route</code></div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v3">3. Which routing-table code represents a static route?</button></h2><div id="v3" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body"><strong>S</strong></div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v4">4. What is the purpose of the next-hop IP address?</button></h2><div id="v4" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body">It identifies the next router/interface to which packets should be forwarded toward the destination network.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v5">5. Why is a subnet mask specified in a static route?</button></h2><div id="v5" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body">It identifies the destination network and its address range.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v6">6. How do you verify interface status?</button></h2><div id="v6" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body">Use <code>show ip interface brief</code>.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v7">7. How do you verify connectivity?</button></h2><div id="v7" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body">Use the <code>ping</code> command between appropriate source and destination addresses.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v8">8. What is a directly connected route?</button></h2><div id="v8" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body">It is a route to a network directly attached to one of the router's active interfaces.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v9">9. What command saves the current configuration?</button></h2><div id="v9" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body"><code>copy running-config startup-config</code></div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v10">10. What should you check first if ping fails?</button></h2><div id="v10" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body">Check interface status, IP addressing, subnet masks, routing-table entries and the configured next-hop addresses.</div></div></div>
+</div></section>
+
+<section class="container py-4"><h2 class="section-title">📝 Student Tasks</h2>
+<div class="card"><div class="card-body"><ol>
+<li>Recreate Figure 1 in Cisco Packet Tracer.</li>
+<li>Assign the exact interface addresses shown in Figure 1.</li>
+<li>Use the /24 mask specified in the syllabus.</li>
+<li>Enable all required router interfaces.</li>
+<li>Identify the networks that are directly connected to each router.</li>
+<li>Identify the remote networks that require static routes.</li>
+<li>Configure the required static routes.</li>
+<li>Display and record each router's routing table.</li>
+<li>Use ping to verify connectivity across the network.</li>
+<li>Save the completed configuration.</li>
+</ol></div></div></section>
+
+<section class="container py-4"><div class="alert alert-success"><h3>✅ Result</h3>
+<p class="mb-0">Static routing was configured for the network specified in Figure 1. The routing tables were displayed and connectivity was verified using ping.</p></div></section>
+
+<footer class="text-center">© 2026 PCCSL507 Computer Networks Laboratory | Ms. Prof. Anju Markose J K</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

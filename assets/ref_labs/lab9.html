@@ -1,0 +1,4156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+
+Lab 9 | Concurrent File Server using TCP Socket Programming | PCCSL507
+
+</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+background:#f5f7fb;
+color:#263238;
+}
+
+.navbar{
+background:#0b3c7a;
+}
+
+.hero{
+
+background:linear-gradient(135deg,#082f6b,#26a69a);
+
+padding:90px 0;
+
+color:white;
+
+}
+
+.hero h1{
+
+font-size:48px;
+
+font-weight:bold;
+
+}
+
+.hero p{
+
+font-size:20px;
+
+}
+
+.card{
+
+border:none;
+
+border-radius:18px;
+
+box-shadow:0 8px 20px rgba(0,0,0,.12);
+
+transition:.3s;
+
+}
+
+.card:hover{
+
+transform:translateY(-5px);
+
+}
+
+.section-title{
+
+border-left:6px solid #26a69a;
+
+padding-left:12px;
+
+margin-top:60px;
+
+margin-bottom:20px;
+
+font-weight:bold;
+
+}
+
+.stats{
+
+font-size:28px;
+
+font-weight:bold;
+
+color:#26a69a;
+
+}
+
+.api-card{
+
+padding:25px;
+
+text-align:center;
+
+height:100%;
+
+}
+
+.flow{
+
+background:#111827;
+
+color:#7CFC00;
+
+padding:20px;
+
+border-radius:12px;
+
+font-family:Consolas;
+
+overflow:auto;
+
+}
+
+footer{
+
+background:#082f6b;
+
+color:white;
+
+padding:25px;
+
+margin-top:60px;
+
+}
+
+</style>
+
+</head>
+
+<body id="top">
+
+<!-- ====================================================== -->
+<!-- NAVBAR -->
+<!-- ====================================================== -->
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+
+<div class="container">
+
+<a class="navbar-brand fw-bold"
+href="module.html">
+
+<i class="fas fa-network-wired"></i>
+
+PCCSL507
+
+</a>
+
+<button class="navbar-toggler"
+
+type="button"
+
+data-bs-toggle="collapse"
+
+data-bs-target="#menu">
+
+<span class="navbar-toggler-icon">
+
+</span>
+
+</button>
+
+<div class="collapse navbar-collapse"
+id="menu">
+
+<ul class="navbar-nav ms-auto">
+
+<li class="nav-item">
+
+<a class="nav-link"
+
+href="module.html">
+
+Network Lab
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link"
+
+href="lab8.html">
+
+Lab 8
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link active"
+
+href="#">
+
+Lab 9
+
+</a>
+
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</nav>
+
+<!-- ====================================================== -->
+<!-- HERO SECTION -->
+<!-- ====================================================== -->
+
+<section class="hero text-center text-white" id="top">
+
+<div class="container">
+
+<span class="badge bg-warning text-dark px-3 py-2 mb-3">
+
+Computer Networks Laboratory • PCCSL507
+
+</span>
+
+<h1 class="display-4 fw-bold">
+
+📂 Lab 9
+
+<br>
+
+Concurrent File Server using TCP Socket Programming
+
+</h1>
+
+<p class="lead mt-3">
+
+Learn how modern file servers handle multiple client requests
+simultaneously using
+<strong>TCP Socket Programming</strong>,
+<strong>Multithreading</strong>,
+and
+<strong>File Handling</strong>.
+The server sends the requested file (if available) along with its
+<strong>Process ID (PID)</strong>.
+
+</p>
+
+<div class="mt-4">
+
+<a href="#overview" class="btn btn-primary btn-lg me-2">
+
+<i class="fas fa-book-open"></i>
+
+Start Learning
+
+</a>
+
+<a href="#experiment" class="btn btn-outline-light btn-lg">
+
+<i class="fas fa-code"></i>
+
+View Experiment
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- COURSE STATISTICS -->
+<!-- ====================================================== -->
+
+<section class="py-5">
+
+<div class="container">
+
+<div class="row g-4">
+
+<div class="col-md-3">
+
+<div class="card stat-card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-network-wired fa-3x text-primary mb-3"></i>
+
+<h2>TCP</h2>
+
+<p>
+
+Reliable Communication
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card stat-card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-folder-open fa-3x text-warning mb-3"></i>
+
+<h2>Files</h2>
+
+<p>
+
+File Transfer Service
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card stat-card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-users fa-3x text-success mb-3"></i>
+
+<h2>Concurrent</h2>
+
+<p>
+
+Multiple Clients
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card stat-card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-microchip fa-3x text-danger mb-3"></i>
+
+<h2>PID</h2>
+
+<p>
+
+Process Identification
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- LEARNING OUTCOMES -->
+<!-- ====================================================== -->
+
+<section id="overview" class="container py-5">
+
+<h2 class="section-title">
+
+🎯 Learning Outcomes
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-6">
+
+<div class="card border-primary h-100">
+
+<div class="card-header bg-primary text-white">
+
+After completing this experiment, you will be able to
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Understand concurrent TCP servers.</li>
+
+<li>Create a multithreaded file server.</li>
+
+<li>Transfer files using TCP sockets.</li>
+
+<li>Handle multiple clients simultaneously.</li>
+
+<li>Use Linux file handling functions.</li>
+
+<li>Retrieve Process ID using <code>getpid()</code>.</li>
+
+<li>Design reliable client-server applications.</li>
+
+<li>Implement practical network services.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card border-success h-100">
+
+<div class="card-header bg-success text-white">
+
+Prerequisites
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Linux Operating System</li>
+
+<li>Basic C Programming</li>
+
+<li>TCP Socket Programming</li>
+
+<li>POSIX Threads (pthread)</li>
+
+<li>Linux File Handling</li>
+
+<li>GCC Compiler</li>
+
+<li>Basic Networking Concepts</li>
+
+<li>Knowledge of Client-Server Architecture</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- WHAT IS A FILE SERVER -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📂 What is a File Server?
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<p>
+
+A <strong>File Server</strong> is a computer that stores files and
+provides them to clients over a network.
+Instead of storing every file locally,
+users request files from the server whenever needed.
+
+</p>
+
+<div class="alert alert-primary">
+
+<h5>
+
+Example
+
+</h5>
+
+Imagine requesting
+
+<code>notes.txt</code>
+
+from your college server.
+
+If the file exists,
+
+✅ the server sends its contents.
+
+Otherwise,
+
+❌ the server returns
+
+<strong>"File Not Found"</strong>.
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- WHY CONCURRENT FILE SERVER -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🚀 Why a Concurrent File Server?
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-6">
+
+<div class="card border-success h-100">
+
+<div class="card-header bg-success text-white">
+
+Advantages
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Serves multiple users simultaneously.</li>
+
+<li>Reduces client waiting time.</li>
+
+<li>Improves server performance.</li>
+
+<li>Efficient CPU utilization.</li>
+
+<li>Scalable for large networks.</li>
+
+<li>Reliable communication using TCP.</li>
+
+<li>Supports large file transfer.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card border-danger h-100">
+
+<div class="card-header bg-danger text-white">
+
+Challenges
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Requires thread management.</li>
+
+<li>Higher memory usage.</li>
+
+<li>Synchronization issues.</li>
+
+<li>Proper error handling required.</li>
+
+<li>Resource cleanup is important.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- REAL WORLD APPLICATIONS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🌍 Real-World Applications
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-globe fa-4x text-primary mb-3"></i>
+
+<h4>FTP Server</h4>
+
+<p>
+
+Transfers files across computer networks.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-cloud fa-4x text-info mb-3"></i>
+
+<h4>Cloud Storage</h4>
+
+<p>
+
+Google Drive, Dropbox and OneDrive.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-server fa-4x text-danger mb-3"></i>
+
+<h4>NAS Systems</h4>
+
+<p>
+
+Network Attached Storage devices.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-code-branch fa-4x text-success mb-3"></i>
+
+<h4>Git Servers</h4>
+
+<p>
+
+Host software repositories for developers.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-university fa-4x text-warning mb-3"></i>
+
+<h4>University Servers</h4>
+
+<p>
+
+Provide lecture notes and lab manuals.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center h-100">
+
+<div class="card-body">
+
+<i class="fas fa-database fa-4x text-secondary mb-3"></i>
+
+<h4>Enterprise Storage</h4>
+
+<p>
+
+Securely shares files inside organizations.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- FILE SERVER REFRESHER -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📚 File Server Programming Refresher
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>Function</th>
+
+<th>Purpose</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td><code>socket()</code></td>
+
+<td>Create a TCP socket.</td>
+
+</tr>
+
+<tr>
+
+<td><code>bind()</code></td>
+
+<td>Bind socket to a port.</td>
+
+</tr>
+
+<tr>
+
+<td><code>listen()</code></td>
+
+<td>Wait for incoming clients.</td>
+
+</tr>
+
+<tr>
+
+<td><code>accept()</code></td>
+
+<td>Accept client connections.</td>
+
+</tr>
+
+<tr>
+
+<td><code>recv()</code></td>
+
+<td>Receive requested filename.</td>
+
+</tr>
+
+<tr>
+
+<td><code>send()</code></td>
+
+<td>Send PID and file contents.</td>
+
+</tr>
+
+<tr>
+
+<td><code>fopen()</code></td>
+
+<td>Open requested file.</td>
+
+</tr>
+
+<tr>
+
+<td><code>fgets()</code></td>
+
+<td>Read file contents.</td>
+
+</tr>
+
+<tr>
+
+<td><code>getpid()</code></td>
+
+<td>Retrieve Server Process ID.</td>
+
+</tr>
+
+<tr>
+
+<td><code>pthread_create()</code></td>
+
+<td>Create a worker thread.</td>
+
+</tr>
+
+<tr>
+
+<td><code>close()</code></td>
+
+<td>Close sockets.</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+<!-- ====================================================== -->
+<!-- CLIENT SERVER ARCHITECTURE -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🏗️ Concurrent File Server Architecture
+
+</h2>
+
+<div class="card shadow-lg">
+
+<div class="card-body">
+
+<p>
+
+The Concurrent File Server follows the
+<strong>Client–Server Architecture</strong>.
+A client sends the name of a required file to the server.
+The server creates a separate worker thread for each client,
+searches for the requested file, and sends either the file
+contents or an appropriate error message along with its
+<strong>Process ID (PID)</strong>.
+
+</p>
+
+<div class="text-center mt-5">
+
+<div class="flow d-flex justify-content-center align-items-center gap-4 flex-wrap">
+
+<div class="flow-step">
+
+<i class="fas fa-laptop fa-3x text-primary"></i>
+
+<h5 class="mt-3">
+
+Client
+
+</h5>
+
+<p>
+
+Requests File
+
+</p>
+
+</div>
+
+<i class="fas fa-arrow-right fa-2x text-success"></i>
+
+<div class="flow-step">
+
+<i class="fas fa-server fa-3x text-danger"></i>
+
+<h5 class="mt-3">
+
+TCP Server
+
+</h5>
+
+<p>
+
+Searches File
+
+</p>
+
+</div>
+
+<i class="fas fa-arrow-right fa-2x text-success"></i>
+
+<div class="flow-step">
+
+<i class="fas fa-file-alt fa-3x text-warning"></i>
+
+<h5 class="mt-3">
+
+Response
+
+</h5>
+
+<p>
+
+PID + File Content
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- COMMUNICATION WORKFLOW -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🔄 Client–Server Communication Workflow
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body text-center">
+
+<div class="flow flex-column align-items-center">
+
+<div class="flow-step">
+
+Client creates TCP Socket
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Connect to Server
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Send Filename
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Server accepts Client
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Create Worker Thread
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Search Requested File
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Send PID + File / Error
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Client Displays Result
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- CLIENT RESPONSIBILITIES -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+💻 Responsibilities of the Client
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-6">
+
+<div class="card border-primary h-100">
+
+<div class="card-header bg-primary text-white">
+
+Client Operations
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Create TCP socket.</li>
+
+<li>Connect to server.</li>
+
+<li>Enter required filename.</li>
+
+<li>Send filename to server.</li>
+
+<li>Receive PID.</li>
+
+<li>Receive file contents or error message.</li>
+
+<li>Display the received data.</li>
+
+<li>Close the socket.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card border-success h-100">
+
+<div class="card-header bg-success text-white">
+
+Important APIs
+
+</div>
+
+<div class="card-body">
+
+<table class="table table-bordered">
+
+<tr>
+
+<td><code>socket()</code></td>
+
+<td>Create Socket</td>
+
+</tr>
+
+<tr>
+
+<td><code>connect()</code></td>
+
+<td>Connect to Server</td>
+
+</tr>
+
+<tr>
+
+<td><code>send()</code></td>
+
+<td>Send Filename</td>
+
+</tr>
+
+<tr>
+
+<td><code>recv()</code></td>
+
+<td>Receive Response</td>
+
+</tr>
+
+<tr>
+
+<td><code>close()</code></td>
+
+<td>Close Socket</td>
+
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SERVER RESPONSIBILITIES -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🖥️ Responsibilities of the Server
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-6">
+
+<div class="card border-danger h-100">
+
+<div class="card-header bg-danger text-white">
+
+Server Operations
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Create TCP socket.</li>
+
+<li>Bind server port.</li>
+
+<li>Listen for clients.</li>
+
+<li>Accept incoming connections.</li>
+
+<li>Create a worker thread.</li>
+
+<li>Receive filename.</li>
+
+<li>Search requested file.</li>
+
+<li>Send PID and response.</li>
+
+<li>Continue serving other clients.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card border-warning h-100">
+
+<div class="card-header bg-warning">
+
+System Calls Used
+
+</div>
+
+<div class="card-body">
+
+<table class="table table-hover">
+
+<thead>
+
+<tr>
+
+<th>Function</th>
+
+<th>Purpose</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>accept()</td>
+
+<td>Accept client</td>
+
+</tr>
+
+<tr>
+
+<td>pthread_create()</td>
+
+<td>Create worker thread</td>
+
+</tr>
+
+<tr>
+
+<td>fopen()</td>
+
+<td>Open file</td>
+
+</tr>
+
+<tr>
+
+<td>fgets()</td>
+
+<td>Read file</td>
+
+</tr>
+
+<tr>
+
+<td>getpid()</td>
+
+<td>Retrieve PID</td>
+
+</tr>
+
+<tr>
+
+<td>send()</td>
+
+<td>Send response</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- TCP SOCKET APIs -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+⚙️ Important TCP Socket APIs
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-striped">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>Function</th>
+
+<th>Purpose</th>
+
+<th>Used In</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>socket()</td>
+
+<td>Create TCP Socket</td>
+
+<td>Client & Server</td>
+
+</tr>
+
+<tr>
+
+<td>bind()</td>
+
+<td>Assign Port</td>
+
+<td>Server</td>
+
+</tr>
+
+<tr>
+
+<td>listen()</td>
+
+<td>Wait for Clients</td>
+
+<td>Server</td>
+
+</tr>
+
+<tr>
+
+<td>accept()</td>
+
+<td>Accept Connection</td>
+
+<td>Server</td>
+
+</tr>
+
+<tr>
+
+<td>connect()</td>
+
+<td>Connect to Server</td>
+
+<td>Client</td>
+
+</tr>
+
+<tr>
+
+<td>send()</td>
+
+<td>Send Data</td>
+
+<td>Both</td>
+
+</tr>
+
+<tr>
+
+<td>recv()</td>
+
+<td>Receive Data</td>
+
+<td>Both</td>
+
+</tr>
+
+<tr>
+
+<td>close()</td>
+
+<td>Close Socket</td>
+
+<td>Both</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- MULTITHREADING -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🧵 Why Multithreading?
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<p>
+
+If only one client is served at a time, other clients must wait
+until the current request is completed.
+
+A concurrent server creates a separate worker thread for each client,
+allowing multiple file requests to be processed simultaneously.
+
+</p>
+
+<div class="alert alert-info">
+
+<h5>
+
+Benefits
+
+</h5>
+
+<ul>
+
+<li>Supports multiple clients simultaneously.</li>
+
+<li>Improves server responsiveness.</li>
+
+<li>Reduces waiting time.</li>
+
+<li>Better CPU utilization.</li>
+
+<li>Represents real-world file servers.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- FILE SEARCH WORKFLOW -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📁 File Search Workflow
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body text-center">
+
+<div class="flow flex-column align-items-center">
+
+<div class="flow-step">
+
+Receive Filename
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-success"></i>
+
+<div class="flow-step">
+
+Search Current Directory
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-success"></i>
+
+<div class="flow-step">
+
+File Found?
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-success"></i>
+
+<div class="flow-step">
+
+YES → Send PID + File Contents
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-success"></i>
+
+<div class="flow-step">
+
+NO → Send PID + "File Not Found"
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- REQUEST RESPONSE TIMELINE -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📡 Request–Response Timeline
+
+</h2>
+
+<div class="card">
+
+<div class="card-body">
+
+<pre class="bg-light p-4">
+
+Client                          Server
+
+ |                                |
+
+ |---- filename.txt ------------->|
+
+ |                                |
+
+ |                        Search File
+
+ |                                |
+
+ |<--- PID + File Content --------|
+
+        OR
+
+ |<--- PID + File Not Found ------|
+
+</pre>
+
+</div>
+
+</div>
+
+</section>
+<!-- ====================================================== -->
+<!-- EXPERIMENT -->
+<!-- ====================================================== -->
+
+<section id="experiment" class="container py-5">
+
+<h2 class="section-title">
+
+🧪 Experiment
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<h4>
+
+Aim
+
+</h4>
+
+<p>
+
+To implement a <strong>Concurrent File Server</strong> using
+TCP Socket Programming. The client sends the name of a file
+to the server. The server searches for the requested file and,
+if it exists, sends the file contents along with its
+<strong>Process ID (PID)</strong>. Otherwise, it sends an
+appropriate error message together with its PID.
+
+</p>
+
+<hr>
+
+<h4>
+
+Problem Statement
+
+</h4>
+
+<p>
+
+Develop a concurrent TCP File Server capable of serving
+multiple clients simultaneously.
+
+Each client requests a filename.
+
+The server receives the filename, creates a worker thread,
+searches the current directory, and sends either the
+requested file contents or a "File Not Found" message.
+The response must also include the Server Process ID (PID).
+
+</p>
+
+<div class="alert alert-primary">
+
+<strong>Expected Output</strong>
+
+<ul class="mt-2">
+
+<li>Client successfully connects to the server.</li>
+
+<li>Filename reaches the server.</li>
+
+<li>Server searches the requested file.</li>
+
+<li>If found, file contents are transmitted.</li>
+
+<li>If not found, an error message is transmitted.</li>
+
+<li>PID is displayed with every response.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- FUNCTIONAL REQUIREMENTS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📋 Functional Requirements
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-6">
+
+<div class="card border-primary h-100">
+
+<div class="card-header bg-primary text-white">
+
+Server Requirements
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Create a TCP socket.</li>
+
+<li>Bind to a fixed port.</li>
+
+<li>Listen continuously for clients.</li>
+
+<li>Accept multiple client connections.</li>
+
+<li>Create a worker thread for every client.</li>
+
+<li>Receive the requested filename.</li>
+
+<li>Search the requested file.</li>
+
+<li>Obtain the Server PID.</li>
+
+<li>Send PID with file contents.</li>
+
+<li>Send PID with "File Not Found" if unavailable.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card border-success h-100">
+
+<div class="card-header bg-success text-white">
+
+Client Requirements
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Create TCP socket.</li>
+
+<li>Connect to server.</li>
+
+<li>Enter filename.</li>
+
+<li>Send filename.</li>
+
+<li>Receive server PID.</li>
+
+<li>Receive file contents or error message.</li>
+
+<li>Display received information.</li>
+
+<li>Terminate gracefully.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SERVER ALGORITHM -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🖥️ Server Algorithm
+
+</h2>
+
+<div class="card border-danger">
+
+<div class="card-body">
+
+<ol>
+
+<li>Create a TCP socket.</li>
+
+<li>Bind the socket to a predefined port.</li>
+
+<li>Start listening for incoming connections.</li>
+
+<li>Accept a client connection.</li>
+
+<li>Create a worker thread.</li>
+
+<li>Receive the requested filename.</li>
+
+<li>Search the file in the current directory.</li>
+
+<li>Retrieve the server Process ID using <code>getpid()</code>.</li>
+
+<li>If file exists, send PID and file contents.</li>
+
+<li>Otherwise send PID and "File Not Found".</li>
+
+<li>Close client connection.</li>
+
+<li>Continue serving new clients.</li>
+
+</ol>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- CLIENT ALGORITHM -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+💻 Client Algorithm
+
+</h2>
+
+<div class="card border-success">
+
+<div class="card-body">
+
+<ol>
+
+<li>Create TCP socket.</li>
+
+<li>Connect to the server.</li>
+
+<li>Read filename from user.</li>
+
+<li>Send filename to the server.</li>
+
+<li>Receive PID.</li>
+
+<li>Receive file contents or error message.</li>
+
+<li>Display the received information.</li>
+
+<li>Close socket.</li>
+
+</ol>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- PROGRAM LOGIC -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🧠 Program Logic
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-6">
+
+<div class="card border-primary">
+
+<div class="card-header bg-primary text-white">
+
+Server Logic
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Create TCP socket.</li>
+
+<li>Bind server port.</li>
+
+<li>Listen continuously.</li>
+
+<li>Accept client.</li>
+
+<li>Create worker thread.</li>
+
+<li>Read filename.</li>
+
+<li>Search file.</li>
+
+<li>Retrieve PID.</li>
+
+<li>Send response.</li>
+
+<li>Close client socket.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card border-success">
+
+<div class="card-header bg-success text-white">
+
+Client Logic
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Create socket.</li>
+
+<li>Connect server.</li>
+
+<li>Send filename.</li>
+
+<li>Receive PID.</li>
+
+<li>Receive file data.</li>
+
+<li>Display output.</li>
+
+<li>Close socket.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- COMPLETE WORKFLOW -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🔄 Complete Workflow
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body text-center">
+
+<div class="flow flex-column align-items-center">
+
+<div class="flow-step">
+
+Start Server
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Bind & Listen
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Accept Client
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Create Worker Thread
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Receive Filename
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Search File
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Read PID
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Send PID + File
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Wait for Next Client
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- DATA FLOW -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📊 Data Flow Diagram
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body text-center">
+
+<div class="flow flex-column align-items-center">
+
+<div class="flow-step">
+
+Client
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x text-success my-3"></i>
+
+<div class="flow-step">
+
+Filename
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x text-success my-3"></i>
+
+<div class="flow-step">
+
+Concurrent File Server
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x text-success my-3"></i>
+
+<div class="flow-step">
+
+PID + File Content
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x text-success my-3"></i>
+
+<div class="flow-step">
+
+Client Display
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SEQUENCE DIAGRAM -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📡 Sequence Diagram
+
+</h2>
+
+<div class="card">
+
+<div class="card-body">
+
+<pre class="bg-light p-4">
+
+Client                         Server
+
+ |                               |
+
+ |---- Connect ----------------->|
+
+ |                               |
+
+ |---- filename.txt -----------> |
+
+ |                               |
+
+ |                     Search File
+
+ |                               |
+
+ |<---- PID + File Content ------|
+
+        OR
+
+ |<---- PID + File Not Found ----|
+
+ |                               |
+
+ |----------- Close ------------>|
+
+</pre>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- PRE LAB CHECKLIST -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+✅ Pre-Lab Checklist
+
+</h2>
+
+<div class="card border-info">
+
+<div class="card-body">
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+Linux system is ready.
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+GCC compiler is installed.
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+TCP socket programming is understood.
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+POSIX thread library is available.
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input" type="checkbox">
+
+<label class="form-check-label">
+
+Test files are created in the server directory.
+
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SERVER PROGRAM -->
+<!-- ====================================================== -->
+
+<section class="container py-5" id="server">
+
+<h2 class="section-title">
+
+🖥️ Program 1 – Concurrent TCP File Server
+
+</h2>
+
+<div class="card shadow mb-4">
+
+<div class="card-body">
+
+<h4>
+
+Objective
+
+</h4>
+
+<p>
+
+The server waits for client connections. Whenever a client
+connects, the server creates a separate worker thread. The worker
+thread receives the filename, searches the requested file, retrieves
+the server Process ID (PID), and sends either the file contents or
+an appropriate error message to the client.
+
+</p>
+
+<div class="alert alert-info">
+
+<strong>Concepts Used</strong>
+
+<ul class="mt-2 mb-0">
+
+<li>TCP Socket Programming</li>
+
+<li>POSIX Threads (pthread)</li>
+
+<li>Concurrent Client Handling</li>
+
+<li>Linux File Handling</li>
+
+<li>Process ID (PID)</li>
+
+<li>Reliable Data Transfer</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card shadow">
+
+<div class="card-header bg-dark text-white">
+
+<i class="fas fa-code"></i>
+
+server.c
+
+</div>
+
+<div class="card-body">
+
+<pre><code class="language-c">
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<unistd.h>
+#include<pthread.h>
+#include<arpa/inet.h>
+
+#define PORT 8080
+#define BUFFER_SIZE 1024
+
+void *handleClient(void *arg)
+{
+    int clientSocket = *(int *)arg;
+
+    free(arg);
+
+    char filename[100];
+    char buffer[BUFFER_SIZE];
+    FILE *fp;
+
+    memset(filename,0,sizeof(filename));
+
+    recv(clientSocket,
+         filename,
+         sizeof(filename),
+         0);
+
+    printf("\nClient Requested : %s\n",
+           filename);
+
+    fp = fopen(filename,"r");
+
+    sprintf(buffer,
+            "\nServer PID : %d\n\n",
+            getpid());
+
+    send(clientSocket,
+         buffer,
+         strlen(buffer),
+         0);
+
+    if(fp == NULL)
+    {
+        strcpy(buffer,
+        "File Not Found!");
+
+        send(clientSocket,
+             buffer,
+             strlen(buffer),
+             0);
+    }
+    else
+    {
+        while(fgets(buffer,
+                    BUFFER_SIZE,
+                    fp)!=NULL)
+        {
+            send(clientSocket,
+                 buffer,
+                 strlen(buffer),
+                 0);
+        }
+
+        fclose(fp);
+    }
+
+    close(clientSocket);
+
+    printf("Client Served Successfully.\n");
+
+    pthread_exit(NULL);
+}
+
+int main()
+{
+    int serverSocket;
+    int *clientSocket;
+
+    struct sockaddr_in serverAddr;
+    struct sockaddr_in clientAddr;
+
+    socklen_t addrSize;
+
+    pthread_t tid;
+
+    serverSocket =
+    socket(AF_INET,
+           SOCK_STREAM,
+           0);
+
+    if(serverSocket<0)
+    {
+        perror("Socket Error");
+        exit(1);
+    }
+
+    serverAddr.sin_family=AF_INET;
+    serverAddr.sin_port=htons(PORT);
+    serverAddr.sin_addr.s_addr=INADDR_ANY;
+
+    bind(serverSocket,
+         (struct sockaddr*)&serverAddr,
+         sizeof(serverAddr));
+
+    listen(serverSocket,5);
+
+    printf("\n=================================\n");
+    printf(" Concurrent File Server Started\n");
+    printf("=================================\n");
+    printf("Listening on Port %d\n",PORT);
+
+    while(1)
+    {
+        addrSize=sizeof(clientAddr);
+
+        clientSocket=
+        malloc(sizeof(int));
+
+        *clientSocket=
+        accept(serverSocket,
+               (struct sockaddr*)&clientAddr,
+               &addrSize);
+
+        printf("\nClient Connected...\n");
+
+        pthread_create(&tid,
+                       NULL,
+                       handleClient,
+                       clientSocket);
+
+        pthread_detach(tid);
+    }
+
+    close(serverSocket);
+
+    return 0;
+}
+</code></pre>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SERVER FEATURES -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<div class="card border-success">
+
+<div class="card-header bg-success text-white">
+
+✨ Features of the Server
+
+</div>
+
+<div class="card-body">
+
+<div class="row">
+
+<div class="col-md-6">
+
+<ul>
+
+<li>Uses TCP sockets.</li>
+
+<li>Supports multiple clients.</li>
+
+<li>Uses POSIX threads.</li>
+
+<li>Searches requested files.</li>
+
+<li>Sends server PID.</li>
+
+</ul>
+
+</div>
+
+<div class="col-md-6">
+
+<ul>
+
+<li>Reliable communication.</li>
+
+<li>Automatic thread cleanup.</li>
+
+<li>Reads files line by line.</li>
+
+<li>Handles missing files.</li>
+
+<li>Runs continuously.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- PROGRAM HIGHLIGHTS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<div class="alert alert-primary">
+
+<h4>
+
+💡 Program Highlights
+
+</h4>
+
+<ul class="mb-0">
+
+<li><strong>socket()</strong> creates the TCP socket.</li>
+
+<li><strong>bind()</strong> associates the server with port 8080.</li>
+
+<li><strong>listen()</strong> waits for incoming clients.</li>
+
+<li><strong>accept()</strong> accepts a client connection.</li>
+
+<li><strong>pthread_create()</strong> creates one thread for every client.</li>
+
+<li><strong>recv()</strong> receives the filename.</li>
+
+<li><strong>fopen()</strong> opens the requested file.</li>
+
+<li><strong>getpid()</strong> retrieves the server PID.</li>
+
+<li><strong>send()</strong> transmits PID and file contents.</li>
+
+<li><strong>pthread_detach()</strong> automatically releases thread resources.</li>
+
+</ul>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SERVER EXECUTION WORKFLOW -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+⚙️ Server Execution Workflow
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<div class="flow flex-column align-items-center">
+
+<div class="flow-step">
+
+Start Server
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Create TCP Socket
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Bind Port
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Listen for Clients
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Accept Connection
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Create Worker Thread
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Search File
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Send PID + Response
+
+</div>
+
+<i class="fas fa-arrow-down fa-2x my-3 text-primary"></i>
+
+<div class="flow-step">
+
+Wait for Next Client
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- COMPILATION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🛠️ Compilation
+
+</h2>
+
+<div class="card">
+
+<div class="card-body">
+
+<pre><code class="language-bash">
+gcc server.c -o server -lpthread
+</code></pre>
+
+<div class="alert alert-info">
+
+Compile with
+<strong>-lpthread</strong>
+because the server uses POSIX threads.
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SAMPLE OUTPUT -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🖥️ Sample Server Output
+
+</h2>
+
+<div class="card bg-dark text-white">
+
+<div class="card-body">
+
+<pre>
+=================================
+ Concurrent File Server Started
+=================================
+
+Listening on Port 8080
+
+Client Connected...
+
+Client Requested :
+notes.txt
+
+Client Served Successfully.
+</pre>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- DEBUGGING -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🐞 Debugging Tips
+
+</h2>
+
+<div class="alert alert-warning">
+
+<ul class="mb-0">
+
+<li>Ensure the requested file exists in the server directory.</li>
+
+<li>Compile using <code>-lpthread</code>.</li>
+
+<li>Verify the server is running before starting the client.</li>
+
+<li>Check the IP address and port number.</li>
+
+<li>Display errors using <code>perror()</code>.</li>
+
+<li>Always close sockets after communication.</li>
+
+</ul>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- CLIENT PROGRAM -->
+<!-- ====================================================== -->
+
+<section class="container py-5" id="client">
+
+<h2 class="section-title">
+
+💻 Program 2 – TCP File Client
+
+</h2>
+
+<div class="card shadow mb-4">
+
+<div class="card-body">
+
+<h4>
+
+Objective
+
+</h4>
+
+<p>
+
+The client connects to the Concurrent File Server, sends the
+required filename, receives the server Process ID (PID) along
+with the requested file contents (or an error message), and
+displays the received response.
+
+</p>
+
+<div class="alert alert-info">
+
+<strong>Concepts Used</strong>
+
+<ul class="mt-2 mb-0">
+
+<li>TCP Client Socket</li>
+
+<li>Reliable Communication</li>
+
+<li>Filename Transmission</li>
+
+<li>Receiving File Contents</li>
+
+<li>Displaying Server PID</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card shadow">
+
+<div class="card-header bg-dark text-white">
+
+<i class="fas fa-code"></i>
+
+client.c
+
+</div>
+
+<div class="card-body">
+
+<pre><code class="language-c">
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<unistd.h>
+#include<arpa/inet.h>
+
+#define PORT 8080
+#define BUFFER_SIZE 1024
+
+int main()
+{
+    int clientSocket;
+
+    struct sockaddr_in serverAddr;
+
+    char filename[100];
+    char buffer[BUFFER_SIZE];
+
+    clientSocket =
+    socket(AF_INET,
+           SOCK_STREAM,
+           0);
+
+    if(clientSocket < 0)
+    {
+        perror("Socket Error");
+        exit(1);
+    }
+
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(PORT);
+    serverAddr.sin_addr.s_addr =
+    inet_addr("127.0.0.1");
+
+    if(connect(clientSocket,
+              (struct sockaddr *)&serverAddr,
+              sizeof(serverAddr)) < 0)
+    {
+        perror("Connection Failed");
+        exit(1);
+    }
+
+    printf("Enter Filename : ");
+
+    scanf("%s",filename);
+
+    send(clientSocket,
+         filename,
+         strlen(filename),
+         0);
+
+    printf("\n");
+
+    while(1)
+    {
+        int bytes =
+        recv(clientSocket,
+             buffer,
+             BUFFER_SIZE-1,
+             0);
+
+        if(bytes <= 0)
+            break;
+
+        buffer[bytes]='\0';
+
+        printf("%s",buffer);
+    }
+
+    close(clientSocket);
+
+    return 0;
+}
+</code></pre>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- CLIENT EXPLANATION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🔍 Understanding the Client Program
+
+</h2>
+
+<div class="accordion" id="clientExplanation">
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button"
+data-bs-toggle="collapse"
+data-bs-target="#c1">
+
+1️⃣ Create TCP Socket
+
+</button>
+
+</h2>
+
+<div id="c1"
+class="accordion-collapse collapse show"
+data-bs-parent="#clientExplanation">
+
+<div class="accordion-body">
+
+Creates a TCP communication endpoint using
+
+<pre><code class="language-c">
+socket(AF_INET,
+SOCK_STREAM,
+0);
+</code></pre>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#c2">
+
+2️⃣ Connect to Server
+
+</button>
+
+</h2>
+
+<div id="c2"
+class="accordion-collapse collapse"
+data-bs-parent="#clientExplanation">
+
+<div class="accordion-body">
+
+The client establishes a TCP connection with the server.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#c3">
+
+3️⃣ Send Filename
+
+</button>
+
+</h2>
+
+<div id="c3"
+class="accordion-collapse collapse"
+data-bs-parent="#clientExplanation">
+
+<div class="accordion-body">
+
+The filename entered by the user is transmitted using
+
+<pre><code class="language-c">
+send()
+</code></pre>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#c4">
+
+4️⃣ Receive Response
+
+</button>
+
+</h2>
+
+<div id="c4"
+class="accordion-collapse collapse"
+data-bs-parent="#clientExplanation">
+
+<div class="accordion-body">
+
+The client continuously receives data until the server closes
+the connection.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#c5">
+
+5️⃣ Display Output
+
+</button>
+
+</h2>
+
+<div id="c5"
+class="accordion-collapse collapse"
+data-bs-parent="#clientExplanation">
+
+<div class="accordion-body">
+
+Displays the received Server PID and file contents (or error
+message).
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- COMPILATION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🛠️ Compilation
+
+</h2>
+
+<div class="card">
+
+<div class="card-body">
+
+<pre><code class="language-bash">
+gcc server.c -o server -lpthread
+
+gcc client.c -o client
+</code></pre>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- EXECUTION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+▶️ Execution
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-6">
+
+<div class="card border-primary">
+
+<div class="card-header bg-primary text-white">
+
+Terminal 1
+
+</div>
+
+<div class="card-body">
+
+<pre><code class="language-bash">
+./server
+</code></pre>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card border-success">
+
+<div class="card-header bg-success text-white">
+
+Terminal 2
+
+</div>
+
+<div class="card-body">
+
+<pre><code class="language-bash">
+./client
+</code></pre>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SAMPLE OUTPUT -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🖥️ Sample Client Output
+
+</h2>
+
+<div class="card bg-dark text-white">
+
+<div class="card-body">
+
+<pre>
+Enter Filename : notes.txt
+
+Server PID : 4235
+
+Computer Networks Laboratory
+Week 9
+Concurrent File Server
+TCP Socket Programming
+</pre>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SAMPLE OUTPUT (FILE NOT FOUND) -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+❌ Sample Output (File Not Found)
+
+</h2>
+
+<div class="card bg-dark text-white">
+
+<div class="card-body">
+
+<pre>
+Enter Filename : abc.txt
+
+Server PID : 4235
+
+File Not Found!
+</pre>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- OBSERVATION TABLE -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📊 Observation Table
+
+</h2>
+
+<table class="table table-bordered table-striped">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>Operation</th>
+
+<th>Client</th>
+
+<th>Server</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Create Socket</td>
+
+<td>✔</td>
+
+<td>✔</td>
+
+</tr>
+
+<tr>
+
+<td>Connect</td>
+
+<td>✔</td>
+
+<td>Accept</td>
+
+</tr>
+
+<tr>
+
+<td>Send Filename</td>
+
+<td>✔</td>
+
+<td>Receive</td>
+
+</tr>
+
+<tr>
+
+<td>Search File</td>
+
+<td>—</td>
+
+<td>✔</td>
+
+</tr>
+
+<tr>
+
+<td>Read PID</td>
+
+<td>Receive</td>
+
+<td>✔</td>
+
+</tr>
+
+<tr>
+
+<td>Send File</td>
+
+<td>Receive</td>
+
+<td>✔</td>
+
+</tr>
+
+<tr>
+
+<td>Close Socket</td>
+
+<td>✔</td>
+
+<td>✔</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- RESULT -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<div class="alert alert-success">
+
+<h3>
+
+✅ Result
+
+</h3>
+
+<p>
+
+The Concurrent TCP File Server and Client were implemented
+successfully. The client requested a file, the server searched
+for the file, transmitted the Server Process ID (PID) together
+with the file contents when available, and sent an appropriate
+error message when the file was not found. The experiment
+demonstrated concurrent client handling using POSIX threads
+and reliable file transfer using TCP Socket Programming.
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- VIVA QUESTIONS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🎤 Viva Questions
+
+</h2>
+
+<div class="accordion" id="vivaAccordion">
+
+<div class="accordion-item">
+<h2 class="accordion-header">
+<button class="accordion-button"
+data-bs-toggle="collapse"
+data-bs-target="#v1">
+1. What is a File Server?
+</button>
+</h2>
+
+<div id="v1"
+class="accordion-collapse collapse show"
+data-bs-parent="#vivaAccordion">
+<div class="accordion-body">
+A File Server stores files and provides them to clients over a network.
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<h2 class="accordion-header">
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v2">
+2. Why is TCP used for file transfer?
+</button>
+</h2>
+
+<div id="v2"
+class="accordion-collapse collapse"
+data-bs-parent="#vivaAccordion">
+<div class="accordion-body">
+TCP provides reliable, ordered and error-free delivery of data.
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<h2 class="accordion-header">
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v3">
+3. What is concurrency?
+</button>
+</h2>
+
+<div id="v3"
+class="accordion-collapse collapse"
+data-bs-parent="#vivaAccordion">
+<div class="accordion-body">
+Concurrency means serving multiple clients simultaneously using threads.
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<h2 class="accordion-header">
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v4">
+4. Which function creates a TCP socket?
+</button>
+</h2>
+
+<div id="v4"
+class="accordion-collapse collapse"
+data-bs-parent="#vivaAccordion">
+<div class="accordion-body">
+socket()
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<h2 class="accordion-header">
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v5">
+5. Which function waits for client connections?
+</button>
+</h2>
+
+<div id="v5"
+class="accordion-collapse collapse"
+data-bs-parent="#vivaAccordion">
+<div class="accordion-body">
+listen()
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<h2 class="accordion-header">
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v6">
+6. Which function accepts a client connection?
+</button>
+</h2>
+
+<div id="v6"
+class="accordion-collapse collapse"
+data-bs-parent="#vivaAccordion">
+<div class="accordion-body">
+accept()
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<h2 class="accordion-header">
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v7">
+7. Why is pthread_create() used?
+</button>
+</h2>
+
+<div id="v7"
+class="accordion-collapse collapse"
+data-bs-parent="#vivaAccordion">
+<div class="accordion-body">
+It creates a worker thread to serve a client independently.
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<h2 class="accordion-header">
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v8">
+8. Which function opens a file?
+</button>
+</h2>
+
+<div id="v8"
+class="accordion-collapse collapse"
+data-bs-parent="#vivaAccordion">
+<div class="accordion-body">
+fopen()
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<h2 class="accordion-header">
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v9">
+9. Which function reads a text file?
+</button>
+</h2>
+
+<div id="v9"
+class="accordion-collapse collapse"
+data-bs-parent="#vivaAccordion">
+<div class="accordion-body">
+fgets()
+</div>
+</div>
+</div>
+
+<div class="accordion-item">
+<h2 class="accordion-header">
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#v10">
+10. Which function returns the Process ID?
+</button>
+</h2>
+
+<div id="v10"
+class="accordion-collapse collapse"
+data-bs-parent="#vivaAccordion">
+<div class="accordion-body">
+getpid()
+</div>
+</div>
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- SELF ASSESSMENT QUIZ -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📝 Self Assessment Quiz
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-6">
+
+<div class="card">
+
+<div class="card-body">
+
+<strong>1. TCP socket type is</strong>
+
+<ul>
+
+<li class="text-success">✔ SOCK_STREAM</li>
+
+<li>SOCK_DGRAM</li>
+
+<li>SOCK_RAW</li>
+
+<li>SOCK_PACKET</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card">
+
+<div class="card-body">
+
+<strong>2. Which function opens a file?</strong>
+
+<ul>
+
+<li>open()</li>
+
+<li class="text-success">✔ fopen()</li>
+
+<li>read()</li>
+
+<li>scanf()</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card">
+
+<div class="card-body">
+
+<strong>3. Which function creates a thread?</strong>
+
+<ul>
+
+<li>fork()</li>
+
+<li class="text-success">✔ pthread_create()</li>
+
+<li>exec()</li>
+
+<li>clone()</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card">
+
+<div class="card-body">
+
+<strong>4. Which function returns the Process ID?</strong>
+
+<ul>
+
+<li>pid()</li>
+
+<li>threadid()</li>
+
+<li class="text-success">✔ getpid()</li>
+
+<li>process()</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- COMMON ERRORS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+🐞 Common Errors
+
+</h2>
+
+<table class="table table-bordered">
+
+<thead class="table-danger">
+
+<tr>
+
+<th>Error</th>
+
+<th>Reason</th>
+
+<th>Solution</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Connection Refused</td>
+
+<td>Server not running</td>
+
+<td>Start server first</td>
+
+</tr>
+
+<tr>
+
+<td>Bind Failed</td>
+
+<td>Port already used</td>
+
+<td>Change port or terminate previous server</td>
+
+</tr>
+
+<tr>
+
+<td>File Not Found</td>
+
+<td>Requested file missing</td>
+
+<td>Place the file in the server directory</td>
+
+</tr>
+
+<tr>
+
+<td>Compilation Error</td>
+
+<td>pthread missing</td>
+
+<td>Compile with -lpthread</td>
+
+</tr>
+
+<tr>
+
+<td>Permission Denied</td>
+
+<td>File permission issue</td>
+
+<td>Use chmod to grant read permission</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- PROGRAMMING TIPS -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+💡 Programming Tips
+
+</h2>
+
+<div class="alert alert-info">
+
+<ul class="mb-0">
+
+<li>Always verify the return value of socket().</li>
+
+<li>Check whether fopen() returns NULL.</li>
+
+<li>Close files after reading.</li>
+
+<li>Close sockets after communication.</li>
+
+<li>Use pthread_detach() to release thread resources.</li>
+
+<li>Use perror() for meaningful error messages.</li>
+
+<li>Always send the PID before sending file contents.</li>
+
+</ul>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- FAQ -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+❓ Frequently Asked Questions
+
+</h2>
+
+<div class="accordion" id="faq">
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button"
+data-bs-toggle="collapse"
+data-bs-target="#faq1">
+
+Why is TCP preferred for file transfer?
+
+</button>
+
+</h2>
+
+<div id="faq1"
+class="accordion-collapse collapse show">
+
+<div class="accordion-body">
+
+TCP guarantees reliable and ordered delivery of file data.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#faq2">
+
+Why do we use multiple threads?
+
+</button>
+
+</h2>
+
+<div id="faq2"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+Each client gets its own worker thread, allowing multiple file requests to be handled simultaneously.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+data-bs-toggle="collapse"
+data-bs-target="#faq3">
+
+Why is PID sent to the client?
+
+</button>
+
+</h2>
+
+<div id="faq3"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+The experiment specifically requires the server to identify itself by sending its Process ID along with every response.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- LAB CHECKLIST -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+✅ Lab Checklist
+
+</h2>
+
+<div class="card shadow">
+
+<div class="card-body">
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Compiled server successfully.</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Compiled client successfully.</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Created sample files in server directory.</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Verified successful file transfer.</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Verified "File Not Found" response.</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Observed the Server PID.</label>
+</div>
+
+<div class="form-check">
+<input class="form-check-input" type="checkbox">
+<label class="form-check-label">Answered the viva questions.</label>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- ONE MINUTE REVISION -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+⚡ One-Minute Revision
+
+</h2>
+
+<div class="alert alert-success">
+
+<ul class="mb-0">
+
+<li>TCP provides reliable communication.</li>
+
+<li>socket() creates the communication endpoint.</li>
+
+<li>accept() accepts incoming clients.</li>
+
+<li>pthread_create() enables concurrency.</li>
+
+<li>fopen() opens the requested file.</li>
+
+<li>fgets() reads file contents.</li>
+
+<li>getpid() retrieves the server's Process ID.</li>
+
+<li>send() transmits the PID and file contents.</li>
+
+<li>close() releases sockets and files.</li>
+
+</ul>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- REFERENCES -->
+<!-- ====================================================== -->
+
+<section class="container py-5">
+
+<h2 class="section-title">
+
+📚 References
+
+</h2>
+
+<div class="card">
+
+<div class="card-body">
+
+<ol>
+
+<li>W. Richard Stevens, <em>UNIX Network Programming</em>, Volume 1.</li>
+
+<li>Andrew S. Tanenbaum, <em>Computer Networks</em>.</li>
+
+<li>Behrouz A. Forouzan, <em>TCP/IP Protocol Suite</em>.</li>
+
+<li>Linux Manual Pages – socket(), accept(), pthread_create(), fopen(), getpid().</li>
+
+</ol>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- FOOTER -->
+<!-- ====================================================== -->
+
+<footer class="py-5 bg-dark text-white text-center">
+
+<div class="container">
+
+<h4>
+
+PCCSL507 Computer Networks Laboratory
+
+</h4>
+
+<p>
+
+Lab 9 – Concurrent File Server using TCP Socket Programming
+
+</p>
+
+<hr class="bg-light">
+
+<p class="mb-1">
+
+Prepared by
+
+<strong>Ms. Prof. Anju Markose J K</strong>
+
+</p>
+
+<p>
+
+Assistant Professor<br>
+
+Department of Computer Science & Engineering<br>
+
+Viswajyothi College of Engineering & Technology
+
+</p>
+
+<a href="#top" class="btn btn-primary">
+
+<i class="fas fa-arrow-up"></i>
+
+Back to Top
+
+</a>
+
+</div>
+
+</footer>

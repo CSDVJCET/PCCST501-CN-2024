@@ -1,0 +1,2718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Socket Programming Fundamentals | PCCST501 Computer Networks</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+<style>
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:#f5f7fb;
+color:#263238;
+}
+
+.navbar{
+background:#082f6b;
+}
+
+.hero{
+background:linear-gradient(135deg,#082f6b,#1565c0);
+padding:90px 0;
+color:white;
+}
+
+.hero h1{
+font-size:48px;
+font-weight:bold;
+}
+
+.hero p{
+font-size:20px;
+opacity:.95;
+}
+
+.section-title{
+border-left:6px solid #1565c0;
+padding-left:12px;
+margin-top:60px;
+margin-bottom:25px;
+font-weight:bold;
+}
+
+.card{
+border:none;
+border-radius:18px;
+box-shadow:0 6px 18px rgba(0,0,0,.12);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.flow{
+background:#0f172a;
+color:#8ef7a7;
+padding:20px;
+border-radius:10px;
+font-family:Consolas;
+white-space:pre-wrap;
+}
+
+.tip{
+border-left:6px solid #ffc107;
+}
+
+.exam{
+border-left:6px solid #28a745;
+}
+
+.code{
+background:#111827;
+color:#8ef7a7;
+padding:14px;
+border-radius:10px;
+font-family:Consolas;
+overflow:auto;
+}
+
+footer{
+background:#082f6b;
+color:white;
+padding:25px;
+margin-top:60px;
+}
+
+.sidebar{
+position:sticky;
+top:90px;
+}
+
+.sidebar a{
+text-decoration:none;
+display:block;
+padding:8px;
+color:#1565c0;
+font-weight:600;
+}
+
+.sidebar a:hover{
+background:#eef5ff;
+border-radius:8px;
+}
+
+.badge-topic{
+font-size:14px;
+padding:8px 12px;
+margin:4px;
+}
+
+</style>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<style>
+.progress-bar-top{position:fixed;top:0;left:0;height:4px;background:#ffc107;width:0;z-index:2000}
+.floating-btn{position:fixed;right:20px;z-index:1500}
+#backTop{bottom:90px}
+#nextLab{bottom:25px}
+.learning-path .step{border-left:4px solid #0d6efd;padding:.75rem 1rem;margin:.5rem 0;background:#fff;border-radius:8px}
+</style>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+
+<div class="container">
+
+<a class="navbar-brand fw-bold" href="../index.html">
+
+<i class="fa-solid fa-network-wired"></i>
+
+PCCST501
+
+</a>
+
+<button class="navbar-toggler"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#menu">
+
+<span class="navbar-toggler-icon"></span>
+
+</button>
+
+<div class="collapse navbar-collapse" id="menu">
+
+<ul class="navbar-nav ms-auto">
+
+<li class="nav-item">
+
+<a class="nav-link" href="../index.html">
+
+Home
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link" href="../modules.html">
+
+Modules
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link active" href="networklab.html">
+
+Network Lab
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link" href="../tutorial.html">
+
+Tutorials
+
+</a>
+
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</nav>
+
+<section class="hero">
+
+<div class="container text-center">
+
+<h1>
+
+Socket Programming Fundamentals
+
+</h1>
+
+<p>
+
+Learn the concepts before performing laboratory experiments.
+
+</p>
+
+<div class="mt-4">
+
+<a href="lab1.html"
+class="btn btn-warning btn-lg">
+
+Start Lab 1
+
+</a>
+
+<a href="networklab.html"
+class="btn btn-light btn-lg ms-2">
+
+Network Lab
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<div class="container-fluid mt-5">
+
+<div class="row">
+
+<div class="col-lg-3">
+
+<div class="card p-4 sidebar">
+
+<h4>
+
+Contents
+
+</h4>
+
+<a href="#intro">Introduction</a>
+
+<a href="#why">Why Socket Programming?</a>
+
+<a href="#architecture">Client Server Architecture</a>
+
+<a href="#layers">TCP/IP Layers</a>
+
+<a href="#socket">Socket Basics</a>
+
+<a href="#types">Socket Types</a>
+
+<a href="#tcpudp">TCP vs UDP</a>
+
+<a href="#ip">IP Addressing</a>
+
+<a href="#ports">Port Numbers</a>
+
+<a href="#structures">Socket Structures</a>
+
+<a href="#byte">Byte Ordering</a>
+
+<a href="#convert">Address Conversion</a>
+
+<a href="#api">Socket API</a>
+
+<a href="#workflow">TCP Workflow</a>
+
+<a href="#udpflow">UDP Workflow</a>
+
+<a href="#linux">Linux Commands</a>
+
+<a href="#revision">Quick Revision</a>
+
+</div>
+
+</div>
+
+<div class="col-lg-9">
+
+<section id="intro">
+
+<h2 class="section-title">
+
+Introduction
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+Socket Programming enables two applications running on different computers to communicate through a computer network. Every modern Internet application—including web browsers, email clients, cloud platforms, instant messaging systems, video conferencing tools, and IoT devices—relies on sockets for exchanging information.
+
+</p>
+
+<p>
+
+In Linux and UNIX operating systems, sockets are treated as file descriptors, allowing applications to send and receive data using standard system calls. By understanding socket programming, students gain practical knowledge of how network applications establish connections, exchange messages, and terminate communication.
+
+</p>
+
+<div class="alert alert-primary mt-3">
+
+<strong>Learning Outcome</strong>
+
+After completing this tutorial you will understand the fundamental concepts required to perform TCP and UDP socket programming experiments.
+
+</div>
+
+</div>
+
+</section>
+
+<section id="why">
+
+<h2 class="section-title">
+
+Why Learn Socket Programming?
+
+</h2>
+
+<div class="row">
+
+<div class="col-md-4">
+
+<div class="card p-4 text-center">
+
+<i class="fa-solid fa-globe fa-3x text-primary"></i>
+
+<h5 class="mt-3">
+
+Web Applications
+
+</h5>
+
+<p>
+
+HTTP, HTTPS, REST APIs and cloud applications use sockets to exchange information.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card p-4 text-center">
+
+<i class="fa-solid fa-comments fa-3x text-success"></i>
+
+<h5 class="mt-3">
+
+Communication
+
+</h5>
+
+<p>
+
+Chat applications, email systems and online meetings rely on reliable network communication.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card p-4 text-center">
+
+<i class="fa-solid fa-microchip fa-3x text-danger"></i>
+
+<h5 class="mt-3">
+
+IoT & Embedded Systems
+
+</h5>
+
+<p>
+
+Sensors, smart devices and autonomous systems exchange information using network sockets.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section id="architecture">
+
+<h2 class="section-title">
+
+Client–Server Architecture
+
+</h2>
+
+<div class="card p-4">
+
+<div class="flow">
+
+CLIENT
+
+↓
+
+Creates Request
+
+↓
+
+Internet
+
+↓
+
+SERVER
+
+↓
+
+Processes Request
+
+↓
+
+Returns Response
+
+</div>
+
+<p class="mt-4">
+
+The client initiates communication by requesting a service. The server waits for requests, processes them and sends back responses. Most Internet applications such as web servers, FTP servers and email servers follow this architecture.
+
+</p>
+
+<div class="alert alert-warning tip">
+
+<b>Lab Tip</b>
+
+Every TCP programming experiment in this laboratory follows the client–server model.
+
+</div>
+
+</div>
+
+</section>
+<!-- ===================================================== -->
+<!-- SECTION 4 : TCP/IP PROTOCOL STACK -->
+<!-- ===================================================== -->
+
+<section id="layers">
+
+<h2 class="section-title">
+
+TCP/IP Protocol Stack
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+The TCP/IP protocol stack provides a layered architecture that enables communication between applications across interconnected networks. Each layer performs a specific function and offers services to the layer above it.
+
+</p>
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-striped">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>Layer</th>
+
+<th>Main Responsibility</th>
+
+<th>Example Protocols</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Application</td>
+
+<td>Provides network services to user applications.</td>
+
+<td>HTTP, FTP, SMTP, DNS</td>
+
+</tr>
+
+<tr>
+
+<td>Transport</td>
+
+<td>End-to-end communication and reliability.</td>
+
+<td>TCP, UDP</td>
+
+</tr>
+
+<tr>
+
+<td>Internet</td>
+
+<td>Logical addressing and routing.</td>
+
+<td>IP, ICMP</td>
+
+</tr>
+
+<tr>
+
+<td>Network Access</td>
+
+<td>Frame transmission over the physical medium.</td>
+
+<td>Ethernet, Wi-Fi</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="flow">
+
+Application
+
+↓
+
+Transport
+
+↓
+
+Internet
+
+↓
+
+Network Access
+
+</div>
+
+<div class="alert alert-success exam mt-3">
+
+<b>Exam Tip:</b>
+
+Remember the responsibilities of each TCP/IP layer and the protocols associated with them.
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- SECTION 5 : SOCKET BASICS -->
+<!-- ===================================================== -->
+
+<section id="socket">
+
+<h2 class="section-title">
+
+Socket Basics
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+A socket is a communication endpoint used by applications to exchange data over a computer network. Every socket is uniquely identified using three important elements:
+
+</p>
+
+<div class="row">
+
+<div class="col-md-4">
+
+<div class="card p-3 text-center">
+
+<i class="fa-solid fa-location-dot fa-2x text-primary"></i>
+
+<h5 class="mt-3">
+
+IP Address
+
+</h5>
+
+<p>
+
+Identifies the destination device.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card p-3 text-center">
+
+<i class="fa-solid fa-plug fa-2x text-success"></i>
+
+<h5 class="mt-3">
+
+Port Number
+
+</h5>
+
+<p>
+
+Identifies the application running on that device.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card p-3 text-center">
+
+<i class="fa-solid fa-right-left fa-2x text-danger"></i>
+
+<h5 class="mt-3">
+
+Transport Protocol
+
+</h5>
+
+<p>
+
+TCP or UDP determines how data is transferred.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="alert alert-info mt-4">
+
+Socket = IP Address + Port Number + Transport Protocol
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- SOCKET TYPES -->
+<!-- ===================================================== -->
+
+<section id="types">
+
+<h2 class="section-title">
+
+Types of Sockets
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>Socket Type</th>
+
+<th>Protocol</th>
+
+<th>Applications</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Stream Socket</td>
+
+<td>TCP</td>
+
+<td>HTTP, FTP, SMTP</td>
+
+</tr>
+
+<tr>
+
+<td>Datagram Socket</td>
+
+<td>UDP</td>
+
+<td>DNS, Streaming</td>
+
+</tr>
+
+<tr>
+
+<td>Raw Socket</td>
+
+<td>IP</td>
+
+<td>Packet analysis, Network monitoring</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- TCP VS UDP -->
+<!-- ===================================================== -->
+
+<section id="tcpudp">
+
+<h2 class="section-title">
+
+TCP vs UDP
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>Feature</th>
+
+<th>TCP</th>
+
+<th>UDP</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Connection</td>
+
+<td>Connection-Oriented</td>
+
+<td>Connectionless</td>
+
+</tr>
+
+<tr>
+
+<td>Reliability</td>
+
+<td>Reliable</td>
+
+<td>Best Effort</td>
+
+</tr>
+
+<tr>
+
+<td>Error Recovery</td>
+
+<td>Yes</td>
+
+<td>No</td>
+
+</tr>
+
+<tr>
+
+<td>Ordering</td>
+
+<td>Maintained</td>
+
+<td>Not Guaranteed</td>
+
+</tr>
+
+<tr>
+
+<td>Speed</td>
+
+<td>Slower</td>
+
+<td>Faster</td>
+
+</tr>
+
+<tr>
+
+<td>Typical Applications</td>
+
+<td>HTTP, FTP, SMTP</td>
+
+<td>DNS, VoIP, Streaming</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- IP ADDRESS -->
+<!-- ===================================================== -->
+
+<section id="ip">
+
+<h2 class="section-title">
+
+IP Addressing
+
+</h2>
+
+<div class="row">
+
+<div class="col-md-6">
+
+<div class="card p-4">
+
+<h4>
+
+IPv4
+
+</h4>
+
+<ul>
+
+<li>32-bit address</li>
+
+<li>Four decimal octets</li>
+
+<li>Example: 192.168.1.10</li>
+
+</ul>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card p-4">
+
+<h4>
+
+IPv6
+
+</h4>
+
+<ul>
+
+<li>128-bit address</li>
+
+<li>Hexadecimal representation</li>
+
+<li>Example: 2001:db8::1</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- PORT NUMBERS -->
+<!-- ===================================================== -->
+
+<section id="ports">
+
+<h2 class="section-title">
+
+Port Numbers
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>Range</th>
+
+<th>Description</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>0–1023</td>
+
+<td>Well-known Ports</td>
+
+</tr>
+
+<tr>
+
+<td>1024–49151</td>
+
+<td>Registered Ports</td>
+
+</tr>
+
+<tr>
+
+<td>49152–65535</td>
+
+<td>Dynamic / Ephemeral Ports</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="card p-4 mt-4">
+
+<h5>Common Service Ports</h5>
+
+<table class="table table-striped">
+
+<tr><th>Protocol</th><th>Port</th></tr>
+
+<tr><td>HTTP</td><td>80</td></tr>
+
+<tr><td>HTTPS</td><td>443</td></tr>
+
+<tr><td>FTP</td><td>21</td></tr>
+
+<tr><td>SSH</td><td>22</td></tr>
+
+<tr><td>SMTP</td><td>25</td></tr>
+
+<tr><td>DNS</td><td>53</td></tr>
+
+<tr><td>POP3</td><td>110</td></tr>
+
+<tr><td>IMAP</td><td>143</td></tr>
+
+</table>
+
+</div>
+
+</section>
+<!-- ===================================================== -->
+<!-- SECTION 10 : SOCKET ADDRESS STRUCTURES -->
+<!-- ===================================================== -->
+
+<section id="structures">
+
+<h2 class="section-title">
+
+Socket Address Structures
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+A socket address structure stores the addressing information required for network communication. It contains the IP address, port number, and address family used by the socket.
+
+</p>
+
+<div class="row">
+
+<div class="col-md-4">
+
+<div class="card text-center p-3">
+
+<h5>sockaddr</h5>
+
+<p>
+
+Generic socket address structure used by all socket functions.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center p-3">
+
+<h5>sockaddr_in</h5>
+
+<p>
+
+Used specifically for IPv4 socket programming.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="card text-center p-3">
+
+<h5>sockaddr_in6</h5>
+
+<p>
+
+Used for IPv6 socket programming.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="flow mt-4">
+
+Application
+
+↓
+
+sockaddr_in
+
+↓
+
+IP Address
+
+↓
+
+Port Number
+
+↓
+
+Operating System
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- BYTE ORDERING -->
+<!-- ===================================================== -->
+
+<section id="byte">
+
+<h2 class="section-title">
+
+Byte Ordering
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+Different computer architectures store multi-byte values differently. To ensure compatibility between systems, network applications use a standard format called <b>Network Byte Order</b>, which follows the Big Endian convention.
+
+</p>
+
+<div class="table-responsive">
+
+<table class="table table-bordered">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>Type</th>
+
+<th>Description</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Little Endian</td>
+
+<td>Least Significant Byte stored first.</td>
+
+</tr>
+
+<tr>
+
+<td>Big Endian</td>
+
+<td>Most Significant Byte stored first.</td>
+
+</tr>
+
+<tr>
+
+<td>Network Byte Order</td>
+
+<td>Standard Big Endian representation used on networks.</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="alert alert-warning mt-4">
+
+Always convert host byte order to network byte order before sending numeric values across the network.
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- BYTE ORDER FUNCTIONS -->
+<!-- ===================================================== -->
+
+<section>
+
+<h2 class="section-title">
+
+Byte Order Conversion Functions
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-striped">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>Function</th>
+
+<th>Description</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>htons()</td>
+
+<td>Host to Network Short</td>
+
+</tr>
+
+<tr>
+
+<td>htonl()</td>
+
+<td>Host to Network Long</td>
+
+</tr>
+
+<tr>
+
+<td>ntohs()</td>
+
+<td>Network to Host Short</td>
+
+</tr>
+
+<tr>
+
+<td>ntohl()</td>
+
+<td>Network to Host Long</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="code">
+
+uint16_t port = htons(8080);
+
+uint32_t addr = htonl(ip);
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- ADDRESS CONVERSION -->
+<!-- ===================================================== -->
+
+<section id="convert">
+
+<h2 class="section-title">
+
+Address Conversion Functions
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+Applications often need to convert IP addresses between human-readable form and binary representation.
+
+</p>
+
+<table class="table table-bordered">
+
+<tr>
+
+<th>Function</th>
+
+<th>Purpose</th>
+
+</tr>
+
+<tr>
+
+<td>inet_pton()</td>
+
+<td>Convert presentation format to binary.</td>
+
+</tr>
+
+<tr>
+
+<td>inet_ntop()</td>
+
+<td>Convert binary format to presentation format.</td>
+
+</tr>
+
+</table>
+
+<h5 class="mt-4">
+
+Example
+
+</h5>
+
+<div class="code">
+
+struct sockaddr_in server;
+
+inet_pton(AF_INET,
+"192.168.1.10",
+&server.sin_addr);
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- SOCKET API -->
+<!-- ===================================================== -->
+
+<section id="api">
+
+<h2 class="section-title">
+
+Socket Programming API
+
+</h2>
+
+<p>
+
+The following system calls form the foundation of TCP and UDP socket programming.
+
+</p>
+
+<div class="row">
+
+<div class="col-md-6 mb-4">
+
+<div class="card p-4">
+
+<h4>socket()</h4>
+
+<p>
+
+Creates a communication endpoint.
+
+</p>
+
+<div class="code">
+
+int socket(
+
+AF_INET,
+
+SOCK_STREAM,
+
+0);
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6 mb-4">
+
+<div class="card p-4">
+
+<h4>bind()</h4>
+
+<p>
+
+Associates an IP address and port number with the socket.
+
+</p>
+
+<div class="code">
+
+bind(sockfd,
+
+(struct sockaddr*)&addr,
+
+sizeof(addr));
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6 mb-4">
+
+<div class="card p-4">
+
+<h4>listen()</h4>
+
+<p>
+
+Marks the socket as a passive socket waiting for incoming client requests.
+
+</p>
+
+<div class="code">
+
+listen(sockfd,5);
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6 mb-4">
+
+<div class="card p-4">
+
+<h4>accept()</h4>
+
+<p>
+
+Accepts a connection request from a client.
+
+</p>
+
+<div class="code">
+
+accept(sockfd,
+
+NULL,
+
+NULL);
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6 mb-4">
+
+<div class="card p-4">
+
+<h4>connect()</h4>
+
+<p>
+
+Initiates a connection to a remote server.
+
+</p>
+
+<div class="code">
+
+connect(sockfd,
+
+(struct sockaddr*)&server,
+
+sizeof(server));
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6 mb-4">
+
+<div class="card p-4">
+
+<h4>send()</h4>
+
+<p>
+
+Transmits data to the connected socket.
+
+</p>
+
+<div class="code">
+
+send(sockfd,
+
+buffer,
+
+strlen(buffer),
+
+0);
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6 mb-4">
+
+<div class="card p-4">
+
+<h4>recv()</h4>
+
+<p>
+
+Receives data from the connected socket.
+
+</p>
+
+<div class="code">
+
+recv(sockfd,
+
+buffer,
+
+sizeof(buffer),
+
+0);
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6 mb-4">
+
+<div class="card p-4">
+
+<h4>close()</h4>
+
+<p>
+
+Releases the socket and terminates communication.
+
+</p>
+
+<div class="code">
+
+close(sockfd);
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="alert alert-success">
+
+<b>Remember:</b>
+
+Server programs generally follow:
+
+socket() → bind() → listen() → accept()
+
+Client programs generally follow:
+
+socket() → connect()
+
+</div>
+
+</section>
+<!-- ===================================================== -->
+<!-- TCP CLIENT WORKFLOW -->
+<!-- ===================================================== -->
+
+<section id="workflow">
+
+<h2 class="section-title">
+
+TCP Client Communication Workflow
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+A TCP client actively establishes a connection with the server before transmitting data.
+
+</p>
+
+<div class="flow">
+
+CLIENT
+
+│
+
+socket()
+
+↓
+
+connect()
+
+↓
+
+send()
+
+↓
+
+recv()
+
+↓
+
+close()
+
+</div>
+
+<div class="alert alert-info mt-4">
+
+<b>Note:</b>
+
+The <b>connect()</b> system call automatically performs the TCP three-way handshake before data transfer begins.
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- TCP SERVER WORKFLOW -->
+<!-- ===================================================== -->
+
+<section>
+
+<h2 class="section-title">
+
+TCP Server Communication Workflow
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+Unlike the client, the server waits for incoming requests and services multiple clients.
+
+</p>
+
+<div class="flow">
+
+SERVER
+
+│
+
+socket()
+
+↓
+
+bind()
+
+↓
+
+listen()
+
+↓
+
+accept()
+
+↓
+
+recv()
+
+↓
+
+send()
+
+↓
+
+close()
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- TCP CONNECTION LIFE CYCLE -->
+<!-- ===================================================== -->
+
+<section>
+
+<h2 class="section-title">
+
+TCP Connection Establishment
+
+</h2>
+
+<div class="card p-4">
+
+<div class="flow">
+
+CLIENT                     SERVER
+
+SYN  --------------------->
+
+      <-------------------  SYN + ACK
+
+ACK  ---------------------->
+
+Connection Established
+
+</div>
+
+<p class="mt-3">
+
+TCP establishes a reliable connection using the famous Three-Way Handshake before transmitting application data.
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- UDP -->
+<!-- ===================================================== -->
+
+<section id="udpflow">
+
+<h2 class="section-title">
+
+UDP Communication
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+UDP is a connectionless protocol. No connection setup or acknowledgement is required.
+
+</p>
+
+<div class="flow">
+
+socket()
+
+↓
+
+sendto()
+
+↓
+
+Network
+
+↓
+
+recvfrom()
+
+↓
+
+close()
+
+</div>
+
+<div class="alert alert-warning mt-4">
+
+UDP is faster than TCP because it does not perform connection establishment, flow control or retransmission.
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- SELECT -->
+<!-- ===================================================== -->
+
+<section>
+
+<h2 class="section-title">
+
+I/O Multiplexing using select()
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+The <b>select()</b> system call allows a process to monitor multiple file descriptors simultaneously.
+
+</p>
+
+<div class="code">
+
+FD_ZERO(&readfds);
+
+FD_SET(sockfd,&readfds);
+
+select(sockfd+1,
+
+&readfds,
+
+NULL,
+
+NULL,
+
+NULL);
+
+</div>
+
+<p class="mt-4">
+
+Common applications include chat servers, HTTP servers and network monitoring tools.
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- POLL -->
+<!-- ===================================================== -->
+
+<section>
+
+<h2 class="section-title">
+
+I/O Multiplexing using poll()
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+The <b>poll()</b> system call provides an alternative to select() and is more suitable when monitoring a large number of descriptors.
+
+</p>
+
+<div class="code">
+
+struct pollfd fds[5];
+
+poll(fds,
+
+5,
+
+5000);
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- ADVANCED IO -->
+<!-- ===================================================== -->
+
+<section>
+
+<h2 class="section-title">
+
+Advanced Socket I/O
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+Linux socket programming provides several advanced system calls for efficient communication.
+
+</p>
+
+<div class="table-responsive">
+
+<table class="table table-bordered">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>Function</th>
+
+<th>Purpose</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>send()</td>
+
+<td>Transmit data.</td>
+
+</tr>
+
+<tr>
+
+<td>recv()</td>
+
+<td>Receive data.</td>
+
+</tr>
+
+<tr>
+
+<td>readv()</td>
+
+<td>Read into multiple buffers.</td>
+
+</tr>
+
+<tr>
+
+<td>writev()</td>
+
+<td>Write from multiple buffers.</td>
+
+</tr>
+
+<tr>
+
+<td>recvmsg()</td>
+
+<td>Receive ancillary information.</td>
+
+</tr>
+
+<tr>
+
+<td>sendmsg()</td>
+
+<td>Send ancillary information.</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- LINUX COMMANDS -->
+<!-- ===================================================== -->
+
+<section id="linux">
+
+<h2 class="section-title">
+
+Linux Networking Commands
+
+</h2>
+
+<div class="row">
+
+<div class="col-md-3 mb-3">
+
+<div class="card text-center p-3">
+
+<h5>ip</h5>
+
+<p>Interface configuration</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3 mb-3">
+
+<div class="card text-center p-3">
+
+<h5>ping</h5>
+
+<p>Connectivity test</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3 mb-3">
+
+<div class="card text-center p-3">
+
+<h5>ss</h5>
+
+<p>Socket statistics</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3 mb-3">
+
+<div class="card text-center p-3">
+
+<h5>tcpdump</h5>
+
+<p>Packet capture</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3 mb-3">
+
+<div class="card text-center p-3">
+
+<h5>netstat</h5>
+
+<p>Connection information</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3 mb-3">
+
+<div class="card text-center p-3">
+
+<h5>traceroute</h5>
+
+<p>Routing path</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3 mb-3">
+
+<div class="card text-center p-3">
+
+<h5>gcc</h5>
+
+<p>C Compiler</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3 mb-3">
+
+<div class="card text-center p-3">
+
+<h5>make</h5>
+
+<p>Project build tool</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- COMPILATION -->
+<!-- ===================================================== -->
+
+<section>
+
+<h2 class="section-title">
+
+Compilation & Execution
+
+</h2>
+
+<div class="card p-4">
+
+<div class="code">
+
+gcc server.c -o server
+
+gcc client.c -o client
+
+./server
+
+./client
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- COMMON ERRORS -->
+<!-- ===================================================== -->
+
+<section>
+
+<h2 class="section-title">
+
+Common Programming Errors
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered">
+
+<thead class="table-danger">
+
+<tr>
+
+<th>Error</th>
+
+<th>Possible Reason</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Connection Refused</td>
+
+<td>Server not running.</td>
+
+</tr>
+
+<tr>
+
+<td>Bind Failed</td>
+
+<td>Port already in use.</td>
+
+</tr>
+
+<tr>
+
+<td>Broken Pipe</td>
+
+<td>Connection terminated unexpectedly.</td>
+
+</tr>
+
+<tr>
+
+<td>Address Already in Use</td>
+
+<td>Previous socket not released.</td>
+
+</tr>
+
+<tr>
+
+<td>Timeout</td>
+
+<td>No response received.</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+<!-- ===================================================== -->
+<!-- QUICK REVISION -->
+<!-- ===================================================== -->
+
+<section id="revision">
+
+<h2 class="section-title">
+
+Quick Revision
+
+</h2>
+
+<div class="card p-4">
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-hover">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>Concept</th>
+
+<th>Remember</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Socket</td>
+
+<td>Communication endpoint between two applications.</td>
+
+</tr>
+
+<tr>
+
+<td>TCP</td>
+
+<td>Reliable, Connection-Oriented.</td>
+
+</tr>
+
+<tr>
+
+<td>UDP</td>
+
+<td>Connectionless, Faster.</td>
+
+</tr>
+
+<tr>
+
+<td>IP Address</td>
+
+<td>Identifies a device.</td>
+
+</tr>
+
+<tr>
+
+<td>Port Number</td>
+
+<td>Identifies an application.</td>
+
+</tr>
+
+<tr>
+
+<td>bind()</td>
+
+<td>Assigns address to socket.</td>
+
+</tr>
+
+<tr>
+
+<td>listen()</td>
+
+<td>Waits for incoming clients.</td>
+
+</tr>
+
+<tr>
+
+<td>accept()</td>
+
+<td>Accepts a client connection.</td>
+
+</tr>
+
+<tr>
+
+<td>connect()</td>
+
+<td>Initiates communication.</td>
+
+</tr>
+
+<tr>
+
+<td>send()</td>
+
+<td>Sends data.</td>
+
+</tr>
+
+<tr>
+
+<td>recv()</td>
+
+<td>Receives data.</td>
+
+</tr>
+
+<tr>
+
+<td>close()</td>
+
+<td>Terminates communication.</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- EXAM TIPS -->
+<!-- ===================================================== -->
+
+<section>
+
+<h2 class="section-title">
+
+Exam Tips
+
+</h2>
+
+<div class="alert alert-success">
+
+✔ Understand the difference between TCP and UDP.
+
+</div>
+
+<div class="alert alert-success">
+
+✔ Remember the client-server communication sequence.
+
+</div>
+
+<div class="alert alert-success">
+
+✔ Learn important socket API functions and their purposes.
+
+</div>
+
+<div class="alert alert-success">
+
+✔ Practice Linux networking commands before the lab.
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- LAB TIPS -->
+<!-- ===================================================== -->
+
+<section>
+
+<h2 class="section-title">
+
+Lab Tips
+
+</h2>
+
+<div class="row">
+
+<div class="col-md-6">
+
+<div class="card p-4">
+
+<h5>
+
+Tip 1
+
+</h5>
+
+<p>
+
+Always start the server before executing the client program.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card p-4">
+
+<h5>
+
+Tip 2
+
+</h5>
+
+<p>
+
+Use different terminal windows for server and client.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-6 mt-3">
+
+<div class="card p-4">
+
+<h5>
+
+Tip 3
+
+</h5>
+
+<p>
+
+Verify IP address and port number before connecting.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-6 mt-3">
+
+<div class="card p-4">
+
+<h5>
+
+Tip 4
+
+</h5>
+
+<p>
+
+Compile with warnings enabled using
+
+<b>gcc -Wall</b>.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- PRACTICE MCQs -->
+<!-- ===================================================== -->
+
+<section>
+
+<h2 class="section-title">
+
+Self Assessment
+
+</h2>
+
+<div class="accordion" id="quiz">
+
+<!-- Q1 -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+
+data-bs-toggle="collapse"
+
+data-bs-target="#q1">
+
+1. Which function creates a socket?
+
+</button>
+
+</h2>
+
+<div id="q1"
+
+class="accordion-collapse collapse"
+
+data-bs-parent="#quiz">
+
+<div class="accordion-body">
+
+<b>Answer:</b> socket()
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Q2 -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+
+data-bs-toggle="collapse"
+
+data-bs-target="#q2">
+
+2. Which function waits for client requests?
+
+</button>
+
+</h2>
+
+<div id="q2"
+
+class="accordion-collapse collapse"
+
+data-bs-parent="#quiz">
+
+<div class="accordion-body">
+
+<b>Answer:</b> listen()
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Q3 -->
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+
+data-bs-toggle="collapse"
+
+data-bs-target="#q3">
+
+3. Which protocol provides reliable communication?
+
+</button>
+
+</h2>
+
+<div id="q3"
+
+class="accordion-collapse collapse"
+
+data-bs-parent="#quiz">
+
+<div class="accordion-body">
+
+<b>Answer:</b> TCP
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Add similar questions up to Q15 -->
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- REFERENCES -->
+<!-- ===================================================== -->
+
+<section>
+
+<h2 class="section-title">
+
+References
+
+</h2>
+
+<div class="card p-4">
+
+<ol>
+
+<li>
+
+W. Richard Stevens,
+
+<i>UNIX Network Programming, Volume 1.</i>
+
+</li>
+
+<li>
+
+Andrew S. Tanenbaum,
+
+<i>Computer Networks.</i>
+
+</li>
+
+<li>
+
+Beej's Guide to Network Programming (for additional practice).
+
+</li>
+
+<li>
+
+Linux Manual Pages (man socket, man bind, man connect).
+
+</li>
+
+</ol>
+
+</div>
+
+</section>
+
+<!-- ===================================================== -->
+<!-- NEXT LAB -->
+<!-- ===================================================== -->
+
+<section class="text-center mt-5">
+
+<div class="card p-5">
+
+<h2>
+
+Ready to Begin?
+
+</h2>
+
+<p>
+
+You have completed the introductory concepts of socket programming.
+
+Proceed to the first laboratory experiment.
+
+</p>
+
+<a href="lab5.html"
+
+class="btn btn-success btn-lg">
+
+🚀 Start Socket Programming
+
+</a>
+
+</div>
+
+</section>
+
+</div>
+
+</div>
+
+</div>
+
+<footer class="text-center">
+
+<div class="container">
+
+<h5>
+
+PCCST501 Computer Networks Laboratory
+
+</h5>
+
+<p>
+
+Developed by
+
+<strong>Ms. Prof. Anju Markose J K</strong>
+
+</p>
+
+<p>
+
+© 2026 Viswajyothi College of Engineering & Technology
+
+</p>
+
+</div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<div class="progress-bar-top" id="progressBar"></div>
+<a id="backTop" class="btn btn-primary floating-btn rounded-circle" href="#top"><i class="fas fa-arrow-up"></i></a>
+<a id="nextLab" class="btn btn-success floating-btn" href="lab1.html">Next Lab →</a>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+<script>
+document.body.id='top';
+window.addEventListener('scroll',function(){
+var h=document.documentElement;
+var p=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100;
+document.getElementById('progressBar').style.width=p+'%';
+});
+</script>
+
+</body>
+
+</html>

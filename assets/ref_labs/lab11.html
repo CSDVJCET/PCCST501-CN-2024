@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lab 11 | Familiarizing Router Commands | PCCSL507</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth}body{font-family:Poppins,sans-serif;background:#f5f7fb;color:#263238}.navbar{background:#0b3c7a}
+.hero{background:linear-gradient(135deg,#082f6b,#26a69a);padding:85px 0;color:#fff}.hero h1{font-size:46px;font-weight:700}
+.section-title{border-left:6px solid #26a69a;padding-left:12px;margin:55px 0 22px;font-weight:700}
+.card{border:0;border-radius:18px;box-shadow:0 8px 22px rgba(0,0,0,.1)}.command{background:#111827;color:#7CFC00;border-radius:10px;padding:15px 18px;font-family:Consolas,monospace;overflow:auto}
+.mode{font-family:Consolas,monospace;font-weight:700}.flow{background:#111827;color:#fff;border-radius:15px;padding:25px}.flow-step{background:#fff;color:#0d47a1;border-radius:10px;padding:12px 20px;font-weight:600}
+footer{background:#082f6b;color:#fff;padding:25px;margin-top:60px}.accordion-button:not(.collapsed){background:#e8f1ff;color:#0d47a1}
+</style>
+</head>
+<body id="top">
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top"><div class="container">
+<a class="navbar-brand fw-bold" href="module.html"><i class="fas fa-network-wired"></i> PCCSL507</a>
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu"><span class="navbar-toggler-icon"></span></button>
+<div class="collapse navbar-collapse" id="menu"><ul class="navbar-nav ms-auto">
+<li class="nav-item"><a class="nav-link" href="module.html">Network Lab</a></li>
+<li class="nav-item"><a class="nav-link" href="lab10.html">Lab 10</a></li>
+<li class="nav-item"><a class="nav-link active" href="#">Lab 11</a></li>
+</ul></div></div></nav>
+
+<section class="hero text-center"><div class="container">
+<span class="badge bg-warning text-dark px-3 py-2 mb-3">Computer Networks Laboratory • PCCSL507</span>
+<h1>🛜 Lab 11<br>Familiarizing Router Commands</h1>
+<p class="lead mt-3">Learn essential Cisco IOS commands used to inspect, configure, monitor and manage a router.</p>
+<a href="#experiment" class="btn btn-light btn-lg me-2"><i class="fas fa-play"></i> Start Experiment</a>
+<a href="#commands" class="btn btn-outline-light btn-lg"><i class="fas fa-terminal"></i> Commands</a>
+</div></section>
+
+<section class="container py-5"><div class="row g-4">
+<div class="col-md-3"><div class="card h-100 text-center p-4"><i class="fas fa-terminal fa-3x text-primary mb-3"></i><h4>Cisco IOS</h4><p>Command-line interface</p></div></div>
+<div class="col-md-3"><div class="card h-100 text-center p-4"><i class="fas fa-route fa-3x text-success mb-3"></i><h4>Routing</h4><p>View routing information</p></div></div>
+<div class="col-md-3"><div class="card h-100 text-center p-4"><i class="fas fa-network-wired fa-3x text-warning mb-3"></i><h4>Interfaces</h4><p>Configure Ethernet & Serial</p></div></div>
+<div class="col-md-3"><div class="card h-100 text-center p-4"><i class="fas fa-save fa-3x text-danger mb-3"></i><h4>Configuration</h4><p>Save and verify settings</p></div></div>
+</div></section>
+
+<section class="container py-4"><h2 class="section-title">🎯 Learning Outcomes</h2><div class="card"><div class="card-body p-4">
+<p>After completing this experiment, the student will be able to:</p>
+<ul><li>Identify User EXEC, Privileged EXEC and configuration modes.</li><li>Obtain router and interface information.</li><li>View configured routing protocols and the routing table.</li><li>Save the running configuration.</li><li>Use command history, router clock and host information.</li><li>View interface information in detailed and brief forms.</li><li>Identify DTE/DCE controller information.</li><li>Configure serial and Ethernet interfaces with IP address and subnet mask.</li><li>Enable interfaces and configure clock rate where applicable.</li></ul>
+</div></div></section>
+
+<section class="container py-4"><h2 class="section-title">🧭 Cisco IOS Command Modes</h2>
+<div class="table-responsive"><table class="table table-bordered table-hover align-middle bg-white">
+<thead class="table-primary"><tr><th>Mode</th><th>Prompt</th><th>Purpose</th><th>Entry</th></tr></thead>
+<tbody>
+<tr><td>User EXEC</td><td><span class="mode">Router&gt;</span></td><td>Basic monitoring</td><td>Default</td></tr>
+<tr><td>Privileged EXEC</td><td><span class="mode">Router#</span></td><td>Administrative commands</td><td><code>enable</code></td></tr>
+<tr><td>Global Configuration</td><td><span class="mode">Router(config)#</span></td><td>Global configuration</td><td><code>configure terminal</code></td></tr>
+<tr><td>Interface Configuration</td><td><span class="mode">Router(config-if)#</span></td><td>Interface configuration</td><td><code>interface ...</code></td></tr>
+</tbody></table></div>
+<div class="alert alert-info"><strong>Quick recognition:</strong> <code>&gt;</code> = User EXEC, <code>#</code> = Privileged EXEC, <code>(config)#</code> = Global Configuration.</div>
+</section>
+
+<section id="commands" class="container py-4"><h2 class="section-title">⌨️ Router Command Reference</h2>
+<div class="accordion" id="commandAccordion">
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#cmdA">(a) Current Mode & Privileged Mode</button></h2>
+<div id="cmdA" class="accordion-collapse collapse show" data-bs-parent="#commandAccordion"><div class="accordion-body">
+<p>User EXEC:</p><pre class="command">Router&gt;</pre><p>Enter privileged EXEC:</p><pre class="command">Router&gt; enable
+Router#</pre><p>Return to User EXEC:</p><pre class="command">Router# disable
+Router&gt;</pre>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cmdB">(b) Switching to Configuration Mode</button></h2>
+<div id="cmdB" class="accordion-collapse collapse" data-bs-parent="#commandAccordion"><div class="accordion-body">
+<pre class="command">Router# configure terminal
+Router(config)#</pre><p>Exit configuration mode:</p><pre class="command">Router(config)# end
+Router#</pre>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cmdC">(c) Obtaining Router Information</button></h2>
+<div id="cmdC" class="accordion-collapse collapse" data-bs-parent="#commandAccordion"><div class="accordion-body">
+<table class="table table-bordered"><tr><th>Command</th><th>Purpose</th></tr>
+<tr><td><code>show version</code></td><td>Router type, IOS, memory and system information</td></tr>
+<tr><td><code>show interfaces</code></td><td>Detailed interface information</td></tr>
+<tr><td><code>show ip interface brief</code></td><td>Brief interface/IP/status view</td></tr></table>
+<pre class="command">Router# show version</pre>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cmdD">(d) Viewing Configured Routing Protocols</button></h2>
+<div id="cmdD" class="accordion-collapse collapse" data-bs-parent="#commandAccordion"><div class="accordion-body">
+<pre class="command">Router# show ip protocols</pre><p>Displays information about routing protocols configured on the router.</p>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cmdE">(e) Showing the Routing Table</button></h2>
+<div id="cmdE" class="accordion-collapse collapse" data-bs-parent="#commandAccordion"><div class="accordion-body">
+<pre class="command">Router# show ip route</pre><p>Displays the IPv4 routing table and known routes.</p>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cmdF">(f) Saving the Running Configuration</button></h2>
+<div id="cmdF" class="accordion-collapse collapse" data-bs-parent="#commandAccordion"><div class="accordion-body">
+<pre class="command">Router# copy running-config startup-config</pre><p>Press Enter when prompted to accept the default destination filename.</p>
+<div class="alert alert-warning"><strong>Remember:</strong> save the running configuration to preserve it for the next boot.</div>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cmdG">(g) Viewing Command History</button></h2>
+<div id="cmdG" class="accordion-collapse collapse" data-bs-parent="#commandAccordion"><div class="accordion-body"><pre class="command">Router# show history</pre></div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cmdH">(h) Viewing the Router Clock</button></h2>
+<div id="cmdH" class="accordion-collapse collapse" data-bs-parent="#commandAccordion"><div class="accordion-body"><pre class="command">Router# show clock</pre></div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cmdI">(i) Viewing the List of Hosts</button></h2>
+<div id="cmdI" class="accordion-collapse collapse" data-bs-parent="#commandAccordion"><div class="accordion-body"><pre class="command">Router# show hosts</pre><p>Displays host-name-to-address information known to the router.</p></div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cmdJ">(j) Interface Statistics – Detailed and Brief Views</button></h2>
+<div id="cmdJ" class="accordion-collapse collapse" data-bs-parent="#commandAccordion"><div class="accordion-body">
+<table class="table table-bordered"><tr><th>Command</th><th>View</th></tr><tr><td><code>show interfaces</code></td><td>Detailed interface statistics/status</td></tr><tr><td><code>show ip interface brief</code></td><td>Brief interface/IP/status summary</td></tr></table>
+<pre class="command">Router# show interfaces
+Router# show ip interface brief</pre>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cmdK">(k) Knowing the Controller Type – DTE or DCE</button></h2>
+<div id="cmdK" class="accordion-collapse collapse" data-bs-parent="#commandAccordion"><div class="accordion-body">
+<pre class="command">Router# show controllers serial 0/0/0</pre>
+<p>Replace the interface identifier with the serial interface available on your router.</p>
+<p>The output can be used to identify DTE/DCE information.</p>
+<div class="alert alert-info"><strong>Important:</strong> Configure <code>clock rate</code> on the DCE side of a serial connection.</div>
+</div></div></div>
+
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cmdL">(l) Configuring Serial and Ethernet Interfaces</button></h2>
+<div id="cmdL" class="accordion-collapse collapse" data-bs-parent="#commandAccordion"><div class="accordion-body">
+<h5>Serial interface</h5>
+<pre class="command">Router# configure terminal
+Router(config)# interface serial 0/0/0
+Router(config-if)# ip address 192.168.1.1 255.255.255.252
+Router(config-if)# clock rate 64000
+Router(config-if)# no shutdown</pre>
+<h5>Ethernet interface</h5>
+<pre class="command">Router(config)# interface gigabitEthernet 0/0
+Router(config-if)# ip address 192.168.10.1 255.255.255.0
+Router(config-if)# no shutdown</pre>
+<h5>Verify</h5>
+<pre class="command">Router# show ip interface brief</pre>
+</div></div></div>
+</div></section>
+
+<section class="container py-4"><h2 class="section-title">📋 Quick Command Cheat Sheet</h2>
+<div class="table-responsive"><table class="table table-striped table-bordered align-middle bg-white">
+<thead class="table-dark"><tr><th>Task</th><th>Cisco IOS Command</th></tr></thead><tbody>
+<tr><td>Privileged mode</td><td><code>enable</code></td></tr><tr><td>Configuration mode</td><td><code>configure terminal</code></td></tr>
+<tr><td>Router information</td><td><code>show version</code></td></tr><tr><td>Routing protocols</td><td><code>show ip protocols</code></td></tr>
+<tr><td>Routing table</td><td><code>show ip route</code></td></tr><tr><td>Save configuration</td><td><code>copy running-config startup-config</code></td></tr>
+<tr><td>History</td><td><code>show history</code></td></tr><tr><td>Clock</td><td><code>show clock</code></td></tr>
+<tr><td>Hosts</td><td><code>show hosts</code></td></tr><tr><td>Detailed interfaces</td><td><code>show interfaces</code></td></tr>
+<tr><td>Brief interfaces</td><td><code>show ip interface brief</code></td></tr><tr><td>DTE/DCE</td><td><code>show controllers serial 0/0/0</code></td></tr>
+<tr><td>Serial interface</td><td><code>interface serial 0/0/0</code></td></tr><tr><td>Ethernet interface</td><td><code>interface gigabitEthernet 0/0</code></td></tr>
+<tr><td>IP address</td><td><code>ip address IP MASK</code></td></tr><tr><td>Enable interface</td><td><code>no shutdown</code></td></tr>
+<tr><td>DCE clock rate</td><td><code>clock rate 64000</code></td></tr>
+</tbody></table></div></section>
+
+<section class="container py-4"><h2 class="section-title">🔄 Router Configuration Workflow</h2>
+<div class="flow text-center"><div class="d-flex flex-wrap justify-content-center align-items-center gap-3">
+<div class="flow-step">Router&gt;</div><i class="fas fa-arrow-right text-warning"></i><div class="flow-step">enable</div>
+<i class="fas fa-arrow-right text-warning"></i><div class="flow-step">Router#</div><i class="fas fa-arrow-right text-warning"></i>
+<div class="flow-step">configure terminal</div><i class="fas fa-arrow-right text-warning"></i><div class="flow-step">Router(config)#</div>
+<i class="fas fa-arrow-right text-warning"></i><div class="flow-step">interface ...</div><i class="fas fa-arrow-right text-warning"></i>
+<div class="flow-step">IP + no shutdown</div></div></div></section>
+
+<section id="experiment" class="container py-4"><h2 class="section-title">🧪 Experiment</h2><div class="card"><div class="card-body p-4">
+<h4>Aim</h4><p>To familiarize students with commonly used Cisco IOS router commands for identifying router modes, obtaining router and interface information, viewing routing information, saving configurations, checking controller details, and configuring serial and Ethernet interfaces.</p>
+<h4 class="mt-4">Requirements</h4><ul><li>Cisco Packet Tracer</li><li>Router device</li><li>Console/CLI access</li><li>Basic IPv4 and subnet-mask knowledge</li></ul>
+</div></div></section>
+
+<section class="container py-4"><h2 class="section-title">📝 Procedure</h2><div class="card"><div class="card-body"><ol class="list-group list-group-numbered list-group-flush">
+<li class="list-group-item">Open Cisco Packet Tracer and place a router in the workspace.</li>
+<li class="list-group-item">Open the router CLI and observe the initial prompt.</li>
+<li class="list-group-item">Use <code>enable</code> and identify Privileged EXEC mode.</li>
+<li class="list-group-item">Use <code>configure terminal</code> to enter Global Configuration mode.</li>
+<li class="list-group-item">Use the required <code>show</code> commands to inspect router information.</li>
+<li class="list-group-item">View routing protocols and the routing table.</li>
+<li class="list-group-item">View command history, clock and hosts.</li>
+<li class="list-group-item">View detailed and brief interface statistics.</li>
+<li class="list-group-item">Check the serial controller for DTE/DCE information.</li>
+<li class="list-group-item">Configure serial and Ethernet interfaces with IP addresses and masks.</li>
+<li class="list-group-item">Set clock rate on the DCE serial interface where required.</li>
+<li class="list-group-item">Enable interfaces using <code>no shutdown</code>.</li>
+<li class="list-group-item">Verify using <code>show ip interface brief</code>.</li>
+<li class="list-group-item">Save the configuration using <code>copy running-config startup-config</code>.</li>
+</ol></div></div></section>
+
+<section class="container py-4"><h2 class="section-title">✅ Verification Checklist</h2><div class="card"><div class="card-body">
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">Identified User and Privileged EXEC modes.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">Entered Global Configuration mode.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">Displayed router information.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">Viewed routing protocols and routing table.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">Viewed history, clock and hosts.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">Viewed detailed and brief interface statistics.</label></div>
+<div class="form-check mb-3"><input class="form-check-input" type="checkbox"><label class="form-check-label">Identified DTE/DCE information.</label></div>
+<div class="form-check"><input class="form-check-input" type="checkbox"><label class="form-check-label">Configured, enabled and verified interfaces.</label></div>
+</div></div></section>
+
+<section class="container py-4"><h2 class="section-title">🎤 Viva Questions</h2><div class="accordion" id="viva">
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#v1">1. What is User EXEC mode?</button></h2><div id="v1" class="accordion-collapse collapse show" data-bs-parent="#viva"><div class="accordion-body">It is the initial Cisco IOS command mode, normally identified by the <code>&gt;</code> prompt.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v2">2. How do you enter Privileged EXEC mode?</button></h2><div id="v2" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body">Use <code>enable</code>.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v3">3. Which command enters Global Configuration mode?</button></h2><div id="v3" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body"><code>configure terminal</code></div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v4">4. Which command displays router IOS and hardware information?</button></h2><div id="v4" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body"><code>show version</code></div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v5">5. Which command displays the routing table?</button></h2><div id="v5" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body"><code>show ip route</code></div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v6">6. Difference between show interfaces and show ip interface brief?</button></h2><div id="v6" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body"><code>show interfaces</code> provides detailed interface information; <code>show ip interface brief</code> provides a compact summary.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v7">7. Which command saves the running configuration?</button></h2><div id="v7" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body"><code>copy running-config startup-config</code></div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v8">8. Which command shows the router clock?</button></h2><div id="v8" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body"><code>show clock</code></div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v9">9. Why is clock rate configured on DCE?</button></h2><div id="v9" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body">The DCE side provides clocking for the serial link.</div></div></div>
+<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#v10">10. Which command enables an interface?</button></h2><div id="v10" class="accordion-collapse collapse" data-bs-parent="#viva"><div class="accordion-body"><code>no shutdown</code></div></div></div>
+</div></section>
+
+<section class="container py-4"><h2 class="section-title">📝 Practice Tasks</h2><div class="card"><div class="card-body"><ol>
+<li>Identify the initial router prompt.</li><li>Enter privileged mode and record the prompt.</li><li>Enter global configuration mode.</li><li>Display router information.</li><li>Display configured routing protocols.</li><li>Display the routing table.</li><li>Display command history.</li><li>Display the router clock.</li><li>Display the host list.</li><li>Display detailed interface statistics.</li><li>Display the brief interface summary.</li><li>Identify DTE/DCE information.</li><li>Configure an Ethernet interface.</li><li>Configure a serial interface.</li><li>Configure clock rate on the DCE side where applicable.</li><li>Enable and verify interfaces.</li><li>Save the configuration.</li>
+</ol></div></div></section>
+
+<section class="container py-4"><h2 class="section-title">🐞 Common Errors & Troubleshooting</h2><div class="table-responsive"><table class="table table-bordered bg-white">
+<thead class="table-danger"><tr><th>Problem</th><th>Likely Cause</th><th>Action</th></tr></thead><tbody>
+<tr><td>Invalid input</td><td>Wrong mode or syntax</td><td>Check the prompt and command syntax.</td></tr>
+<tr><td>Interface administratively down</td><td>Interface disabled</td><td>Use <code>no shutdown</code> in interface mode.</td></tr>
+<tr><td>Serial link down</td><td>Interface/cable/IP configuration issue</td><td>Check interface, connection and status.</td></tr>
+<tr><td>Clock rate rejected</td><td>Interface is not DCE</td><td>Check controller information and configure clocking on DCE.</td></tr>
+<tr><td>Configuration lost after restart</td><td>Not saved</td><td>Use <code>copy running-config startup-config</code>.</td></tr>
+</tbody></table></div></section>
+
+<section class="container py-4"><div class="alert alert-success"><h3>✅ Result</h3>
+<p class="mb-0">The essential Cisco IOS router commands were studied and practiced, including router modes, system information, routing information, interface statistics, controller details, interface configuration and configuration saving.</p>
+</div></section>
+
+<footer class="text-center">© 2026 PCCSL507 Computer Networks Laboratory | Ms. Prof. Anju Markose J K</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body></html>

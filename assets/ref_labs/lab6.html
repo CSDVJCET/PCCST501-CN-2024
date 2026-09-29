@@ -1,0 +1,4134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+
+Lab 6 | UDP Socket Programming | PCCSL507
+
+</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+<style>
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+background:#f5f7fb;
+color:#263238;
+}
+
+.navbar{
+background:#0b3c7a;
+}
+
+.hero{
+
+background:linear-gradient(135deg,#082f6b,#26a69a);
+
+padding:90px 0;
+
+color:white;
+
+}
+
+.hero h1{
+
+font-size:48px;
+
+font-weight:bold;
+
+}
+
+.hero p{
+
+font-size:20px;
+
+}
+
+.card{
+
+border:none;
+
+border-radius:18px;
+
+box-shadow:0 8px 20px rgba(0,0,0,.12);
+
+transition:.3s;
+
+}
+
+.card:hover{
+
+transform:translateY(-5px);
+
+}
+
+.section-title{
+
+border-left:6px solid #26a69a;
+
+padding-left:12px;
+
+margin-top:60px;
+
+margin-bottom:20px;
+
+font-weight:bold;
+
+}
+
+.stats{
+
+font-size:28px;
+
+font-weight:bold;
+
+color:#26a69a;
+
+}
+
+.api-card{
+
+padding:25px;
+
+text-align:center;
+
+height:100%;
+
+}
+
+.flow{
+
+background:#111827;
+
+color:#7CFC00;
+
+padding:20px;
+
+border-radius:12px;
+
+font-family:Consolas;
+
+overflow:auto;
+
+}
+
+footer{
+
+background:#082f6b;
+
+color:white;
+
+padding:25px;
+
+margin-top:60px;
+
+}
+
+</style>
+
+</head>
+
+<body id="top">
+
+<!-- ====================================================== -->
+<!-- NAVBAR -->
+<!-- ====================================================== -->
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+
+<div class="container">
+
+<a class="navbar-brand fw-bold"
+href="module.html">
+
+<i class="fas fa-network-wired"></i>
+
+PCCSL507
+
+</a>
+
+<button class="navbar-toggler"
+
+type="button"
+
+data-bs-toggle="collapse"
+
+data-bs-target="#menu">
+
+<span class="navbar-toggler-icon">
+
+</span>
+
+</button>
+
+<div class="collapse navbar-collapse"
+id="menu">
+
+<ul class="navbar-nav ms-auto">
+
+<li class="nav-item">
+
+<a class="nav-link"
+
+href="module.html">
+
+Network Lab
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link"
+
+href="lab5-learning.html">
+
+Lab 5
+
+</a>
+
+</li>
+
+<li class="nav-item">
+
+<a class="nav-link active"
+
+href="#">
+
+Lab 6
+
+</a>
+
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</nav>
+
+<!-- ====================================================== -->
+<!-- HERO -->
+<!-- ====================================================== -->
+
+<section class="hero">
+
+<div class="container text-center">
+
+<h1>
+
+<i class="fas fa-paper-plane"></i>
+
+Lab 6
+
+<br>
+
+UDP Socket Programming
+
+</h1>
+
+<p class="mt-4">
+
+Pre-Laboratory Learning Module
+
+</p>
+
+<p>
+
+Learn how computers exchange data using
+connectionless UDP sockets before implementing
+the UDP Chat Abbreviation Translator.
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ====================================================== -->
+<!-- MAIN -->
+<!-- ====================================================== -->
+
+<main class="container py-5">
+
+<div class="row text-center g-4">
+
+<div class="col-md-3">
+
+<div class="card p-4">
+
+<i class="fas fa-flask fa-3x text-primary mb-3"></i>
+
+<div class="stats">
+
+06
+
+</div>
+
+Experiment
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card p-4">
+
+<i class="fas fa-book fa-3x text-success mb-3"></i>
+
+<div class="stats">
+
+Theory
+
+</div>
+
+Preparatory Lab
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card p-4">
+
+<i class="fas fa-paper-plane fa-3x text-danger mb-3"></i>
+
+<div class="stats">
+
+UDP
+
+</div>
+
+Connectionless
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card p-4">
+
+<i class="fas fa-code fa-3x text-warning mb-3"></i>
+
+<div class="stats">
+
+Ready
+
+</div>
+
+Programming
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- LEARNING OUTCOMES -->
+<!-- ====================================================== -->
+
+<h2
+id="intro"
+class="section-title">
+
+🎯 Learning Outcomes
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-3">
+
+<div class="card api-card">
+
+<i class="fas fa-paper-plane fa-3x text-primary"></i>
+
+<h5 class="mt-3">
+
+UDP Basics
+
+</h5>
+
+<p>
+
+Understand connectionless communication using UDP.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card api-card">
+
+<i class="fas fa-server fa-3x text-success"></i>
+
+<h5 class="mt-3">
+
+Client–Server
+
+</h5>
+
+<p>
+
+Understand UDP client and server interaction.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card api-card">
+
+<i class="fas fa-code fa-3x text-danger"></i>
+
+<h5 class="mt-3">
+
+UDP APIs
+
+</h5>
+
+<p>
+
+Learn socket(), bind(), sendto() and recvfrom().
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="card api-card">
+
+<i class="fas fa-language fa-3x text-warning"></i>
+
+<h5 class="mt-3">
+
+Translator
+
+</h5>
+
+<p>
+
+Build a UDP Chat Abbreviation Translator.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- WHY UDP -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+🌍 Why Learn UDP?
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+Imagine playing PUBG, BGMI, Valorant, making a video call,
+or asking Google DNS for the IP address of a website.
+
+</p>
+
+<p>
+
+These applications prefer speed over guaranteed delivery.
+
+Instead of creating a dedicated connection,
+they simply send small packets of data called
+<b>datagrams</b>.
+
+</p>
+
+<p>
+
+UDP is lightweight,
+fast,
+and connectionless.
+It is widely used where low latency is more important
+than retransmitting lost packets.
+
+</p>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- REAL WORLD -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+💬 Real World Communication
+
+</h2>
+
+<div class="card shadow-sm p-4"
+style="max-width:650px;margin:auto;">
+
+<h5 class="text-center mb-4">
+
+<i class="fab fa-whatsapp text-success"></i>
+
+Chat Application Example
+
+</h5>
+
+<div class="row">
+
+<div class="col-md-6">
+
+<div class="alert alert-primary">
+
+<b>You Type</b>
+
+<hr>
+
+OMG 😂
+
+<br>
+
+idk where are you
+
+<br>
+
+ttyl
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="alert alert-success">
+
+<b>Computer Should Display</b>
+
+<hr>
+
+Oh My God
+
+<br>
+
+I Don't Know where are you
+
+<br>
+
+Talk To You Later
+
+</div>
+
+</div>
+
+</div>
+
+<p class="mt-3">
+
+In today's laboratory,
+the client sends internet abbreviations to a UDP server.
+
+The server translates them into formal English
+and sends the translated message back to the client.
+
+</p>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- WHAT IS UDP -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+🌐 What is UDP?
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+UDP (User Datagram Protocol) is a
+<b>connectionless transport-layer protocol</b>.
+
+Unlike TCP,
+UDP does not establish a connection before transmitting data.
+
+Each message is sent independently as a datagram.
+
+</p>
+
+<div class="alert alert-info">
+
+<b>Simple Definition</b>
+
+<br><br>
+
+UDP sends independent packets called
+<b>datagrams</b>
+without creating a dedicated connection between
+the client and the server.
+
+</div>
+
+</div>
+<!-- ====================================================== -->
+<!-- CLIENT SERVER ARCHITECTURE -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+🖥 UDP Client–Server Architecture
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+Unlike TCP,
+UDP does <b>not establish a connection</b> before communication.
+
+The client simply sends a datagram to the server,
+and the server receives it.
+There is no connection setup or teardown.
+
+</p>
+
+<p>
+
+Every message is independent.
+The server does not know whether previous messages were delivered.
+
+</p>
+
+<table class="table table-bordered">
+
+<thead class="table-success">
+
+<tr>
+
+<th>Client</th>
+
+<th>Server</th>
+
+<th>Example</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>WhatsApp Voice Call</td>
+
+<td>WhatsApp Server</td>
+
+<td>Voice Packets</td>
+
+</tr>
+
+<tr>
+
+<td>DNS Client</td>
+
+<td>DNS Server</td>
+
+<td>Domain Name Lookup</td>
+
+</tr>
+
+<tr>
+
+<td>Online Game</td>
+
+<td>Game Server</td>
+
+<td>Player Position Updates</td>
+
+</tr>
+
+<tr>
+
+<td>Video Streaming App</td>
+
+<td>Streaming Server</td>
+
+<td>Live Video Frames</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- UDP WORKFLOW -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+📡 UDP Client–Server Workflow
+
+</h2>
+
+<div class="card shadow-sm p-4">
+
+<table class="table table-borderless align-middle text-center">
+
+<thead>
+
+<tr>
+
+<th class="text-primary fs-4">
+
+👤 UDP Client
+
+</th>
+
+<th width="220"></th>
+
+<th class="text-success fs-4">
+
+🖥 UDP Server
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>
+
+<span class="badge bg-light text-dark border p-3">
+
+socket()
+
+</span>
+
+</td>
+
+<td></td>
+
+<td>
+
+<span class="badge bg-light text-dark border p-3">
+
+socket()
+
+</span>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td></td>
+
+<td></td>
+
+<td>
+
+<span class="badge bg-light text-dark border p-3">
+
+bind()
+
+</span>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+<span class="badge bg-primary p-3">
+
+sendto()
+
+</span>
+
+</td>
+
+<td class="fw-bold text-success">
+
+────────────►
+
+<br>
+
+<small>Datagram</small>
+
+</td>
+
+<td>
+
+<span class="badge bg-light text-dark border p-3">
+
+recvfrom()
+
+</span>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td></td>
+
+<td></td>
+
+<td>
+
+<span class="badge bg-warning text-dark p-3">
+
+Process Data
+
+</span>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+<span class="badge bg-light text-dark border p-3">
+
+recvfrom()
+
+</span>
+
+</td>
+
+<td class="fw-bold text-danger">
+
+◄────────────
+
+<br>
+
+<small>Reply Datagram</small>
+
+</td>
+
+<td>
+
+<span class="badge bg-success p-3">
+
+sendto()
+
+</span>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+<span class="badge bg-danger p-3">
+
+close()
+
+</span>
+
+</td>
+
+<td></td>
+
+<td>
+
+<span class="badge bg-danger p-3">
+
+close()
+
+</span>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- SOCKET PROGRAMMING WORKFLOW -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+⚙ UDP Socket Programming Workflow
+
+</h2>
+
+<div class="card shadow-sm p-5">
+
+<div class="row">
+
+<!-- SERVER -->
+
+<div class="col-md-6">
+
+<div class="card border-success">
+
+<div class="card-header bg-success text-white text-center fw-bold">
+
+<i class="fas fa-server me-2"></i>
+
+SERVER WORKFLOW
+
+</div>
+
+<div class="card-body text-center">
+
+<div class="alert alert-success">
+
+① socket()
+
+</div>
+
+<i class="fas fa-arrow-down text-success mb-2"></i>
+
+<div class="alert alert-success">
+
+② bind()
+
+</div>
+
+<i class="fas fa-arrow-down text-success mb-2"></i>
+
+<div class="alert alert-success">
+
+③ recvfrom()
+
+</div>
+
+<i class="fas fa-arrow-down text-success mb-2"></i>
+
+<div class="alert alert-warning">
+
+④ Process Request
+
+</div>
+
+<i class="fas fa-arrow-down text-success mb-2"></i>
+
+<div class="alert alert-success">
+
+⑤ sendto()
+
+</div>
+
+<i class="fas fa-arrow-down text-success mb-2"></i>
+
+<div class="alert alert-danger">
+
+⑥ close()
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- CLIENT -->
+
+<div class="col-md-6">
+
+<div class="card border-primary">
+
+<div class="card-header bg-primary text-white text-center fw-bold">
+
+<i class="fas fa-user me-2"></i>
+
+CLIENT WORKFLOW
+
+</div>
+
+<div class="card-body text-center">
+
+<div class="alert alert-primary">
+
+① socket()
+
+</div>
+
+<i class="fas fa-arrow-down text-primary mb-2"></i>
+
+<div class="alert alert-primary">
+
+② sendto()
+
+</div>
+
+<i class="fas fa-arrow-down text-primary mb-2"></i>
+
+<div class="alert alert-primary">
+
+③ recvfrom()
+
+</div>
+
+<i class="fas fa-arrow-down text-primary mb-2"></i>
+
+<div class="alert alert-danger">
+
+④ close()
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- UDP APIs -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+💻 UDP Socket Programming APIs
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+A UDP application communicates using operating-system socket APIs.
+
+Unlike TCP,
+UDP does not use <code>listen()</code>,
+<code>accept()</code>,
+or <code>connect()</code>.
+
+Instead,
+applications exchange datagrams using
+<b>sendto()</b>
+and
+<b>recvfrom()</b>.
+
+</p>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- TCP vs UDP -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+📊 TCP vs UDP
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-striped">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>Feature</th>
+
+<th>TCP</th>
+
+<th>UDP</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Connection</td>
+
+<td>Connection-Oriented</td>
+
+<td>Connectionless</td>
+
+</tr>
+
+<tr>
+
+<td>Reliability</td>
+
+<td>Reliable</td>
+
+<td>Best Effort</td>
+
+</tr>
+
+<tr>
+
+<td>Ordering</td>
+
+<td>Guaranteed</td>
+
+<td>Not Guaranteed</td>
+
+</tr>
+
+<tr>
+
+<td>Speed</td>
+
+<td>Slower</td>
+
+<td>Faster</td>
+
+</tr>
+
+<tr>
+
+<td>Error Recovery</td>
+
+<td>Yes</td>
+
+<td>No</td>
+
+</tr>
+
+<tr>
+
+<td>Communication</td>
+
+<td>Byte Stream</td>
+
+<td>Datagrams</td>
+
+</tr>
+
+<tr>
+
+<td>Examples</td>
+
+<td>HTTP, HTTPS, FTP, SMTP</td>
+
+<td>DNS, VoIP, Live Streaming, Gaming</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- WHY THIS LAB USES UDP -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+🎯 Why Today's Lab Uses UDP
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+Today's experiment involves sending short text messages containing
+chat abbreviations such as
+<b>LOL</b>,
+<b>OMG</b>,
+<b>TTYL</b>,
+and
+<b>IDK</b>.
+
+</p>
+
+<p>
+
+These messages are small,
+independent,
+and do not require a permanent connection.
+
+UDP provides a lightweight communication mechanism,
+making it suitable for this translator application.
+
+</p>
+
+<div class="alert alert-warning">
+
+<b>Remember</b>
+
+<br><br>
+
+UDP is preferred when communication needs to be
+<b>fast</b>,
+<b>simple</b>,
+and
+<b>connectionless</b>.
+Each message is transmitted independently as a datagram.
+
+</div>
+
+</div>
+<!-- ====================================================== -->
+<!-- SOCKET() -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+① socket()
+
+</h2>
+
+<div class="card p-4">
+
+<h4>Purpose</h4>
+
+<p>
+
+Creates a UDP communication endpoint.
+
+This is the first function used in every UDP program.
+
+</p>
+
+<h4>Syntax</h4>
+
+<pre class="flow">
+int socket(int domain,
+           int type,
+           int protocol);
+</pre>
+
+<h4>Parameters</h4>
+
+<table class="table table-bordered">
+
+<tr>
+
+<th>Parameter</th>
+
+<th>Description</th>
+
+</tr>
+
+<tr>
+
+<td>domain</td>
+
+<td>AF_INET (IPv4)</td>
+
+</tr>
+
+<tr>
+
+<td>type</td>
+
+<td>SOCK_DGRAM (UDP)</td>
+
+</tr>
+
+<tr>
+
+<td>protocol</td>
+
+<td>Normally 0</td>
+
+</tr>
+
+</table>
+
+<div class="alert alert-info">
+
+Returns a socket descriptor.
+
+Returns <b>-1</b> if socket creation fails.
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- BIND() -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+② bind()
+
+</h2>
+
+<div class="card p-4">
+
+<h4>Purpose</h4>
+
+<p>
+
+Associates a UDP socket with an IP address and port number.
+
+Normally only the server performs this operation.
+
+</p>
+
+<h4>Syntax</h4>
+
+<pre class="flow">
+bind(sockfd,
+     (struct sockaddr *)&server,
+     sizeof(server));
+</pre>
+
+<div class="alert alert-warning">
+
+Think of <b>bind()</b> as assigning a postal address.
+
+Clients know where to send UDP datagrams because the
+server has a fixed address.
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- SENDTO() -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+③ sendto()
+
+</h2>
+
+<div class="card p-4">
+
+<h4>Purpose</h4>
+
+<p>
+
+Sends a UDP datagram to a specified destination.
+
+Unlike TCP,
+no connection is established before sending.
+
+</p>
+
+<h4>Syntax</h4>
+
+<pre class="flow">
+sendto(sockfd,
+       buffer,
+       strlen(buffer),
+       0,
+       (struct sockaddr *)&server,
+       sizeof(server));
+</pre>
+
+<div class="alert alert-success">
+
+The destination IP address and port number are supplied
+every time a datagram is transmitted.
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- RECVFROM() -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+④ recvfrom()
+
+</h2>
+
+<div class="card p-4">
+
+<h4>Purpose</h4>
+
+<p>
+
+Receives a UDP datagram from any sender.
+
+The function also returns the sender's address.
+
+</p>
+
+<h4>Syntax</h4>
+
+<pre class="flow">
+recvfrom(sockfd,
+         buffer,
+         sizeof(buffer),
+         0,
+         (struct sockaddr *)&client,
+         &addrSize);
+</pre>
+
+<div class="alert alert-primary">
+
+Unlike TCP's <code>recv()</code>,
+<b>recvfrom()</b> tells us who sent the datagram.
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- CLOSE() -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+⑤ close()
+
+</h2>
+
+<div class="card p-4">
+
+<h4>Purpose</h4>
+
+<p>
+
+Releases the UDP socket and frees operating system resources.
+
+</p>
+
+<h4>Syntax</h4>
+
+<pre class="flow">
+close(sockfd);
+</pre>
+
+<div class="alert alert-danger">
+
+Always close sockets after communication completes.
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- COMPLETE UDP FUNCTION SEQUENCE -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+📊 Complete UDP Function Sequence
+
+</h2>
+
+<div class="card shadow-sm p-5">
+
+<div class="row g-4">
+
+<!-- SERVER -->
+
+<div class="col-lg-6">
+
+<div class="card border-success">
+
+<div class="card-header bg-success text-white text-center fw-bold fs-5">
+
+<i class="fas fa-server me-2"></i>
+
+SERVER
+
+</div>
+
+<div class="card-body text-center">
+
+<div class="badge bg-success rounded-pill fs-6 mb-2">
+
+START
+
+</div>
+
+<div class="my-2">
+
+<div class="border rounded p-2">
+
+① socket()
+
+</div>
+
+<i class="fas fa-arrow-down text-success my-2"></i>
+
+</div>
+
+<div class="my-2">
+
+<div class="border rounded p-2">
+
+② bind()
+
+</div>
+
+<i class="fas fa-arrow-down text-success my-2"></i>
+
+</div>
+
+<div class="my-2">
+
+<div class="border rounded p-2">
+
+③ recvfrom()
+
+</div>
+
+<i class="fas fa-arrow-down text-success my-2"></i>
+
+</div>
+
+<div class="my-2">
+
+<div class="border rounded p-2 bg-warning-subtle">
+
+④ Process Request
+
+</div>
+
+<i class="fas fa-arrow-down text-success my-2"></i>
+
+</div>
+
+<div class="my-2">
+
+<div class="border rounded p-2">
+
+⑤ sendto()
+
+</div>
+
+<i class="fas fa-arrow-down text-success my-2"></i>
+
+</div>
+
+<div class="my-2">
+
+<div class="border rounded p-2 bg-danger-subtle">
+
+⑥ close()
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- CLIENT -->
+
+<div class="col-lg-6">
+
+<div class="card border-primary">
+
+<div class="card-header bg-primary text-white text-center fw-bold fs-5">
+
+<i class="fas fa-user me-2"></i>
+
+CLIENT
+
+</div>
+
+<div class="card-body text-center">
+
+<div class="badge bg-primary rounded-pill fs-6 mb-2">
+
+START
+
+</div>
+
+<div class="my-2">
+
+<div class="border rounded p-2">
+
+① socket()
+
+</div>
+
+<i class="fas fa-arrow-down text-primary my-2"></i>
+
+</div>
+
+<div class="my-2">
+
+<div class="border rounded p-2">
+
+② sendto()
+
+</div>
+
+<i class="fas fa-arrow-down text-primary my-2"></i>
+
+</div>
+
+<div class="my-2">
+
+<div class="border rounded p-2">
+
+③ recvfrom()
+
+</div>
+
+<i class="fas fa-arrow-down text-primary my-2"></i>
+
+</div>
+
+<div class="my-2">
+
+<div class="border rounded p-2 bg-danger-subtle">
+
+④ close()
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="alert alert-info mt-4">
+
+<strong>💡 Tip:</strong>
+
+The UDP server simply waits for incoming datagrams using
+<b>recvfrom()</b>.
+The client sends data using
+<b>sendto()</b>,
+the server processes the request,
+and replies with another
+<b>sendto()</b>.
+No connection establishment is required.
+
+</div>
+
+<!-- ====================================================== -->
+<!-- API SUMMARY -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+🎯 API Summary
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-striped">
+
+<thead class="table-success">
+
+<tr>
+
+<th>Function</th>
+
+<th>Used By</th>
+
+<th>Purpose</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>socket()</td>
+
+<td>Client & Server</td>
+
+<td>Create UDP socket</td>
+
+</tr>
+
+<tr>
+
+<td>bind()</td>
+
+<td>Server</td>
+
+<td>Assign IP & Port</td>
+
+</tr>
+
+<tr>
+
+<td>sendto()</td>
+
+<td>Client & Server</td>
+
+<td>Send datagram</td>
+
+</tr>
+
+<tr>
+
+<td>recvfrom()</td>
+
+<td>Client & Server</td>
+
+<td>Receive datagram</td>
+
+</tr>
+
+<tr>
+
+<td>close()</td>
+
+<td>Client & Server</td>
+
+<td>Release socket</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="alert alert-warning">
+
+<b>Remember the UDP order!</b>
+
+<br><br>
+
+Server:
+
+socket → bind → recvfrom → process → sendto → close
+
+<br><br>
+
+Client:
+
+socket → sendto → recvfrom → close
+
+</div>
+<!-- ====================================================== -->
+<!-- FIRST UDP PROGRAM -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+🚀 Your First UDP Socket Program
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+Before implementing the laboratory experiment,
+let us understand how a simple UDP communication works.
+
+</p>
+
+<p>
+
+In this example,
+
+</p>
+
+<ul>
+
+<li>The client sends <b>"Hi Server"</b>.</li>
+
+<li>The server receives the message.</li>
+
+<li>The server replies <b>"Hello Client"</b>.</li>
+
+<li>The client displays the reply.</li>
+
+</ul>
+
+<div class="alert alert-success">
+
+This is the simplest UDP client-server communication.
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- COMMUNICATION -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+📨 UDP Message Exchange
+
+</h2>
+
+<div class="card shadow-sm p-5">
+
+<div class="row">
+
+<div class="col-md-5">
+
+<div class="card border-primary">
+
+<div class="card-header bg-primary text-white">
+
+👤 Client
+
+</div>
+
+<div class="card-body">
+
+<p>
+
+Creates UDP socket
+
+</p>
+
+<p>
+
+Sends
+
+<b>
+
+Hi Server
+
+</b>
+
+</p>
+
+<p>
+
+Waits for reply
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-2 text-center d-flex align-items-center justify-content-center">
+
+<div>
+
+➡️
+
+<br><br>
+
+⬅️
+
+</div>
+
+</div>
+
+<div class="col-md-5">
+
+<div class="card border-success">
+
+<div class="card-header bg-success text-white">
+
+🖥 Server
+
+</div>
+
+<div class="card-body">
+
+<p>
+
+Receives message
+
+</p>
+
+<p>
+
+Processes request
+
+</p>
+
+<p>
+
+Replies
+
+<b>
+
+Hello Client
+
+</b>
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- SERVER CODE -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+🖥 Simple UDP Server
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+The server waits for a UDP datagram from any client.
+After receiving the message,
+it immediately replies with
+<b>Hello Client</b>.
+
+</p>
+
+<pre class="flow">
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;arpa/inet.h&gt;
+
+int main()
+{
+    int sockfd;
+
+    char buffer[100];
+
+    struct sockaddr_in server, client;
+
+    socklen_t len;
+
+    sockfd = socket(AF_INET,
+                    SOCK_DGRAM,
+                    0);
+
+    server.sin_family = AF_INET;
+    server.sin_port = htons(5000);
+    server.sin_addr.s_addr = INADDR_ANY;
+
+    bind(sockfd,
+         (struct sockaddr *)&server,
+         sizeof(server));
+
+    len = sizeof(client);
+
+    recvfrom(sockfd,
+             buffer,
+             sizeof(buffer),
+             0,
+             (struct sockaddr *)&client,
+             &len);
+
+    printf("Client : %s\n", buffer);
+
+    strcpy(buffer,
+           "Hello Client");
+
+    sendto(sockfd,
+           buffer,
+           strlen(buffer)+1,
+           0,
+           (struct sockaddr *)&client,
+           len);
+
+    close(sockfd);
+
+    return 0;
+}
+</pre>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- CLIENT CODE -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+👤 Simple UDP Client
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+The client creates a UDP socket,
+sends a message to the server,
+and waits for the server's reply.
+
+</p>
+
+<pre class="flow">
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;arpa/inet.h&gt;
+
+int main()
+{
+    int sockfd;
+
+    char buffer[100];
+
+    struct sockaddr_in server;
+
+    socklen_t len;
+
+    sockfd = socket(AF_INET,
+                    SOCK_DGRAM,
+                    0);
+
+    server.sin_family = AF_INET;
+    server.sin_port = htons(5000);
+    server.sin_addr.s_addr =
+        inet_addr("127.0.0.1");
+
+    strcpy(buffer,
+           "Hi Server");
+
+    sendto(sockfd,
+           buffer,
+           strlen(buffer)+1,
+           0,
+           (struct sockaddr *)&server,
+           sizeof(server));
+
+    len = sizeof(server);
+
+    recvfrom(sockfd,
+             buffer,
+             sizeof(buffer),
+             0,
+             (struct sockaddr *)&server,
+             &len);
+
+    printf("Server : %s\n", buffer);
+
+    close(sockfd);
+
+    return 0;
+}
+</pre>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- HOW TO RUN -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+⚙ Compilation & Execution
+
+</h2>
+
+<div class="card p-4">
+
+<h5>Step 1</h5>
+
+<pre class="flow">
+gcc server.c -o server
+gcc client.c -o client
+</pre>
+
+<h5 class="mt-4">
+
+Step 2
+
+</h5>
+
+Open Terminal 1
+
+<pre class="flow">
+./server
+</pre>
+
+<h5 class="mt-4">
+
+Step 3
+
+</h5>
+
+Open Terminal 2
+
+<pre class="flow">
+./client
+</pre>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- SAMPLE OUTPUT -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+✅ Expected Output
+
+</h2>
+
+<div class="row">
+
+<div class="col-md-6">
+
+<div class="card">
+
+<div class="card-header bg-success text-white">
+
+Server Terminal
+
+</div>
+
+<div class="card-body">
+
+<pre class="flow">
+$ ./server
+
+Client : Hi Server
+</pre>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card">
+
+<div class="card-header bg-primary text-white">
+
+Client Terminal
+
+</div>
+
+<div class="card-body">
+
+<pre class="flow">
+$ ./client
+
+Server : Hello Client
+</pre>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- TRANSITION -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+➡ From Demo Program to Today's Experiment
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+The previous example exchanged only one fixed message.
+
+</p>
+
+<p>
+
+In today's laboratory,
+instead of sending
+
+<b>
+
+Hi Server
+
+</b>,
+
+the client will send
+
+<b>
+
+chat abbreviations
+
+</b>
+
+such as
+
+</p>
+
+<div class="row text-center">
+
+<div class="col-md-3">
+
+<div class="alert alert-primary">
+
+LOL
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="alert alert-success">
+
+BRB
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="alert alert-warning">
+
+IDK
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="alert alert-danger">
+
+TTYL
+
+</div>
+
+</div>
+
+</div>
+
+<p>
+
+The UDP server will translate each abbreviation into its
+complete English meaning and return the translated text
+to the client.
+
+</p>
+
+<div class="alert alert-info">
+
+In the next section,
+we will implement the complete
+<b>UDP Chat Abbreviation Translator</b> experiment.
+
+</div>
+
+</div>
+<!-- ====================================================== -->
+<!-- LAB 6 EXPERIMENT -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+🧪 Lab 6 Experiment
+
+</h2>
+
+<div class="card p-4">
+
+<h4>
+
+UDP Chat Abbreviation Translator
+
+</h4>
+
+<p>
+
+The objective of this experiment is to implement a
+UDP Client–Server application using C socket programming.
+
+The client sends a chat abbreviation to the server.
+The server searches for its meaning and returns the
+expanded English phrase.
+
+</p>
+
+<div class="alert alert-primary">
+
+<b>Example</b>
+
+<br><br>
+
+Client sends:
+
+<b>LOL</b>
+
+<br>
+
+Server replies:
+
+<b>Laughing Out Loud</b>
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- PROBLEM STATEMENT -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+📄 Problem Statement
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+Develop a UDP client-server application in C.
+
+The client accepts an Internet chat abbreviation
+from the keyboard and sends it to the server.
+
+The server compares the received abbreviation with
+its predefined dictionary and returns the corresponding
+expanded English meaning.
+
+If the abbreviation is not found,
+the server should return an appropriate message.
+
+</p>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- SAMPLE DICTIONARY -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+📚 Sample Translation Dictionary
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-striped">
+
+<thead class="table-success">
+
+<tr>
+
+<th>Abbreviation</th>
+
+<th>Meaning</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>LOL</td>
+
+<td>Laughing Out Loud</td>
+
+</tr>
+
+<tr>
+
+<td>BRB</td>
+
+<td>Be Right Back</td>
+
+</tr>
+
+<tr>
+
+<td>OMG</td>
+
+<td>Oh My God</td>
+
+</tr>
+
+<tr>
+
+<td>IDK</td>
+
+<td>I Don't Know</td>
+
+</tr>
+
+<tr>
+
+<td>TTYL</td>
+
+<td>Talk To You Later</td>
+
+</tr>
+
+<tr>
+
+<td>ASAP</td>
+
+<td>As Soon As Possible</td>
+
+</tr>
+
+<tr>
+
+<td>FYI</td>
+
+<td>For Your Information</td>
+
+</tr>
+
+<tr>
+
+<td>IMO</td>
+
+<td>In My Opinion</td>
+
+</tr>
+
+<tr>
+
+<td>GTG</td>
+
+<td>Got To Go</td>
+
+</tr>
+
+<tr>
+
+<td>NP</td>
+
+<td>No Problem</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- SERVER ALGORITHM -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+🖥 Server Algorithm
+
+</h2>
+
+<div class="card p-4">
+
+<ol>
+
+<li>Create a UDP socket.</li>
+
+<li>Bind the socket to a port number.</li>
+
+<li>Wait for a datagram using <b>recvfrom()</b>.</li>
+
+<li>Compare the received abbreviation with the dictionary.</li>
+
+<li>If found, retrieve its meaning.</li>
+
+<li>Otherwise return <b>"Abbreviation Not Found"</b>.</li>
+
+<li>Send the result back using <b>sendto()</b>.</li>
+
+<li>Close the socket.</li>
+
+</ol>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- CLIENT ALGORITHM -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+👤 Client Algorithm
+
+</h2>
+
+<div class="card p-4">
+
+<ol>
+
+<li>Create a UDP socket.</li>
+
+<li>Read the abbreviation from the keyboard.</li>
+
+<li>Send the abbreviation to the server.</li>
+
+<li>Receive the translated meaning.</li>
+
+<li>Display the received message.</li>
+
+<li>Close the socket.</li>
+
+</ol>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- PROGRAM LOGIC -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+🧠 Program Logic
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-md-6">
+
+<div class="card border-primary">
+
+<div class="card-header bg-primary text-white">
+
+Client
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>User enters abbreviation.</li>
+
+<li>Creates UDP socket.</li>
+
+<li>Sends abbreviation.</li>
+
+<li>Receives translated text.</li>
+
+<li>Displays output.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card border-success">
+
+<div class="card-header bg-success text-white">
+
+Server
+
+</div>
+
+<div class="card-body">
+
+<ul>
+
+<li>Receives abbreviation.</li>
+
+<li>Searches translation table.</li>
+
+<li>Finds matching meaning.</li>
+
+<li>Sends translated text.</li>
+
+<li>Waits for next client.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- FLOWCHART -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+🔄 Experiment Workflow
+
+</h2>
+
+<div class="card shadow-sm p-5">
+
+<div class="row">
+
+<div class="col-md-5">
+
+<div class="text-center">
+
+<h4 class="text-primary">
+
+👤 CLIENT
+
+</h4>
+
+<div class="alert alert-primary">
+
+Enter Abbreviation
+
+</div>
+
+↓
+
+<div class="alert alert-primary">
+
+sendto()
+
+</div>
+
+↓
+
+<div class="alert alert-primary">
+
+Wait for Reply
+
+</div>
+
+↓
+
+<div class="alert alert-success">
+
+Display Meaning
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-2 d-flex justify-content-center align-items-center">
+
+<div class="display-5">
+
+⇄
+
+</div>
+
+</div>
+
+<div class="col-md-5">
+
+<div class="text-center">
+
+<h4 class="text-success">
+
+🖥 SERVER
+
+</h4>
+
+<div class="alert alert-success">
+
+recvfrom()
+
+</div>
+
+↓
+
+<div class="alert alert-warning">
+
+Search Dictionary
+
+</div>
+
+↓
+
+<div class="alert alert-success">
+
+sendto()
+
+</div>
+
+↓
+
+<div class="alert alert-secondary">
+
+Wait Again
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- SAMPLE EXECUTION -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+💻 Sample Execution
+
+</h2>
+
+<div class="row">
+
+<div class="col-md-6">
+
+<div class="card">
+
+<div class="card-header bg-success text-white">
+
+Server Terminal
+
+</div>
+
+<div class="card-body">
+
+<pre class="flow">
+$ ./server
+
+Waiting...
+
+Received : LOL
+
+Meaning Sent
+
+Waiting...
+</pre>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card">
+
+<div class="card-header bg-primary text-white">
+
+Client Terminal
+
+</div>
+
+<div class="card-body">
+
+<pre class="flow">
+$ ./client
+
+Enter abbreviation
+
+LOL
+
+Meaning:
+
+Laughing Out Loud
+</pre>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- READY -->
+<!-- ====================================================== -->
+
+<div class="alert alert-success mt-5">
+
+<h4>
+
+🎯 Ready to Code!
+
+</h4>
+
+<p>
+
+You now understand the experiment objective,
+program logic,
+workflow,
+and algorithms.
+
+In the next section,
+we will write the complete
+<b>UDP Server</b>
+and
+<b>UDP Client</b>
+programs in C.
+
+</p>
+
+</div>
+<!-- ====================================================== -->
+<!-- COMPLETE UDP SERVER PROGRAM -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+🖥 Complete UDP Translator Server
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+The UDP server receives an abbreviation from the client,
+searches for its meaning,
+and sends the expanded text back to the client.
+
+</p>
+
+<pre class="flow">
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;arpa/inet.h&gt;
+
+#define PORT 5000
+
+int main()
+{
+    int sockfd;
+    char buffer[100];
+    char reply[100];
+
+    struct sockaddr_in server, client;
+    socklen_t len;
+
+    sockfd = socket(AF_INET,
+                    SOCK_DGRAM,
+                    0);
+
+    if(sockfd < 0)
+    {
+        printf("Socket creation failed\n");
+        exit(1);
+    }
+
+    server.sin_family = AF_INET;
+    server.sin_addr.s_addr = INADDR_ANY;
+    server.sin_port = htons(PORT);
+
+    bind(sockfd,
+         (struct sockaddr *)&server,
+         sizeof(server));
+
+    printf("UDP Server Started...\n");
+
+    len = sizeof(client);
+
+    while(1)
+    {
+        recvfrom(sockfd,
+                 buffer,
+                 sizeof(buffer),
+                 0,
+                 (struct sockaddr *)&client,
+                 &len);
+
+        printf("Received : %s\n",buffer);
+
+        if(strcmp(buffer,"LOL")==0)
+            strcpy(reply,"Laughing Out Loud");
+
+        else if(strcmp(buffer,"BRB")==0)
+            strcpy(reply,"Be Right Back");
+
+        else if(strcmp(buffer,"OMG")==0)
+            strcpy(reply,"Oh My God");
+
+        else if(strcmp(buffer,"IDK")==0)
+            strcpy(reply,"I Don't Know");
+
+        else if(strcmp(buffer,"TTYL")==0)
+            strcpy(reply,"Talk To You Later");
+
+        else if(strcmp(buffer,"ASAP")==0)
+            strcpy(reply,"As Soon As Possible");
+
+        else if(strcmp(buffer,"FYI")==0)
+            strcpy(reply,"For Your Information");
+
+        else if(strcmp(buffer,"IMO")==0)
+            strcpy(reply,"In My Opinion");
+
+        else if(strcmp(buffer,"GTG")==0)
+            strcpy(reply,"Got To Go");
+
+        else if(strcmp(buffer,"NP")==0)
+            strcpy(reply,"No Problem");
+
+        else
+            strcpy(reply,"Abbreviation Not Found");
+
+        sendto(sockfd,
+               reply,
+               strlen(reply)+1,
+               0,
+               (struct sockaddr *)&client,
+               len);
+
+        printf("Reply Sent\n\n");
+    }
+
+    close(sockfd);
+
+    return 0;
+}
+</pre>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- COMPLETE UDP CLIENT -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+👤 Complete UDP Translator Client
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+The client accepts a chat abbreviation from the user,
+sends it to the UDP server,
+and displays the translated response.
+
+</p>
+
+<pre class="flow">
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;arpa/inet.h&gt;
+
+#define PORT 5000
+
+int main()
+{
+    int sockfd;
+
+    char buffer[100];
+
+    struct sockaddr_in server;
+
+    socklen_t len;
+
+    sockfd = socket(AF_INET,
+                    SOCK_DGRAM,
+                    0);
+
+    if(sockfd < 0)
+    {
+        printf("Socket creation failed\n");
+        exit(1);
+    }
+
+    server.sin_family = AF_INET;
+    server.sin_port = htons(PORT);
+    server.sin_addr.s_addr =
+            inet_addr("127.0.0.1");
+
+    printf("Enter abbreviation : ");
+
+    scanf("%s",buffer);
+
+    sendto(sockfd,
+           buffer,
+           strlen(buffer)+1,
+           0,
+           (struct sockaddr *)&server,
+           sizeof(server));
+
+    len = sizeof(server);
+
+    recvfrom(sockfd,
+             buffer,
+             sizeof(buffer),
+             0,
+             (struct sockaddr *)&server,
+             &len);
+
+    printf("\nMeaning : %s\n",buffer);
+
+    close(sockfd);
+
+    return 0;
+}
+</pre>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- COMPILATION -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+⚙ Build and Run
+
+</h2>
+
+<div class="card p-4">
+
+<h5>
+
+Compile
+
+</h5>
+
+<pre class="flow">
+gcc server.c -o server
+
+gcc client.c -o client
+</pre>
+
+<h5>
+
+Run the Server
+
+</h5>
+
+<pre class="flow">
+./server
+</pre>
+
+<h5>
+
+Run the Client
+
+</h5>
+
+<pre class="flow">
+./client
+</pre>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- SAMPLE EXECUTION -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+💻 Sample Execution
+
+</h2>
+
+<div class="row g-4">
+
+<div class="col-lg-6">
+
+<div class="card">
+
+<div class="card-header bg-success text-white">
+
+🖥 Server
+
+</div>
+
+<div class="card-body">
+
+<pre class="flow">
+$ ./server
+
+UDP Server Started...
+
+Received : LOL
+
+Reply Sent
+
+Received : BRB
+
+Reply Sent
+
+Received : IDK
+
+Reply Sent
+</pre>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-lg-6">
+
+<div class="card">
+
+<div class="card-header bg-primary text-white">
+
+👤 Client
+
+</div>
+
+<div class="card-body">
+
+<pre class="flow">
+$ ./client
+
+Enter abbreviation :
+
+LOL
+
+Meaning :
+
+Laughing Out Loud
+</pre>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- EXERCISE -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+🎯 Practice Exercise
+
+</h2>
+
+<div class="card p-4">
+
+<p>
+
+Modify the server program to include the following abbreviations.
+
+</p>
+
+<div class="row">
+
+<div class="col-md-3">
+
+<div class="alert alert-primary">
+
+AFK
+
+<br>
+
+Away From Keyboard
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="alert alert-success">
+
+ROFL
+
+<br>
+
+Rolling On the Floor Laughing
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="alert alert-warning">
+
+BTW
+
+<br>
+
+By The Way
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="alert alert-danger">
+
+CU
+
+<br>
+
+See You
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- OBSERVATION TABLE -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+📝 Observation Table
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered">
+
+<thead class="table-primary">
+
+<tr>
+
+<th>Input</th>
+
+<th>Server Output</th>
+
+<th>Verified</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>LOL</td>
+
+<td>Laughing Out Loud</td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>OMG</td>
+
+<td>Oh My God</td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>TTYL</td>
+
+<td>Talk To You Later</td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>ASAP</td>
+
+<td>As Soon As Possible</td>
+
+<td></td>
+
+</tr>
+
+<tr>
+
+<td>ABC</td>
+
+<td>Abbreviation Not Found</td>
+
+<td></td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- CHECK YOUR UNDERSTANDING -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+🧠 Check Your Understanding
+
+</h2>
+
+<div class="card p-4">
+
+<div class="alert alert-info">
+
+<b>Question 1</b>
+
+<br>
+
+Which function sends a UDP datagram?
+
+</div>
+
+<div class="alert alert-info">
+
+<b>Question 2</b>
+
+<br>
+
+Which function receives a UDP datagram?
+
+</div>
+
+<div class="alert alert-info">
+
+<b>Question 3</b>
+
+<br>
+
+Why does UDP not require
+<code>listen()</code>
+or
+<code>accept()</code>?
+
+</div>
+
+<div class="alert alert-info">
+
+<b>Question 4</b>
+
+<br>
+
+What happens if the abbreviation is not found?
+
+</div>
+
+</div>
+<!-- ====================================================== -->
+<!-- COMMON ERRORS -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+🚨 Common Errors and Solutions
+
+</h2>
+
+<div class="table-responsive">
+
+<table class="table table-bordered table-striped">
+
+<thead class="table-danger">
+
+<tr>
+
+<th>Error</th>
+
+<th>Reason</th>
+
+<th>Solution</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Socket creation failed</td>
+
+<td>Unable to create socket</td>
+
+<td>Check the socket() parameters</td>
+
+</tr>
+
+<tr>
+
+<td>bind() failed</td>
+
+<td>Port already in use</td>
+
+<td>Choose another port or terminate the existing process</td>
+
+</tr>
+
+<tr>
+
+<td>No response from server</td>
+
+<td>Server not running</td>
+
+<td>Start the server before running the client</td>
+
+</tr>
+
+<tr>
+
+<td>Abbreviation Not Found</td>
+
+<td>No matching dictionary entry</td>
+
+<td>Add the abbreviation to the server dictionary</td>
+
+</tr>
+
+<tr>
+
+<td>recvfrom() blocks forever</td>
+
+<td>No datagram received</td>
+
+<td>Verify IP address and port number</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- BEST PRACTICES -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+💡 Programming Tips
+
+</h2>
+
+<div class="card p-4">
+
+<div class="row">
+
+<div class="col-md-6">
+
+<ul>
+
+<li>Always check the return value of <code>socket()</code>.</li>
+
+<li>Verify that <code>bind()</code> succeeds.</li>
+
+<li>Initialize structures before use.</li>
+
+<li>Close sockets after communication.</li>
+
+<li>Use meaningful variable names.</li>
+
+</ul>
+
+</div>
+
+<div class="col-md-6">
+
+<ul>
+
+<li>Validate user input.</li>
+
+<li>Use adequate buffer sizes.</li>
+
+<li>Display informative error messages.</li>
+
+<li>Test with multiple abbreviations.</li>
+
+<li>Comment your program.</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- VIVA QUESTIONS -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+🎤 Viva Questions
+
+</h2>
+
+<div class="accordion" id="vivaAccordion">
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#q1">
+
+1. What is UDP?
+
+</button>
+
+</h2>
+
+<div id="q1"
+class="accordion-collapse collapse show">
+
+<div class="accordion-body">
+
+UDP (User Datagram Protocol) is a connectionless
+transport-layer protocol that sends data as independent
+datagrams without establishing a connection.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#q2">
+
+2. Why is UDP faster than TCP?
+
+</button>
+
+</h2>
+
+<div id="q2"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+UDP does not perform connection establishment,
+acknowledgements,
+or retransmissions,
+making communication faster.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#q3">
+
+3. Which function sends data in UDP?
+
+</button>
+
+</h2>
+
+<div id="q3"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+<b>sendto()</b>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#q4">
+
+4. Which function receives data?
+
+</button>
+
+</h2>
+
+<div id="q4"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+<b>recvfrom()</b>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="accordion-item">
+
+<h2 class="accordion-header">
+
+<button class="accordion-button collapsed"
+type="button"
+data-bs-toggle="collapse"
+data-bs-target="#q5">
+
+5. Name three applications that use UDP.
+
+</button>
+
+</h2>
+
+<div id="q5"
+class="accordion-collapse collapse">
+
+<div class="accordion-body">
+
+DNS,
+Video Streaming,
+Online Gaming,
+VoIP,
+DHCP,
+Live Broadcasting.
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- MCQs -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+📝 Quick Quiz
+
+</h2>
+
+<div class="card p-4">
+
+<div class="mb-4">
+
+<b>1. Which socket type is used for UDP?</b>
+
+<div class="mt-2">
+
+<input type="radio"> SOCK_STREAM
+
+<br>
+
+<input type="radio"> SOCK_RAW
+
+<br>
+
+<input type="radio"> <b>SOCK_DGRAM</b>
+
+<br>
+
+<input type="radio"> SOCK_PACKET
+
+</div>
+
+</div>
+
+<div class="mb-4">
+
+<b>2. UDP is</b>
+
+<div class="mt-2">
+
+<input type="radio"> Connection-Oriented
+
+<br>
+
+<input type="radio"> Reliable
+
+<br>
+
+<input type="radio"> <b>Connectionless</b>
+
+<br>
+
+<input type="radio"> Circuit Switched
+
+</div>
+
+</div>
+
+<div class="mb-4">
+
+<b>3. Which function receives a UDP packet?</b>
+
+<div class="mt-2">
+
+<input type="radio"> recv()
+
+<br>
+
+<input type="radio"> <b>recvfrom()</b>
+
+<br>
+
+<input type="radio"> read()
+
+<br>
+
+<input type="radio"> listen()
+
+</div>
+
+</div>
+
+<div class="mb-4">
+
+<b>4. Which function sends a UDP packet?</b>
+
+<div class="mt-2">
+
+<input type="radio"> send()
+
+<br>
+
+<input type="radio"> write()
+
+<br>
+
+<input type="radio"> <b>sendto()</b>
+
+<br>
+
+<input type="radio"> accept()
+
+</div>
+
+</div>
+
+<div class="mb-4">
+
+<b>5. UDP is commonly used for</b>
+
+<div class="mt-2">
+
+<input type="radio"> FTP
+
+<br>
+
+<input type="radio"> HTTP
+
+<br>
+
+<input type="radio"> SMTP
+
+<br>
+
+<input type="radio"> <b>DNS</b>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- LAB CHECKLIST -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+✅ Lab Completion Checklist
+
+</h2>
+
+<div class="card p-4">
+
+<div class="form-check">
+
+<input class="form-check-input"
+type="checkbox">
+
+<label class="form-check-label">
+
+Read the theory
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input"
+type="checkbox">
+
+<label class="form-check-label">
+
+Understood UDP APIs
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input"
+type="checkbox">
+
+<label class="form-check-label">
+
+Compiled server successfully
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input"
+type="checkbox">
+
+<label class="form-check-label">
+
+Compiled client successfully
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input"
+type="checkbox">
+
+<label class="form-check-label">
+
+Executed the experiment
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input"
+type="checkbox">
+
+<label class="form-check-label">
+
+Verified all outputs
+
+</label>
+
+</div>
+
+<div class="form-check">
+
+<input class="form-check-input"
+type="checkbox">
+
+<label class="form-check-label">
+
+Answered Viva Questions
+
+</label>
+
+</div>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- QUICK REVISION -->
+<!-- ====================================================== -->
+
+<h2 class="section-title">
+
+📌 One-Minute Revision
+
+</h2>
+
+<div class="card p-4">
+
+<table class="table table-bordered">
+
+<thead class="table-success">
+
+<tr>
+
+<th>Concept</th>
+
+<th>Remember</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>Protocol</td>
+
+<td>UDP</td>
+
+</tr>
+
+<tr>
+
+<td>Socket Type</td>
+
+<td>SOCK_DGRAM</td>
+
+</tr>
+
+<tr>
+
+<td>Create Socket</td>
+
+<td>socket()</td>
+
+</tr>
+
+<tr>
+
+<td>Assign Port</td>
+
+<td>bind()</td>
+
+</tr>
+
+<tr>
+
+<td>Send Data</td>
+
+<td>sendto()</td>
+
+</tr>
+
+<tr>
+
+<td>Receive Data</td>
+
+<td>recvfrom()</td>
+
+</tr>
+
+<tr>
+
+<td>Close Socket</td>
+
+<td>close()</td>
+
+</tr>
+
+<tr>
+
+<td>Communication</td>
+
+<td>Connectionless</td>
+
+</tr>
+
+<tr>
+
+<td>Transport Unit</td>
+
+<td>Datagram</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- ====================================================== -->
+<!-- CONCLUSION -->
+<!-- ====================================================== -->
+
+<div class="alert alert-success mt-5">
+
+<h3>
+
+🎉 Congratulations!
+
+</h3>
+
+<p>
+
+You have completed the pre-laboratory learning module for
+<b>Lab 6 – UDP Socket Programming</b>.
+
+You are now ready to implement, execute, debug, and analyze
+UDP client-server programs using socket programming in Linux.
+
+</p>
+
+</div>
+
+</main>
+
+<!-- ====================================================== -->
+<!-- FOOTER -->
+<!-- ====================================================== -->
+
+<footer class="text-center">
+
+<div class="container">
+
+<h5>
+
+Computer Networks Laboratory | PCCSL507
+
+</h5>
+
+<p>
+
+Lab 6 – UDP Socket Programming |
+Designed for CSE Students
+
+</p>
+
+<hr>
+
+<p>
+
+© 2026 Department of Computer Science & Engineering
+
+<br>
+
+Developed by <strong>Prof. Anju Markose J K</strong>
+
+</p>
+
+<a href="#top" class="btn btn-light mt-2">
+
+<i class="fas fa-arrow-up"></i>
+
+Back to Top
+
+</a>
+
+</div>
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
