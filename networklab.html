@@ -19,6 +19,9 @@
                 <span>Computer Networks</span>
             </a>
             <div class="d-flex align-items-center gap-2 order-lg-last">
+                <button class="btn btn-sm btn-success fw-bold d-none d-sm-inline-flex align-items-center gap-1 shadow-sm" data-bs-toggle="modal" data-bs-target="#printableNotesModal" title="Module-wise Complete Notes (Printable)">
+                    <i class="bi bi-printer-fill"></i> Complete Notes (Printable)
+                </button>
                 <button class="btn btn-sm btn-outline-secondary rounded-circle p-2" id="theme-toggle-btn" title="Toggle Theme">
                     <i class="bi bi-moon-stars-fill text-primary" id="theme-toggle-icon"></i>
                 </button>
@@ -36,6 +39,7 @@
                     <li class="nav-item"><a class="nav-link" href="questionbank.html">Question Bank</a></li>
                     <li class="nav-item"><a class="nav-link" href="assignments.html">Assignments</a></li>
                     <li class="nav-item"><a class="nav-link" href="resources.html">Downloads</a></li>
+                    <li class="nav-item d-sm-none"><a class="nav-link text-success fw-bold" href="#" data-bs-toggle="modal" data-bs-target="#printableNotesModal"><i class="bi bi-printer-fill me-1"></i> Complete Notes (Printable)</a></li>
                 </ul>
             </div>
         </div>
@@ -153,6 +157,98 @@ traceroute -n 8.8.8.8</code></pre>
             </div>
         </div>
     </section>
+
+    <!-- Modal: Modulewise Complete Notes (Printable) -->
+    <div class="modal fade" id="printableNotesModal" tabindex="-1" aria-labelledby="printableNotesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="modal-header bg-primary text-white p-4 border-0">
+                    <div>
+                        <span class="badge bg-warning text-dark fw-bold mb-1"><i class="bi bi-printer-fill me-1"></i> Classroom Master Notes Repository</span>
+                        <h5 class="modal-title fw-bold" id="printableNotesModalLabel">🖨️ Modulewise Complete Note Printable</h5>
+                        <p class="small text-white-50 mb-0">High-yield comprehensive slide &amp; theory notes &bull; PCCST501 Computer Networks &bull; Prof. Anju Markose</p>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-surface">
+                    <div class="row g-3">
+                        <!-- Module 1 -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border rounded-3 p-3 bg-surface-elevated shadow-sm">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <span class="badge bg-primary mb-1">Module 1</span>
+                                        <h6 class="fw-bold mb-0">Application Layer &amp; P2P Paradigms</h6>
+                                    </div>
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border">56 Pages</span>
+                                </div>
+                                <p class="text-muted small mb-3">HTTP, FTP, SMTP/MIME, DNS, and BitTorrent P2P swarming.</p>
+                                <div class="d-flex gap-2 mt-auto">
+                                    <a href="anju/mod%201.pdf" target="_blank" class="btn btn-outline-primary btn-sm flex-grow-1"><i class="bi bi-eye-fill"></i> View PDF</a>
+                                    <a href="anju/mod%201.pdf" download="Module_1_Complete_Note_Printable.pdf" class="btn btn-primary btn-sm flex-grow-1"><i class="bi bi-download"></i> Download</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Module 2 -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border rounded-3 p-3 bg-surface-elevated shadow-sm">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <span class="badge bg-warning text-dark mb-1">Module 2</span>
+                                        <h6 class="fw-bold mb-0">Transport &amp; Network Layer</h6>
+                                    </div>
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border">288 Pages</span>
+                                </div>
+                                <p class="text-muted small mb-3">TCP/UDP, AIMD Reno congestion, IPv4/IPv6, CIDR Subnetting, Routing.</p>
+                                <div class="d-flex gap-2 mt-auto">
+                                    <a href="anju/MODULE%202.pptx.pdf" target="_blank" class="btn btn-outline-warning btn-sm text-dark flex-grow-1"><i class="bi bi-eye-fill"></i> View PDF</a>
+                                    <a href="anju/MODULE%202.pptx.pdf" download="Module_2_Complete_Note_Printable.pdf" class="btn btn-warning btn-sm text-dark fw-bold flex-grow-1"><i class="bi bi-download"></i> Download</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Module 3 -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border rounded-3 p-3 bg-surface-elevated shadow-sm">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <span class="badge bg-success mb-1">Module 3</span>
+                                        <h6 class="fw-bold mb-0">Data Link Layer &amp; WLAN</h6>
+                                    </div>
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border">69 Pages</span>
+                                </div>
+                                <p class="text-muted small mb-3">Framing, CRC-32, MAC Protocols, Ethernet 802.3, Wi-Fi 802.11, Mobile IP.</p>
+                                <div class="d-flex gap-2 mt-auto">
+                                    <a href="anju/MODULE%203.pdf" target="_blank" class="btn btn-outline-success btn-sm flex-grow-1"><i class="bi bi-eye-fill"></i> View PDF</a>
+                                    <a href="anju/MODULE%203.pdf" download="Module_3_Complete_Note_Printable.pdf" class="btn btn-success btn-sm flex-grow-1"><i class="bi bi-download"></i> Download</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Module 4 -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border rounded-3 p-3 bg-surface-elevated shadow-sm">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <span class="badge bg-info text-dark mb-1">Module 4</span>
+                                        <h6 class="fw-bold mb-0">SNMP &amp; Physical Layer</h6>
+                                    </div>
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border">58 Pages</span>
+                                </div>
+                                <p class="text-muted small mb-3">SNMP, MIB-2, Shannon/Nyquist limits, Line coding waveforms, Multiplexing.</p>
+                                <div class="d-flex gap-2 mt-auto">
+                                    <a href="anju/MODULE%204.pdf" target="_blank" class="btn btn-outline-info btn-sm text-dark flex-grow-1"><i class="bi bi-eye-fill"></i> View PDF</a>
+                                    <a href="anju/MODULE%204.pdf" download="Module_4_Complete_Note_Printable.pdf" class="btn btn-info btn-sm text-dark fw-bold flex-grow-1"><i class="bi bi-download"></i> Download</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-surface border-top py-3 d-flex justify-content-between">
+                    <span class="small text-muted"><i class="bi bi-folder2-open text-primary me-1"></i> Source: <code>anju/</code> folder &bull; Prof. Anju Markose</span>
+                    <button type="button" class="btn btn-secondary btn-sm px-3" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer-custom">

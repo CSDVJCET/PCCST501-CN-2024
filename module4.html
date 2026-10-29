@@ -19,6 +19,9 @@
                 <span>Computer Networks</span>
             </a>
             <div class="d-flex align-items-center gap-2 order-lg-last">
+                <button class="btn btn-sm btn-success fw-bold d-none d-sm-inline-flex align-items-center gap-1 shadow-sm" data-bs-toggle="modal" data-bs-target="#printableNotesModal" title="Module-wise Complete Notes (Printable)">
+                    <i class="bi bi-printer-fill"></i> Complete Notes (Printable)
+                </button>
                 <button class="btn btn-sm btn-outline-secondary rounded-circle p-2" id="theme-toggle-btn" title="Toggle Theme">
                     <i class="bi bi-moon-stars-fill text-primary" id="theme-toggle-icon"></i>
                 </button>
@@ -36,6 +39,7 @@
                     <li class="nav-item"><a class="nav-link" href="questionbank.html">Question Bank</a></li>
                     <li class="nav-item"><a class="nav-link" href="assignments.html">Assignments</a></li>
                     <li class="nav-item"><a class="nav-link" href="resources.html">Downloads</a></li>
+                    <li class="nav-item d-sm-none"><a class="nav-link text-success fw-bold" href="#" data-bs-toggle="modal" data-bs-target="#printableNotesModal"><i class="bi bi-printer-fill me-1"></i> Complete Notes (Printable)</a></li>
                 </ul>
             </div>
         </div>
@@ -73,8 +77,11 @@
                                 <h3 class="fw-bold mb-1">⚡ 2-Days-Before-Exam Quick Revision Notes</h3>
                                 <p class="small text-dark text-opacity-75 mb-0">Covers SNMP Architecture, SMI, MIB-II tree, ASN.1 BER TLV encoding, Nyquist &amp; Shannon Channel Capacity formulas, Line Coding schemes (NRZ, Manchester, AMI), and FDM/TDM Multiplexing.</p>
                             </div>
-                            <div class="d-flex gap-2">
-                                <a href="assets/notes_pdf/Module_4_Exam_Revision_Notes.pdf" class="btn btn-dark text-info fw-bold px-3 py-2 shadow-sm text-decoration-none" download>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a href="anju/MODULE%204.pdf" target="_blank" download="Module_4_Complete_Note_Printable.pdf" class="btn btn-dark text-info fw-bold px-3 py-2 shadow-sm text-decoration-none">
+                                    <i class="bi bi-printer-fill text-info me-1"></i> Module 4 Complete Note (Printable PDF)
+                                </a>
+                                <a href="assets/notes_pdf/Module_4_Exam_Revision_Notes.pdf" class="btn btn-outline-dark fw-bold px-3 py-2 shadow-sm text-decoration-none" download>
                                     <i class="bi bi-file-earmark-pdf-fill"></i> Download Short Note PDF
                                 </a>
                                 <a href="simulator.html" class="btn btn-outline-dark px-3 py-2 text-decoration-none">
@@ -176,12 +183,12 @@
                         </div>
                     </div>
 
-                    <!-- Topic-Wise Lecture PDFs Download Table -->
+                    <!-- Topic-Wise Lecture PPTs & PDF Notes Table -->
                     <div class="card-custom mb-4">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <div>
-                                <h4 class="fw-bold text-primary mb-0"><i class="bi bi-collection-fill"></i> Module 4 Topic-Wise Lecture Notes &amp; Slides (PDF)</h4>
-                                <span class="text-muted small">Complete chapter PDFs covering all 9 lecture contact hours</span>
+                                <h4 class="fw-bold text-primary mb-0"><i class="bi bi-collection-fill"></i> Module 4 Topic-Wise Lecture Decks &amp; Chapter Notes</h4>
+                                <span class="text-muted small">Comprehensive classroom teaching presentations (.pptx) &amp; exam chapter notes (.pdf) by Prof. Anju Markose</span>
                             </div>
                         </div>
 
@@ -189,48 +196,48 @@
                             <table class="table table-bordered table-hover align-middle small mb-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th>Topic Code</th>
-                                        <th>Lecture Topic Title</th>
-                                        <th>Resource Type</th>
-                                        <th>Download Link</th>
+                                        <th style="width: 10%;">Topic Code</th>
+                                        <th style="width: 45%;">Lecture Topic Title &amp; Scope</th>
+                                        <th style="width: 22%;">Teaching Presentation</th>
+                                        <th style="width: 23%;">Chapter Notes (PDF)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td><strong>M4.1</strong></td>
-                                        <td>Network Management (SNMP Architecture &amp; Operations)</td>
-                                        <td><span class="badge bg-info text-dark">Presentation Slide Deck</span></td>
-                                        <td><a href="assets/ppts/M4.1_Network_Management_SNMP.pptx" class="btn btn-sm btn-outline-info text-dark fw-bold" download><i class="bi bi-file-earmark-ppt-fill text-warning"></i> Download PPTX</a></td>
+                                        <td>Network Management (SNMP Architecture, Manager-Agent Model &amp; SNMPv1/v2c/v3 PDUs)</td>
+                                        <td><a href="assets/ppts/M4.1_Network_Management_SNMP.pptx" class="btn btn-sm btn-outline-primary w-100" download><i class="bi bi-file-earmark-ppt-fill text-warning me-1"></i> Slides (.pptx)</a></td>
+                                        <td><a href="assets/notes_pdf/M4.1_Network_Management_SNMP_Notes.pdf" class="btn btn-sm btn-outline-danger w-100" download><i class="bi bi-file-earmark-pdf-fill me-1"></i> Notes (.pdf)</a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>M4.2</strong></td>
-                                        <td>Abstract Syntax Notation One (ASN.1 &amp; MIB-2 Hierarchy)</td>
-                                        <td><span class="badge bg-info text-dark">Presentation Slide Deck</span></td>
-                                        <td><a href="assets/ppts/M4.2_ASN.1_and_MIB.pptx" class="btn btn-sm btn-outline-info text-dark fw-bold" download><i class="bi bi-file-earmark-ppt-fill text-warning"></i> Download PPTX</a></td>
+                                        <td>Abstract Syntax Notation One (ASN.1 BER TLV &amp; MIB-2 Tree Hierarchy)</td>
+                                        <td><a href="assets/ppts/M4.2_ASN.1_and_MIB.pptx" class="btn btn-sm btn-outline-primary w-100" download><i class="bi bi-file-earmark-ppt-fill text-warning me-1"></i> Slides (.pptx)</a></td>
+                                        <td><a href="assets/notes_pdf/M4.2_ASN.1_and_MIB_Notes.pdf" class="btn btn-sm btn-outline-danger w-100" download><i class="bi bi-file-earmark-pdf-fill me-1"></i> Notes (.pdf)</a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>M4.3</strong></td>
-                                        <td>Data and Signals (Fourier, Attenuation, Nyquist &amp; Shannon)</td>
-                                        <td><span class="badge bg-info text-dark">Presentation Slide Deck</span></td>
-                                        <td><a href="assets/ppts/M4.3_Data_Signals_Channel_Capacity.pptx" class="btn btn-sm btn-outline-info text-dark fw-bold" download><i class="bi bi-file-earmark-ppt-fill text-warning"></i> Download PPTX</a></td>
+                                        <td>Data &amp; Signals (Bandwidth, Attenuation, Nyquist Bit Rate &amp; Shannon Channel Capacity)</td>
+                                        <td><a href="assets/ppts/M4.3_Data_Signals_Channel_Capacity.pptx" class="btn btn-sm btn-outline-primary w-100" download><i class="bi bi-file-earmark-ppt-fill text-warning me-1"></i> Slides (.pptx)</a></td>
+                                        <td><a href="assets/notes_pdf/M4.3_Data_Signals_Channel_Capacity_Notes.pdf" class="btn btn-sm btn-outline-danger w-100" download><i class="bi bi-file-earmark-pdf-fill me-1"></i> Notes (.pdf)</a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>M4.4</strong></td>
-                                        <td>Digital Transmission &amp; Line Coding (NRZ, Manchester, AMI)</td>
-                                        <td><span class="badge bg-info text-dark">Presentation Slide Deck</span></td>
-                                        <td><a href="assets/ppts/M4.4_Digital_Transmission_Line_Coding.pptx" class="btn btn-sm btn-outline-info text-dark fw-bold" download><i class="bi bi-file-earmark-ppt-fill text-warning"></i> Download PPTX</a></td>
+                                        <td>Digital Transmission &amp; Line Coding Schemes (NRZ-L/I, RZ, Manchester, AMI, Scrambling B8ZS/HDB3)</td>
+                                        <td><a href="assets/ppts/M4.4_Digital_Transmission_Line_Coding.pptx" class="btn btn-sm btn-outline-primary w-100" download><i class="bi bi-file-earmark-ppt-fill text-warning me-1"></i> Slides (.pptx)</a></td>
+                                        <td><a href="assets/notes_pdf/M4.4_Digital_Transmission_Line_Coding_Notes.pdf" class="btn btn-sm btn-outline-danger w-100" download><i class="bi bi-file-earmark-pdf-fill me-1"></i> Notes (.pdf)</a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>M4.5</strong></td>
-                                        <td>Analog Modulation (ASK, FSK, PSK, QAM) &amp; Multiplexing</td>
-                                        <td><span class="badge bg-info text-dark">Presentation Slide Deck</span></td>
-                                        <td><a href="assets/ppts/M4.5_Analog_Transmission_Multiplexing.pptx" class="btn btn-sm btn-outline-info text-dark fw-bold" download><i class="bi bi-file-earmark-ppt-fill text-warning"></i> Download PPTX</a></td>
+                                        <td>Analog Modulation (ASK, FSK, PSK, QAM Constellations) &amp; Multiplexing (FDM, WDM, TDM)</td>
+                                        <td><a href="assets/ppts/M4.5_Analog_Transmission_Multiplexing.pptx" class="btn btn-sm btn-outline-primary w-100" download><i class="bi bi-file-earmark-ppt-fill text-warning me-1"></i> Slides (.pptx)</a></td>
+                                        <td><a href="assets/notes_pdf/M4.5_Analog_Transmission_Multiplexing_Notes.pdf" class="btn btn-sm btn-outline-danger w-100" download><i class="bi bi-file-earmark-pdf-fill me-1"></i> Notes (.pdf)</a></td>
                                     </tr>
                                     <tr>
                                         <td><strong>M4.6</strong></td>
-                                        <td>Transmission Media (Twisted Pair, Fiber, Wireless &amp; Satellites)</td>
-                                        <td><span class="badge bg-info text-dark">Presentation Slide Deck</span></td>
-                                        <td><a href="assets/ppts/M4.6_Transmission_Media.pptx" class="btn btn-sm btn-outline-info text-dark fw-bold" download><i class="bi bi-file-earmark-ppt-fill text-warning"></i> Download PPTX</a></td>
+                                        <td>Transmission Media (Guided: Twisted Pair, Coaxial, Optical Fiber &amp; Unguided: Radio, Microwave, Satellite)</td>
+                                        <td><a href="assets/ppts/M4.6_Transmission_Media.pptx" class="btn btn-sm btn-outline-primary w-100" download><i class="bi bi-file-earmark-ppt-fill text-warning me-1"></i> Slides (.pptx)</a></td>
+                                        <td><a href="assets/notes_pdf/M4.6_Transmission_Media_Notes.pdf" class="btn btn-sm btn-outline-danger w-100" download><i class="bi bi-file-earmark-pdf-fill me-1"></i> Notes (.pdf)</a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -244,6 +251,9 @@
                     <div class="card-custom mb-4">
                         <h5 class="fw-bold mb-3"><i class="bi bi-download text-primary"></i> Module 4 Resource Center</h5>
                         <div class="d-flex flex-column gap-2">
+                            <a href="anju/MODULE%204.pdf" target="_blank" download="Module_4_Complete_Note_Printable.pdf" class="btn btn-success text-white w-100 text-start py-2 fw-bold shadow-sm">
+                                <i class="bi bi-printer-fill me-1"></i> Module 4 Complete Note (Printable) <span class="badge bg-white text-dark float-end">58 Pgs</span>
+                            </a>
                             <a href="assets/notes_pdf/Module_4_Exam_Revision_Notes.pdf" class="btn btn-outline-danger w-100 text-start py-2" download>
                                 <i class="bi bi-file-earmark-pdf-fill"></i> ⚡ 2-Day Exam Short Notes (PDF)
                             </a>
@@ -272,6 +282,98 @@
             </div>
         </div>
     </section>
+
+    <!-- Modal: Modulewise Complete Notes (Printable) -->
+    <div class="modal fade" id="printableNotesModal" tabindex="-1" aria-labelledby="printableNotesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="modal-header bg-primary text-white p-4 border-0">
+                    <div>
+                        <span class="badge bg-warning text-dark fw-bold mb-1"><i class="bi bi-printer-fill me-1"></i> Classroom Master Notes Repository</span>
+                        <h5 class="modal-title fw-bold" id="printableNotesModalLabel">🖨️ Modulewise Complete Note Printable</h5>
+                        <p class="small text-white-50 mb-0">High-yield comprehensive slide &amp; theory notes &bull; PCCST501 Computer Networks &bull; Prof. Anju Markose</p>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-surface">
+                    <div class="row g-3">
+                        <!-- Module 1 -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border rounded-3 p-3 bg-surface-elevated shadow-sm">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <span class="badge bg-primary mb-1">Module 1</span>
+                                        <h6 class="fw-bold mb-0">Application Layer &amp; P2P Paradigms</h6>
+                                    </div>
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border">56 Pages</span>
+                                </div>
+                                <p class="text-muted small mb-3">HTTP, FTP, SMTP/MIME, DNS, and BitTorrent P2P swarming.</p>
+                                <div class="d-flex gap-2 mt-auto">
+                                    <a href="anju/mod%201.pdf" target="_blank" class="btn btn-outline-primary btn-sm flex-grow-1"><i class="bi bi-eye-fill"></i> View PDF</a>
+                                    <a href="anju/mod%201.pdf" download="Module_1_Complete_Note_Printable.pdf" class="btn btn-primary btn-sm flex-grow-1"><i class="bi bi-download"></i> Download</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Module 2 -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border rounded-3 p-3 bg-surface-elevated shadow-sm">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <span class="badge bg-warning text-dark mb-1">Module 2</span>
+                                        <h6 class="fw-bold mb-0">Transport &amp; Network Layer</h6>
+                                    </div>
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border">288 Pages</span>
+                                </div>
+                                <p class="text-muted small mb-3">TCP/UDP, AIMD Reno congestion, IPv4/IPv6, CIDR Subnetting, Routing.</p>
+                                <div class="d-flex gap-2 mt-auto">
+                                    <a href="anju/MODULE%202.pptx.pdf" target="_blank" class="btn btn-outline-warning btn-sm text-dark flex-grow-1"><i class="bi bi-eye-fill"></i> View PDF</a>
+                                    <a href="anju/MODULE%202.pptx.pdf" download="Module_2_Complete_Note_Printable.pdf" class="btn btn-warning btn-sm text-dark fw-bold flex-grow-1"><i class="bi bi-download"></i> Download</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Module 3 -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border rounded-3 p-3 bg-surface-elevated shadow-sm">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <span class="badge bg-success mb-1">Module 3</span>
+                                        <h6 class="fw-bold mb-0">Data Link Layer &amp; WLAN</h6>
+                                    </div>
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border">69 Pages</span>
+                                </div>
+                                <p class="text-muted small mb-3">Framing, CRC-32, MAC Protocols, Ethernet 802.3, Wi-Fi 802.11, Mobile IP.</p>
+                                <div class="d-flex gap-2 mt-auto">
+                                    <a href="anju/MODULE%203.pdf" target="_blank" class="btn btn-outline-success btn-sm flex-grow-1"><i class="bi bi-eye-fill"></i> View PDF</a>
+                                    <a href="anju/MODULE%203.pdf" download="Module_3_Complete_Note_Printable.pdf" class="btn btn-success btn-sm flex-grow-1"><i class="bi bi-download"></i> Download</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Module 4 -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border rounded-3 p-3 bg-surface-elevated shadow-sm">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <span class="badge bg-info text-dark mb-1">Module 4</span>
+                                        <h6 class="fw-bold mb-0">SNMP &amp; Physical Layer</h6>
+                                    </div>
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border">58 Pages</span>
+                                </div>
+                                <p class="text-muted small mb-3">SNMP, MIB-2, Shannon/Nyquist limits, Line coding waveforms, Multiplexing.</p>
+                                <div class="d-flex gap-2 mt-auto">
+                                    <a href="anju/MODULE%204.pdf" target="_blank" class="btn btn-outline-info btn-sm text-dark flex-grow-1"><i class="bi bi-eye-fill"></i> View PDF</a>
+                                    <a href="anju/MODULE%204.pdf" download="Module_4_Complete_Note_Printable.pdf" class="btn btn-info btn-sm text-dark fw-bold flex-grow-1"><i class="bi bi-download"></i> Download</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-surface border-top py-3 d-flex justify-content-between">
+                    <span class="small text-muted"><i class="bi bi-folder2-open text-primary me-1"></i> Source: <code>anju/</code> folder &bull; Prof. Anju Markose</span>
+                    <button type="button" class="btn btn-secondary btn-sm px-3" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer-custom">

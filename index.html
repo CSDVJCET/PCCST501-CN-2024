@@ -25,6 +25,9 @@
             </a>
             
             <div class="d-flex align-items-center gap-2 order-lg-last">
+                <button class="btn btn-sm btn-success fw-bold d-none d-sm-inline-flex align-items-center gap-1 shadow-sm" data-bs-toggle="modal" data-bs-target="#printableNotesModal" title="Module-wise Complete Notes (Printable)">
+                    <i class="bi bi-printer-fill"></i> Complete Notes (Printable)
+                </button>
                 <button class="btn btn-sm btn-outline-secondary rounded-circle p-2" id="theme-toggle-btn" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
                     <i class="bi bi-moon-stars-fill text-primary" id="theme-toggle-icon"></i>
                 </button>
@@ -43,6 +46,7 @@
                     <li class="nav-item"><a class="nav-link" href="questionbank.html">Question Bank</a></li>
                     <li class="nav-item"><a class="nav-link" href="assignments.html">Assignments</a></li>
                     <li class="nav-item"><a class="nav-link" href="resources.html">Downloads</a></li>
+                    <li class="nav-item d-sm-none"><a class="nav-link text-success fw-bold" href="#" data-bs-toggle="modal" data-bs-target="#printableNotesModal"><i class="bi bi-printer-fill me-1"></i> Complete Notes (Printable)</a></li>
                 </ul>
             </div>
         </div>
@@ -63,14 +67,17 @@
                         Comprehensive curriculum resources for <strong>PCCST501 Computer Networks</strong> at Viswajyothi College of Engineering and Technology (VJCET). Access modern slide decks, high-yield 2-day exam revision notes, interactive protocol simulators, and university exam preparation packs.
                     </p>
                     <div class="d-flex flex-wrap gap-3">
+                        <button type="button" class="btn btn-success text-white fw-bold px-4 py-2 rounded-3 text-decoration-none shadow-sm" data-bs-toggle="modal" data-bs-target="#printableNotesModal">
+                            <i class="bi bi-printer-fill me-1"></i> Modulewise Complete Note Printable
+                        </button>
                         <a href="modules.html" class="btn-primary-custom text-decoration-none">
                             <i class="bi bi-journal-bookmark-fill"></i> Explore Course Modules
                         </a>
                         <a href="simulator.html" class="btn btn-warning text-dark fw-bold px-4 py-2 rounded-3 text-decoration-none shadow-sm">
-                            <i class="bi bi-cpu-fill"></i> Launch Simulator Suite
+                            <i class="bi bi-cpu-fill"></i> Simulator Suite
                         </a>
                         <a href="assets/notes_pdf/PCCST501_Complete_CN_Exam_Notes.pdf" class="btn btn-outline-light px-4 py-2 rounded-3 text-decoration-none" download>
-                            <i class="bi bi-file-earmark-pdf-fill text-danger"></i> ⚡ 2-Day Exam Notes (PDF)
+                            <i class="bi bi-file-earmark-pdf-fill text-danger"></i> ⚡ 2-Day Notes (PDF)
                         </a>
                     </div>
 
@@ -131,30 +138,65 @@
         </div>
     </section>
 
-    <!-- ==================== ⚡ 2-DAYS-BEFORE-EXAM QUICK REVISION HUB ==================== -->
+    <!-- ==================== ⚡ 2-DAYS-BEFORE-EXAM QUICK REVISION HUB & PRINTABLE NOTES ==================== -->
     <section class="py-5 bg-surface border-bottom">
         <div class="container">
-            <div class="card p-4 rounded-4 border-0 bg-primary text-white shadow-lg position-relative overflow-hidden">
-                <div class="row align-items-center g-4 position-relative" style="z-index: 2;">
-                    <div class="col-lg-7">
-                        <span class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill mb-2">
-                            <i class="bi bi-lightning-charge-fill"></i> Fast-Track University Exam Preparation
-                        </span>
-                        <h2 class="fw-bold text-white mb-2">⚡ 2-Days-Before-Exam High-Yield Short Notes</h2>
-                        <p class="text-white-50 mb-0">
-                            Specially curated by <strong>Prof. Anju Markose</strong> to help students rapidly revise all 4 modules 48 hours prior to the university examination. Covers key formulas, protocol comparisons, packet headers, line coding waveforms, and solved numerical problems.
-                        </p>
+            <div class="row g-4">
+                <!-- Modulewise Complete Note Printable Card -->
+                <div class="col-12">
+                    <div class="card p-4 rounded-4 border-0 text-white shadow-lg position-relative overflow-hidden" style="background: linear-gradient(135deg, #064e3b 0%, #065f46 50%, #047857 100%);">
+                        <div class="row align-items-center g-4 position-relative" style="z-index: 2;">
+                            <div class="col-lg-7">
+                                <span class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill mb-2">
+                                    <i class="bi bi-printer-fill"></i> Classroom Master Notes &bull; Ready for Print
+                                </span>
+                                <h2 class="fw-bold text-white mb-2">🖨️ Modulewise Complete Note Printable</h2>
+                                <p class="text-white-50 mb-0">
+                                    Complete full-length classroom lecture notes and detailed presentation decks for all 4 modules by <strong>Prof. Anju Markose</strong>. Structured with high-resolution network diagrams, protocol flowcharts, and KTU syllabus topics ready for offline reading and printing.
+                                </p>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="d-grid gap-2">
+                                    <button type="button" class="btn btn-warning text-dark fw-bold py-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#printableNotesModal">
+                                        <i class="bi bi-grid-3x3-gap-fill me-1"></i> Quick View All Modules (Modal)
+                                    </button>
+                                    <div class="d-flex gap-2">
+                                        <a href="anju/mod%201.pdf" target="_blank" download="Module_1_Complete_Note_Printable.pdf" class="btn btn-outline-light btn-sm flex-grow-1" title="56 Pages"><i class="bi bi-download"></i> Mod 1</a>
+                                        <a href="anju/MODULE%202.pptx.pdf" target="_blank" download="Module_2_Complete_Note_Printable.pdf" class="btn btn-outline-light btn-sm flex-grow-1" title="288 Pages"><i class="bi bi-download"></i> Mod 2</a>
+                                        <a href="anju/MODULE%203.pdf" target="_blank" download="Module_3_Complete_Note_Printable.pdf" class="btn btn-outline-light btn-sm flex-grow-1" title="69 Pages"><i class="bi bi-download"></i> Mod 3</a>
+                                        <a href="anju/MODULE%204.pdf" target="_blank" download="Module_4_Complete_Note_Printable.pdf" class="btn btn-outline-light btn-sm flex-grow-1" title="58 Pages"><i class="bi bi-download"></i> Mod 4</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-lg-5">
-                        <div class="d-grid gap-2">
-                            <a href="assets/notes_pdf/PCCST501_Complete_CN_Exam_Notes.pdf" class="btn btn-warning text-dark fw-bold py-2 shadow-sm text-decoration-none" download>
-                                <i class="bi bi-file-earmark-pdf-fill"></i> Download Complete 4-Module Revision Pack (PDF)
-                            </a>
-                            <div class="d-flex gap-2">
-                                <a href="assets/notes_pdf/Module_1_Exam_Revision_Notes.pdf" class="btn btn-outline-light btn-sm flex-grow-1" download>Mod 1 PDF</a>
-                                <a href="assets/notes_pdf/Module_2_Exam_Revision_Notes.pdf" class="btn btn-outline-light btn-sm flex-grow-1" download>Mod 2 PDF</a>
-                                <a href="assets/notes_pdf/Module_3_Exam_Revision_Notes.pdf" class="btn btn-outline-light btn-sm flex-grow-1" download>Mod 3 PDF</a>
-                                <a href="assets/notes_pdf/Module_4_Exam_Revision_Notes.pdf" class="btn btn-outline-light btn-sm flex-grow-1" download>Mod 4 PDF</a>
+                </div>
+
+                <!-- 2-Day Revision Pack Card -->
+                <div class="col-12">
+                    <div class="card p-4 rounded-4 border-0 bg-primary text-white shadow-lg position-relative overflow-hidden">
+                        <div class="row align-items-center g-4 position-relative" style="z-index: 2;">
+                            <div class="col-lg-7">
+                                <span class="badge bg-warning text-dark fw-bold px-3 py-2 rounded-pill mb-2">
+                                    <i class="bi bi-lightning-charge-fill"></i> Fast-Track University Exam Preparation
+                                </span>
+                                <h2 class="fw-bold text-white mb-2">⚡ 2-Days-Before-Exam High-Yield Short Notes</h2>
+                                <p class="text-white-50 mb-0">
+                                    Specially curated by <strong>Prof. Anju Markose</strong> to help students rapidly revise all 4 modules 48 hours prior to the university examination. Covers key formulas, protocol comparisons, packet headers, line coding waveforms, and solved numerical problems.
+                                </p>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="d-grid gap-2">
+                                    <a href="assets/notes_pdf/PCCST501_Complete_CN_Exam_Notes.pdf" class="btn btn-warning text-dark fw-bold py-2 shadow-sm text-decoration-none" download>
+                                        <i class="bi bi-file-earmark-pdf-fill"></i> Download Complete 4-Module Revision Pack (PDF)
+                                    </a>
+                                    <div class="d-flex gap-2">
+                                        <a href="assets/notes_pdf/Module_1_Exam_Revision_Notes.pdf" class="btn btn-outline-light btn-sm flex-grow-1" download>Mod 1 PDF</a>
+                                        <a href="assets/notes_pdf/Module_2_Exam_Revision_Notes.pdf" class="btn btn-outline-light btn-sm flex-grow-1" download>Mod 2 PDF</a>
+                                        <a href="assets/notes_pdf/Module_3_Exam_Revision_Notes.pdf" class="btn btn-outline-light btn-sm flex-grow-1" download>Mod 3 PDF</a>
+                                        <a href="assets/notes_pdf/Module_4_Exam_Revision_Notes.pdf" class="btn btn-outline-light btn-sm flex-grow-1" download>Mod 4 PDF</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -387,6 +429,7 @@
                 <div class="col-6 col-lg-4">
                     <h6 class="text-light fw-bold mb-3">Exam Preparation Packs</h6>
                     <ul class="list-unstyled footer-links">
+                        <li><a href="#" data-bs-toggle="modal" data-bs-target="#printableNotesModal"><i class="bi bi-printer-fill text-success"></i> 🖨️ Complete Notes (Printable)</a></li>
                         <li><a href="assets/notes_pdf/PCCST501_Complete_CN_Exam_Notes.pdf" download><i class="bi bi-file-earmark-pdf-fill text-danger"></i> ⚡ Complete 2-Day Exam Notes</a></li>
                         <li><a href="assets/ppts/PCCST501_Complete_Course_Deck.pptx" download><i class="bi bi-file-earmark-ppt-fill text-warning"></i> Master Slide Deck (.pptx)</a></li>
                         <li><a href="assets/notes_pdf/PCCST501_Comprehensive_Question_Bank.pdf" download><i class="bi bi-journal-text text-info"></i> University Solved Question Bank</a></li>
@@ -399,6 +442,98 @@
             </div>
         </div>
     </footer>
+
+    <!-- Modal: Modulewise Complete Notes (Printable) -->
+    <div class="modal fade" id="printableNotesModal" tabindex="-1" aria-labelledby="printableNotesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="modal-header bg-primary text-white p-4 border-0">
+                    <div>
+                        <span class="badge bg-warning text-dark fw-bold mb-1"><i class="bi bi-printer-fill me-1"></i> Classroom Master Notes Repository</span>
+                        <h5 class="modal-title fw-bold" id="printableNotesModalLabel">🖨️ Modulewise Complete Note Printable</h5>
+                        <p class="small text-white-50 mb-0">High-yield comprehensive slide &amp; theory notes &bull; PCCST501 Computer Networks &bull; Prof. Anju Markose</p>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-surface">
+                    <div class="row g-3">
+                        <!-- Module 1 -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border rounded-3 p-3 bg-surface-elevated shadow-sm">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <span class="badge bg-primary mb-1">Module 1</span>
+                                        <h6 class="fw-bold mb-0">Application Layer &amp; P2P Paradigms</h6>
+                                    </div>
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border">56 Pages</span>
+                                </div>
+                                <p class="text-muted small mb-3">HTTP, FTP, SMTP/MIME, DNS, and BitTorrent P2P swarming.</p>
+                                <div class="d-flex gap-2 mt-auto">
+                                    <a href="anju/mod%201.pdf" target="_blank" class="btn btn-outline-primary btn-sm flex-grow-1"><i class="bi bi-eye-fill"></i> View PDF</a>
+                                    <a href="anju/mod%201.pdf" download="Module_1_Complete_Note_Printable.pdf" class="btn btn-primary btn-sm flex-grow-1"><i class="bi bi-download"></i> Download</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Module 2 -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border rounded-3 p-3 bg-surface-elevated shadow-sm">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <span class="badge bg-warning text-dark mb-1">Module 2</span>
+                                        <h6 class="fw-bold mb-0">Transport &amp; Network Layer</h6>
+                                    </div>
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border">288 Pages</span>
+                                </div>
+                                <p class="text-muted small mb-3">TCP/UDP, AIMD Reno congestion, IPv4/IPv6, CIDR Subnetting, Routing.</p>
+                                <div class="d-flex gap-2 mt-auto">
+                                    <a href="anju/MODULE%202.pptx.pdf" target="_blank" class="btn btn-outline-warning btn-sm text-dark flex-grow-1"><i class="bi bi-eye-fill"></i> View PDF</a>
+                                    <a href="anju/MODULE%202.pptx.pdf" download="Module_2_Complete_Note_Printable.pdf" class="btn btn-warning btn-sm text-dark fw-bold flex-grow-1"><i class="bi bi-download"></i> Download</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Module 3 -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border rounded-3 p-3 bg-surface-elevated shadow-sm">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <span class="badge bg-success mb-1">Module 3</span>
+                                        <h6 class="fw-bold mb-0">Data Link Layer &amp; WLAN</h6>
+                                    </div>
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border">69 Pages</span>
+                                </div>
+                                <p class="text-muted small mb-3">Framing, CRC-32, MAC Protocols, Ethernet 802.3, Wi-Fi 802.11, Mobile IP.</p>
+                                <div class="d-flex gap-2 mt-auto">
+                                    <a href="anju/MODULE%203.pdf" target="_blank" class="btn btn-outline-success btn-sm flex-grow-1"><i class="bi bi-eye-fill"></i> View PDF</a>
+                                    <a href="anju/MODULE%203.pdf" download="Module_3_Complete_Note_Printable.pdf" class="btn btn-success btn-sm flex-grow-1"><i class="bi bi-download"></i> Download</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Module 4 -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border rounded-3 p-3 bg-surface-elevated shadow-sm">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <span class="badge bg-info text-dark mb-1">Module 4</span>
+                                        <h6 class="fw-bold mb-0">SNMP &amp; Physical Layer</h6>
+                                    </div>
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border">58 Pages</span>
+                                </div>
+                                <p class="text-muted small mb-3">SNMP, MIB-2, Shannon/Nyquist limits, Line coding waveforms, Multiplexing.</p>
+                                <div class="d-flex gap-2 mt-auto">
+                                    <a href="anju/MODULE%204.pdf" target="_blank" class="btn btn-outline-info btn-sm text-dark flex-grow-1"><i class="bi bi-eye-fill"></i> View PDF</a>
+                                    <a href="anju/MODULE%204.pdf" download="Module_4_Complete_Note_Printable.pdf" class="btn btn-info btn-sm text-dark fw-bold flex-grow-1"><i class="bi bi-download"></i> Download</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-surface border-top py-3 d-flex justify-content-between">
+                    <span class="small text-muted"><i class="bi bi-folder2-open text-primary me-1"></i> Source: <code>anju/</code> folder &bull; Prof. Anju Markose</span>
+                    <button type="button" class="btn btn-secondary btn-sm px-3" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
